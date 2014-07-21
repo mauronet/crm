@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Imagen - {{ imagen.nombre }} - Canal ZOOM{% endblock %}
+{% block description %} {{ imagen.descripcion }} {% endblock %}
+{% block cssTag %}<link href="/media/css/imagen.css" rel="stylesheet">{% endblock %}
+
+{% block imagenPublicidadHeader %}
+  {% if pagina.banner_superior %}
+    {% if pagina.banner_superior.codigo_html == "" %}
+      <a href="{{pagina.banner_superior.direccion_web}}">
+      <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block h1 %}Imagen - {{ imagen.nombre }}{% endblock %}
+{% block content%}
+
+      <!-- CONTENIDO -->
+      <div class="row">
+        <div class="col-md-12">
+          <ol class="breadcrumb">
+            <li><a href="/">Inicio</a></li>
+            <li>Imágenes</li>
+            <li class="active">{{ imagen.nombre }}</li>
+          </ol>
+        </div>
+      </div>
+      <div class="well col-md-12">
+        <center>
+            <img class="img-responsive" src="/media/{{ imagen.archivo }}" alt="Imagen - {{ imagen.nombre }}" >
+        </center>
+      </div>
+      <div class="well col-md-12">
+        <p class="parrafoImagen"><strong>Nombre:</strong>&nbsp;&nbsp;{% autoescape off %}{{ imagen.nombre }}{% endautoescape %}</p>
+        <p class="parrafoImagen"><strong>Descripcion:</strong>&nbsp;&nbsp;{% autoescape off %}{{ imagen.descripcion }}{% endautoescape %}</p>
+        <p class="parrafoImagen"><strong>Creditos:</strong>&nbsp;&nbsp;{% autoescape off %}{{ imagen.creditos }}{% endautoescape %}</p>
+        </center>
+      </div>
+{% endblock %}
+
+{% block imagenPublicidadFooter %}
+  {% if pagina.banner_inferior %}
+    {% if pagina.banner_inferior.codigo_html == "" %}
+      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}

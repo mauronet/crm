@@ -1,0 +1,39 @@
+{% extends 'baseAdminEntidad.html' %}
+{% block content%} 
+<h3>Lista de Blogs</h3>
+{% if blogs %} 
+	<table class="table table-hover">
+		<theader>
+			<tr>
+				<th>Nombre</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</theader>
+		<tbody>
+		{% for i in blogs %}
+		<tr>
+			<td>{{ i.nombre }}</td>
+			<td>
+				<a href="/adminEntidad/blogs/{{i.id}}/entradas/page/1/">
+					<button type="button" class="btn btn-default btn-xs">
+	  					<span class="glyphicon glyphicon-pencil"></span> Ver entradas
+					</button>
+				</a>
+			</td>
+			<td>
+				<a href="/blogs/2/page/1/producciones/{{ i.id }}/" target="_blank">
+					<button type="button" class="btn btn-default btn-xs">
+	  					<span class="glyphicon glyphicon-search"></span> Ver en ZOOM
+					</button>
+				</a>
+			</td>
+		</tr>
+		{% endfor%}
+		</tbody>
+	</table>
+{% else %}
+<h2>No existen blogs creados</h2>
+{% endif %}
+
+{% endblock %}

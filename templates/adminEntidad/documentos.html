@@ -1,0 +1,65 @@
+{% extends 'baseAdminEntidad.html' %}
+{% block content%} 
+<h3>Lista de documentos</h3>
+{% if perfil.tipo.id == 3 %}
+<a href="/adminEntidad/add/documento/">Agregar Nuevo Documento</a><br><br>
+{% endif %}
+{% if documentos %} 
+	<table class="table table-hover">
+		<theader>
+			<tr>
+				<th>Nombre</th>
+				<th>Descripcion</th>
+				<!--<th></th>-->
+				<th></th>
+				<th></th>
+			</tr>
+		</theader>
+		<tbody>
+		{% for i in documentos %}
+		<tr>
+			<td>{{ i.nombre }}</td>
+			<td>{{ i.descripcion }}</td>
+			<!--<td> <img src="/media/{{ i.archivo }}" width="80px"> </td>-->
+			<td>
+				<a href="/adminEntidad/edit/documento/{{i.id}}/">
+					<button type="button" class="btn btn-default btn-xs">
+	  					<span class="glyphicon glyphicon-pencil"></span> Editar
+					</button>
+				</a>
+			</td>
+			<td>
+				<a href="/media/{{ i.archivo }}/" target="_blank">
+					<button type="button" class="btn btn-default btn-xs">
+	  					<span class="glyphicon glyphicon-search"></span> Ver en ZOOM
+					</button>
+				</a>
+			</td>
+		</tr>
+		{% endfor%}
+		</tbody>
+	</table>
+{% else %}
+<h2>No existen documentos creados</h2>
+{% endif %}
+
+{% if documentos %}
+	<ul class="pagination">
+		<li><a href="/adminEntidad/documentos/page/1"> << </a></li>
+	{% if documentos.has_previous %}
+		<li><a href="/adminEntidad/documentos/page/{{ documentos.previous_page_number }}/"> Prev </a></li>
+	{% else %}
+		<li><a href="#"> Prev </a></li>
+	{% endif %}
+
+	{% if documentos.has_next %}
+		<li><a href="/adminEntidad/documentos/page/{{ documentos.next_page_number }}/"> Next </a></li>
+	{% else %}
+		<li><a href="#"> Next </a></li>
+	{% endif %}
+		<li><a href="/adminEntidad/documentos/page/{{ documentos.paginator.num_pages }}"> >> </a></li>
+	</ul>
+	<br><br><br>
+	<h4>Pagina {{ documentos.number }} de {{ documentos.paginator.num_pages}}</h4>
+{% endif %}
+{% endblock %}

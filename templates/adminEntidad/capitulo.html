@@ -1,0 +1,19 @@
+{% extends 'baseAdminEntidad.html' %}
+{% block content%} 
+	<h2>Capitulo - Programa {{programa.nombre}}</h2>
+	<form action="." method="POST" enctype="multipart/form-data" role="form">
+		<table>
+			{% csrf_token %}
+			{{ form.as_table }}
+			<tr>
+				<td colspan="2"><center><button type="submit" id="btnRegisterFb" class="btn btn-primary" style="margin:5px;">Grabar</button></center></td>
+			</tr>
+		</table>
+	</form>
+	<br>
+<br><br>
+	{% if informacion %}
+	<div class="alert alert-warning alert-dismissible" role="alert">{{informacion}}</div><br>
+	{% endif %}
+<a href="/adminEntidad/programas/{{programa.id}}/capitulos/">Regresar al programa</a>
+{% endblock %}

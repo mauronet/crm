@@ -1,0 +1,44 @@
+.panelImagenes{
+    max-height: 440px;
+    height: 440px;
+    overflow-y:scroll; 
+}
+
+.panelCapitulos{
+    max-height: 440px;
+    height: 440px;
+    overflow-y:scroll; 
+}
+
+.panelSinopsis{
+    max-height: 180px;
+    overflow-y:scroll; 
+}
+
+.cajaVideo{
+    width: 100%;
+    height: 300px;
+}
+
+.imagenCapitulo{
+    display: inline;
+}
+
+.parrafoCapitulo{
+    text-align:justify;
+}
+
+.parrafoDuracion{
+    text-align:right;
+    font-size: 0.8em;
+    color: #424242;
+}
+
+.panelVideo{
+    max-height: 350px;
+}
+
+.panelInfoVideo{
+    max-height: 370px;
+    overflow-y:scroll; 
+}

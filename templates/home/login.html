@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Ingreso como Usuario Registrado - Canal ZOOM{% endblock %}
+{% block description %}Ingreso como usuario registrado a la pagina Web Canal Universitario Nacional de Colombia ZOOM{% endblock %}
+{% block cssTag %}<link href="/media/css/index.css" rel="stylesheet">{% endblock %}
+
+{% block imagenPublicidadHeader %}
+  {% if pagina.banner_superior %}
+    {% if pagina.banner_superior.codigo_html == "" %}
+      <a href="{{pagina.banner_superior.direccion_web}}">
+      <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block h1 %}Ingreso como usuario registrado a la pagina Web Canal Universitario Nacional de Colombia ZOOM{% endblock %}
+{% block content%}
+<div class="row">
+	<div class="col-md-offset-1 col-md-4">
+		<div class="well">
+			<center> 
+				{% if mensaje %}
+					<div class="alert alert-success" role="alert">{{ mensaje }}</div>
+				{% endif%}
+				<form action="." method="POST">
+					{% csrf_token %}
+					{{ form.as_p }}
+					<button type="submit" id="btnRegisterFb" class="btn btn-primary" style="margin:5px;">Ingresar</button>
+				</form>
+				<small><a href="/cambiar_contrasena/">Olvide mi usuario o contraseña</a></small>
+			</center>
+		</div>
+	</div>
+	<div class="col-md-offset-1 col-md-5">
+		<div class="well">
+			<center> 
+				<a href="/login/facebook/">
+					<button type="button" id="btnRegisterFb" class="btn btn-primary" style="margin:5px;">
+					Ingresar usando mi cuenta de Facebook
+					</button>
+				</a>
+				<br><br>
+				<a href="/login/twitter/">
+					<button type="button" id="btnRegisterFb" class="btn btn-primary" style="margin:5px;">
+					Ingresar usando mi cuenta de Twitter</button>
+				</a>
+				<br><br>
+				<div class="alert alert-success" role="alert">No necesitas registro previo</div>
+			</center>
+		</div>
+	</div>
+
+
+
+{% endblock %}
+
+{% block imagenPublicidadFooter %}
+  {% if pagina.banner_inferior %}
+    {% if pagina.banner_inferior.codigo_html == "" %}
+      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}

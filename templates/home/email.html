@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Cambio de contraseña - Canal ZOOM{% endblock %}
+{% block description %}Cambio de contraseña - Canal ZOOM{% endblock %}
+{% block cssTag %}<link href="/media/css/index.css" rel="stylesheet">{% endblock %}
+{% block imagenPublicidadHeader %}{% endblock %}
+{% block h1 %}Cambio de contraseña - Canal ZOOM{% endblock %}
+{% block content%}
+<div class="row">
+	<div class="col-md-offset-4 col-md-4">
+		<div class="well">
+			<center> 
+				<form action="." method="POST">
+					{% csrf_token %}
+					{% for field in form %}
+						<b>{{ field.label }}</b>{{ field }}
+						<br>
+						{% if field.errors %}
+							<br>
+							<div class="alert alert-danger" role="alert">
+							{{field.errors}}
+							</div>
+						{% else %}
+							<br>
+						{% endif %}
+					{% endfor%}
+					<button type="submit" id="btnRegisterFb" class="btn btn-primary" style="margin:5px;">Solicitar usuario y/o cambio de contraseña</button>
+				</form>
+				<br><br>
+				<div class="alert alert-success" role="alert">Te enviaremos un correo que te permitira conocer tu usuario y/o cambiar tu contraseña.</div>
+			</center>
+		</div>
+	</div>
+{% endblock %}

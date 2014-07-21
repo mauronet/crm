@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block title %}Programación - Canal ZOOM
+{% endblock %}
+{% block description %}Programación - Canal ZOOM
+{% endblock %}
+{% block cssTag %}<link href="/media/css/programacion.css" rel="stylesheet">{% endblock %}
+
+
+{% block imagenPublicidadHeader %}
+  {% if pagina.banner_superior %}
+    {% if pagina.banner_superior.codigo_html == "" %}
+      <a href="{{pagina.banner_superior.direccion_web}}">
+      <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block h1 %}Programación - Canal ZOOM
+{% endblock %}
+{% block content%}
+      <!-- CONTENIDO -->
+      <div class="row">
+        <div class="col-md-12">
+          <ol class="breadcrumb">
+            <li><a href="/">Inicio</a></li>
+            <li class="active">Programación {{ descripcionSemana }}</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+        <!-- PROGRAMACION -->
+        <div class="contenedorProgramacion">
+          <!--<div class="columnaVacia">
+            <table>
+              <tbody>
+                <tr>
+                  <th class="celdaVacia"></th>
+                </tr>
+              </tbody>
+            </table>
+          </div>-->
+
+          <div class="columnaHorario">
+            <table>
+              <tbody>
+                <tr>
+                  <th class="celdaDia">Mañana</th>
+                </tr>
+              {% for horario in horariosProgramacion %}
+                <tr>
+                  <th class="celdaHora">{{horario.manana|date:"g:i"}}</th>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="columnaHorario">
+            <table>
+              <tbody>
+                <tr>
+                  <th class="celdaDia">Tarde<br>Noche</th>
+                </tr>
+              {% for horario in horariosProgramacion %}
+                <tr>
+                  <th class="celdaHora">{{horario.tarde_noche|date:"g:i"}}</th>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% for fechaDia, programacionDia in zippedProgramacion %}
+          <!-- COLUMNA DIA -->
+          <div class="columnaDia">
+            <table>
+              <tbody>
+                <tr>
+                  <th class="celdaDia">{% autoescape off %}{{ fechaDia }}{% endautoescape %}</th>
+                </tr>
+                {% for programacionHora in programacionDia %}
+                <!-- PROGRAMA -->
+                <tr>
+                  <th style="background: #{{programacionHora.franja.color}}; padding:0px !important;">
+                    <center>
+                      <div class="celdaPrograma" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}">
+                        <p>{{programacionHora.programa}}</p>
+                      </div>
+                    <center>
+                  </th>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- FIN COLUMNA DIA -->
+          {% endfor %}
+        </div>  
+        </div>
+      </div>
+{% endblock %}
+
+{% block imagenPublicidadFooter %}
+  {% if pagina.banner_inferior %}
+    {% if pagina.banner_inferior.codigo_html == "" %}
+      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}

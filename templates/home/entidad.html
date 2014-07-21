@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}{{ ies.nombre }} - Entidad aliada a Canal ZOOM{% endblock %}
+{% block description %}{{ ies.nombre }} - Entidad aliada a Canal ZOOM{% endblock %}
+{% block cssTag %}<link href="/media/css/entidad.css" rel="stylesheet">{% endblock %}
+{% block scriptTag %}
+<script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhk1Town3jU_730V3qTIag1NmTLG2_t7U">
+</script>
+<script type="text/javascript">
+      function initialize() {
+
+        var myLatlng = new google.maps.LatLng({{ies.latitud|stringformat:"f"}},{{ies.longitud|stringformat:"f"}});
+
+        var mapOptions = {
+          center: myLatlng,
+          zoom: 8
+        };
+
+        var map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title:"{{ ies.nombre }}"
+        });      
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+{% endblock %}
+
+{% block imagenPublicidadHeader %}
+  {% if pagina.banner_superior %}
+    {% if pagina.banner_superior.codigo_html == "" %}
+      <a href="{{pagina.banner_superior.direccion_web}}">
+      <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block h1 %}{{ ies.nombre }} - Entidad aliada a Canal ZOOM{% endblock %}
+{% block content%}
+      <!-- CONTENIDO -->
+      <div class="row">
+        <div class="col-md-12">
+          <ol class="breadcrumb">
+            <li><a href="/">Inicio</a></li>
+            <li>El Canal</li>
+            <li>Entidades</li>
+            <li class="active">{{ ies.nombre }}</li>
+          </ol>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div id="map-canvas" class="col-md-12"></div>
+        </div>
+
+        <div class="col-md-7">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><center><h4>{{ ies.nombre }}</h4></center></h3>
+            </div>
+            <div class="panel-body">
+              <div>
+                <center>
+                  <img class="img-responsive imagenItem pull-left col-xs-6 col-sd-4 col-md-4" src="/media/{{ ies.logo }}" alt="Imagen {{ ies.nombre }}" >
+                </center>
+                <p class="parrafoItem"><strong>Ciudad:</strong>&nbsp;&nbsp;{{ ies.ciudad }}</p>
+                <p class="parrafoItem"><strong>Dirección:</strong>&nbsp;&nbsp;{{ ies.direccion }}</p>
+                <p class="parrafoItem"><strong>Teléfonos:</strong>&nbsp;&nbsp;{{ ies.telefonos }}</p>
+                <p class="parrafoItem"><strong>Email:</strong>&nbsp;&nbsp;<a href="mailto:{{ ies.email }}" target="_blank">{{ ies.email }}</a></p>
+                <p class="parrafoItem"><strong>Sitio Web:</strong>&nbsp;&nbsp;<a href="{{ ies.sitio_web }}" target="_blank">{{ ies.sitio_web }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block imagenPublicidadFooter %}
+  {% if pagina.banner_inferior %}
+    {% if pagina.banner_inferior.codigo_html == "" %}
+      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}

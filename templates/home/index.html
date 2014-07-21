@@ -1,0 +1,323 @@
+{% extends 'base.html' %}
+{% block title %}Inicio - Canal ZOOM{% endblock %}
+{% block description %}Pagina Web Canal Universitario Nacional de Colombia ZOOM{% endblock %}
+{% block cssTag %}
+<link href="/media/css/index.css" rel="stylesheet">
+<link href="/media/css/style.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block imagenPublicidadHeader %}
+  {% if pagina.banner_superior %}
+    {% if pagina.banner_superior.codigo_html == "" %}
+      <a href="{{pagina.banner_superior.direccion_web}}">
+      <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block h1 %}Pagina Web Canal Universitario Nacional de Colombia ZOOM{% endblock %}
+
+{% block scriptTag2 %}
+<script type="text/javascript" src="/media/js/jquery.flexisel.js"></script>
+<script type="text/javascript">
+
+$(window).load(function() {
+    $("#flexiselSlider").flexisel({
+        visibleItems: 5,
+        animationSpeed: 1000,
+        autoPlay: true,
+        autoPlaySpeed: 3000,            
+        pauseOnHover: true,
+        enableResponsiveBreakpoints: true,
+        responsiveBreakpoints: { 
+            portrait: { 
+                changePoint:480,
+                visibleItems: 1
+            }, 
+            landscape: { 
+                changePoint:640,
+                visibleItems: 2
+            },
+            tablet: { 
+                changePoint:768,
+                visibleItems: 3
+            }
+        }
+    });    
+});
+</script>
+
+{% endblock %}
+{% block content%} 
+
+      <!-- CONTENIDO -->
+      <div class="row">
+        <div class="col-md-8">
+          <!-- CAROUSEL -->
+          <div id="carousel-zoom" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators controles">
+              {% for item in items %}
+              <li data-target="#carousel-zoom" data-slide-to="{{item}}" class="{% if forloop.counter == 1%}active{% endif %}"></li>
+              {% endfor %}
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+              {% for noticia in carrusel.noticias.all %}
+              <div class="item {% if forloop.counter == 1%}active{% endif %}">
+                <a href="/noticias/{{ noticia.id }}/">
+                	<img src="/media/{{noticia.imagen_principal.archivo}}" style="width:750px;height:420px">
+	                <div class="carousel-caption infoCarrusel">
+	                  <h4 class="tituloCarrusel">{{ noticia.titulo }}</h4>
+	                  <span class="leadCarrusel">{% autoescape off %}{{ noticia.lead|slice:":255" }}{% endautoescape %}...</span>
+	                </div>
+                </a>
+              </div>
+              {% endfor %}
+              {% for oportunidad in carrusel.oportunidades.all %}
+              <div class="item">
+                <a href="/oportunidades/{{ oportunidad.id }}/">
+                	<img src="/media/{{oportunidad.imagen_principal.archivo}}" style="width:750px;height:420px">
+	                <div class="carousel-caption infoCarrusel">
+	                  <h4 class="tituloCarrusel">{{ oportunidad.nombre }}</h4>
+	                  <span class="leadCarrusel">{% autoescape off %}{{ oportunidad.descripcion|slice:":255" }}{% endautoescape %}... </a></span>
+	                </div>
+                </a>
+              </div>
+              {% endfor %}
+              {% for evento in carrusel.eventos.all %}
+              <div class="item">
+                <a href="/eventos/{{ evento.id }}/">
+                	<img src="/media/{{evento.imagen_principal.archivo}}" style="width:750px;height:420px">
+	                <div class="carousel-caption infoCarrusel">
+	                  <h4 class="tituloCarrusel">{{ evento.nombre }}</h4>
+	                  <span class="leadCarrusel">{% autoescape off %}{{ evento.descripcion|slice:":255" }}{% endautoescape %}... <a href="/eventos/{{ evento.id }}/"><small>Leer mas</small></a></span>
+	                </div>
+                </a>
+              </div>
+              {% endfor %}
+              {% for entrada in carrusel.entradas.all %}
+              <div class="item">
+                <a href="/entradas/{{ entrada.id }}/">
+                	<img src="/media/{{entrada.imagen_principal.archivo}}" style="width:750px;height:420px">
+	                <div class="carousel-caption infoCarrusel">
+	                  <h4 class="tituloCarrusel">{{ entrada.titulo }}</h4>
+	                  <span class="leadCarrusel">{% autoescape off %}{{ entrada.lead|slice:":255" }}{% endautoescape %}...</span>
+	                </div>
+                </a>
+              </div>
+              {% endfor %}
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+          </div>
+          <!-- END CAROUSEL -->
+
+        </div>
+        <div class="col-md-4">
+
+          <!-- VIDEOS -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Ultimos Videos</h3>
+              </div>
+              <div class="panel-body panelVideos">
+				{% for video in videos %}
+				  <div class="col-md-12">
+				    <div class="thumbnail">		
+				        <div class="col-md-12 imagenThumbnail">
+				        	<a href="/videos/{{ video.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
+				        		<img src="http://img.youtube.com/vi/{{ video.codigo }}/0.jpg" alt="...">
+				        	</a>
+				        </div>
+				        <div class="caption tituloThumbnail">
+					        <a href="/videos/{{ video.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">{{ video.nombre }}
+					        </a>
+				    	</div>
+				    </div>
+				  </div>
+				{% endfor %}
+              </div>
+            </div>              
+          </section>            
+          <!-- END VIDEOS --> 
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <!-- PROGRAMACION -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Programacion de Hoy</h3>
+              </div>
+              <div class="panel-body programacion">
+                <p class="text-muted programacionContent">
+                {% for programacionHora in programacionDia %}
+					{% if programacionHora.horario.id == id_horario and esHorarioManana == True %}
+						<span class="text-info"><strong>{{programacionHora.horario.manana|date:"g:i"}} - {{programacionHora.programa}}<br></span>
+					{% else %}
+						{{programacionHora.horario.manana|date:"g:i"}} - {{programacionHora.programa}}<br>
+					{% endif %}
+                {% endfor %}
+                {% for programacionHora in programacionDia %}
+					{% if programacionHora.horario.id == id_horario and esHorarioManana == False %}
+						<span class="text-info"><strong>{{programacionHora.horario.tarde_noche|date:"g:i"}} - {{programacionHora.programa}}<br></span>
+					{% else %}
+						{{programacionHora.horario.tarde_noche|date:"g:i"}} - {{programacionHora.programa}}<br>
+					{% endif %}
+                {% endfor %}
+                {{id_horario}}<br>
+                {{esHorarioManana}}
+                </p>
+              </div>
+            </div>              
+          </section>            
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+        <!-- TWITTER -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Twitter</h3>
+              </div>
+              <div class="panel-body panelTwitter">
+				<a class="twitter-timeline"  href="https://twitter.com/canalzoomtv"  data-widget-id="489537345574547456" data-chrome="noheader nofooter noborders transparent" height="410">Tweets by @canalzoomtv</a>
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+              </div>
+            </div>
+          </section>            
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+        <!-- FACEBOOK -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Facebook</h3>
+              </div>
+              <div class="panel-body panelFacebook">
+				<iframe src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2FCanalZOOM&amp;width&amp;height=258&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false&amp;appId=257656264425434" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:258px;" allowTransparency="true"></iframe>
+              </div>
+            </div>              
+          </section>            
+        <!-- INSTAGRAM -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Instagram</h3>
+              </div>
+              <div class="panel-body panelInstagram">
+                <div class="media">
+					<iframe src="http://widget.stagram.com/in/tvzoomgram/?s=90&w=3&h=1&b=1&p=5" allowtransparency="true" frameborder="0" scrolling="no" style="border:none;overflow:hidden;width:345px; height: 115px" ></iframe> <!-- websta - web.stagram.com -->
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+
+      <div class="row">
+        <div class="col-md-6">
+        <!-- OPORTUNIDADES DESTACADAS -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Ultimas Oportunidades</h3>
+              </div>
+              <div class="panel-body panelOportunidades">
+                {% for oportunidad in oportunidades %}
+                <div class="media">
+                	<a href="/oportunidades/{{ oportunidad.id }}/" class="pull-left">
+                	<img class="media-object" src="/media/{{ oportunidad.imagen_principal.archivo }}" alt="Imagen {{ oportunidad.nombre }}" width="60" >
+                  	</a>
+                  <div class="media-body">
+                    <a href="/oportunidades/{{ oportunidad.id }}/">
+                    <h4 class="media-heading">{{ oportunidad.nombre }}</h4></a>
+                    <p class="parrafoItem">{% autoescape off %}{{ oportunidad.descripcion|slice:":255" }}{% endautoescape %}... <a href="/oportunidades/{{ oportunidad.id }}/"><small>Leer mas</small></a></p>
+                  </div>
+                </div>
+                <hr>
+                {% endfor %}
+              </div>
+            </div>              
+          </section>
+          <!-- END OPORTUNIDADES DESTACADAS -->            
+        </div>
+
+        <div class="col-md-6">
+        <!-- PROXIMOS EVENTOS -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Proximos Eventos</h3>
+              </div>
+              <div class="panel-body panelEventos">
+                {% for evento in eventos %}
+                <div class="media">
+                	<a href="/eventos/{{ evento.id }}/" class="pull-left">
+                	<img class="media-object" src="/media/{{ evento.imagen_principal.archivo }}" alt="Imagen {{ evento.nombre }}" width="60" >
+                  	</a>
+                  <div class="media-body">
+                    <a href="/eventos/{{ evento.id }}/">
+                    <h4 class="media-heading">{{ evento.nombre }}</h4></a>
+                    <p class="parrafoItem">{% autoescape off %}{{ evento.descripcion|slice:":255" }}{% endautoescape %}... <a href="/eventos/{{ evento.id }}/"><small>Leer mas</small></a></p>
+                  </div>
+                </div>
+                <hr>
+                {% endfor %}
+              </div>
+            </div>              
+          </section>            
+          <!-- END PROXIMOS EVENTOS -->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <!-- LOGOS ALIADOS -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Nuestros Aliados</h3>
+              </div>
+              <div class="panel-body panelAliados">
+				<ul id="flexiselSlider">
+	                {% for aliado in aliados %}
+	                <li>
+	                	<a href="{{ aliado.sitio_web }}" target="_blank">
+	                		<img height="70px"src="/media/{{ aliado.logo }}" alt="Imagen {{ aliado.nombre }}" >
+	            		</a>
+	            	</li>
+	                {% endfor %}
+				</ul> 
+
+              </div>
+            </div>              
+          </section>            
+        </div>
+      </div>
+
+{% endblock %}
+
+{% block imagenPublicidadFooter %}
+  {% if pagina.banner_inferior %}
+    {% if pagina.banner_inferior.codigo_html == "" %}
+      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}

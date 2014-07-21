@@ -1,0 +1,90 @@
+.programacion{
+    max-height: 440px;
+    overflow-y:scroll; 
+    overflow-x:scroll;
+}
+
+.programacionContent{
+	width: 1000px;
+}
+
+.panelVideos{
+    max-height: 380px;
+    overflow-y:scroll; 
+}
+
+.panelNoticias{
+    height: 450px;
+    overflow-y:scroll; 
+}
+.panelAliados{
+    height: 120px;
+}
+
+.panelOportunidades{
+    height: 300px;
+    overflow-y:scroll; 
+}
+
+.panelEventos{
+    height: 300px;
+    overflow-y:scroll; 
+}
+
+.panelTwitter{
+    height: 440px;
+    /*font-size: 0.8em;
+    overflow-y:scroll; */
+}
+
+.panelFacebook{
+    height: 250px;
+}
+
+.panelInstagram{
+    height: 130px;
+    /*overflow-y:scroll; */
+}
+
+.infoCarrusel{
+    -moz-border-radius:10px;  /* for Firefox */
+    -webkit-border-radius:10px; /* for Webkit-Browsers */
+    border-radius:10px; /* regular */
+    text-align: center;
+    vertical-align: bottom;
+    background-color: rgba(245, 245, 245, 0.8);
+}
+
+.tituloCarrusel{
+    color:#0000FF;
+}
+
+.leadCarrusel{
+    font-size: 0.9em;
+    color:#0000FF;
+}
+
+.carousel-indicators li {
+  background-color: #999;
+  background-color: rgba(1,116,223,.25);
+}
+
+.carousel-indicators .active {
+  background-color: #0101DF;
+}
+
+.imagenThumbnail{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tituloThumbnail{
+    text-align:right;
+    font-size: 0.8em;
+    color: #424242;
+}
+
+.parrafoItem{
+    text-align:justify;
+    font-size: 0.9em;
+}

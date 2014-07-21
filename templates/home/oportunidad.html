@@ -1,0 +1,299 @@
+{% extends 'base.html' %}
+{% block title %}Oportunidad - {{ oportunidad.nombre }} - Canal ZOOM{% endblock %}
+{% block description %} {{ oportunidad.descripcion }} {% endblock %}
+{% block cssTag %}<link href="/media/css/oportunidad.css" rel="stylesheet">{% endblock %}
+
+{% block imagenPublicidadHeader %}
+  {% if pagina.banner_superior %}
+    {% if pagina.banner_superior.codigo_html == "" %}
+      <a href="{{pagina.banner_superior.direccion_web}}">
+      <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block h1 %}Imagen - {{ oportunidad.nombre }}{% endblock %}
+{% block content%}
+      <!-- CONTENIDO -->
+      <div class="row">
+        <div class="col-md-12">
+          <ol class="breadcrumb">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/oportunidades/page/1/">Oportunidades</a></li>
+            <li class="active">{{ oportunidad.nombre }}</li>
+          </ol>
+        </div>
+      </div>
+      <div class="row">
+        <div class="hidden-xs hidden-sm col-md-2">
+          <!-- BANNER IZQUIERDO -->
+          <center>
+          {% if pagina.banner_izquierdo %}
+            {% if pagina.banner_izquierdo.codigo_html == "" %}
+              <a href="{{pagina.banner_izquierdo.direccion_web}}">
+              <img src="/media/{{pagina.banner_izquierdo.imagen}}" style="width:{{pagina.banner_izquierdo.tamano.ancho}};height:{{pagina.banner_izquierdo.tamano.alto}};" alt="{{pagina.banner_izquierdo.nombre}}"></a>
+            {% else %}
+              <div style="width:{{pagina.banner_izquierdo.tamano.ancho}};height:{{pagina.banner_izquierdo.tamano.alto}};">{% autoescape off %}{{ pagina.banner_izquierdo.codigo_html }}{% endautoescape %}</div>
+            {% endif %}
+          {% endif %}
+          </center>         
+        </div>
+        <article class="col-md-8">
+          <!-- oportunidad -->
+          <div>
+            <span class="col-md-6">
+              <a class="pull-left" href="/imagenes/{{ oportunidad.imagen_principal.id }}/">
+                <img class="img-responsive imagenoportunidad col-md-12" src="/media/{{ oportunidad.imagen_principal.archivo }}" alt="Imagen - {{ oportunidad.imagen_principal.nombre }}" >
+              </a>
+            </span>
+            <h4 class="media-heading">{{ oportunidad.nombre }}</h4>
+            <p class="parrafooportunidad">
+            {% autoescape off %}{{ oportunidad.descripcion }}{% endautoescape %}</p>
+            
+            <p>
+              <span class="pull-left parrafoFecha">
+                Fecha: {{ oportunidad.fecha }}
+              </span>
+              <span class="pull-right">
+                {% if oportunidad.direccion_web != ""%}
+                <p align="right">
+                  <a href="{{ oportunidad.direccion_web }}" target="_blank">Mas informacion</a></p>            
+                {% endif %}
+              </span>              
+            </p>
+
+          <!-- COMPARTIR -->
+            <p align="center">
+              <span>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.get_full_path }}">
+                  <img src="/media/img/facebook-compartir.png" style="position:relative;top:-6px;" alt="">
+                </a>
+              </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>
+                <a href="https://twitter.com/share" class="twitter-share-button" data-lang="es" data-count="none">Twittear</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+              </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </p>
+
+          </div>
+
+          {% if oportunidad.imagenes_adicionales.all|length > 0 %}
+          <!-- IMAGENES -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Imágenes Adicionales</h3>
+            </div>
+            <div class="panel-body">
+              {% for imagen in oportunidad.imagenes_adicionales.all %}
+                <div class="col-xs-6 col-md-3">
+                  <a href="/imagenes/{{ imagen.id }}/" class="thumbnail">
+                    <img src="/media/{{ imagen.archivo }}" alt="Imagen - {{ imagen.nombre }}">
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if oportunidad.videos.all|length > 0 %}
+          <!-- VIDEOS -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Videos</h3>
+            </div>
+            <div class="panel-body">
+            {% for video in oportunidad.videos.all %}
+              <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">   
+                    <div class="col-md-12 imagenThumbnail">
+                      <a href="/videos/{{ video.id}}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
+                        <img src="http://img.youtube.com/vi/{{ video.codigo }}/0.jpg" alt="...">
+                      </a>
+                    </div>
+                    <div class="caption tituloThumbnail">
+                      <a href="/videos/{{ video.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">{{ video.nombre }}
+                      </a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+
+            </div>
+          </div>              
+          {% endif %}
+
+          {% if oportunidad.documentos.all|length > 0  %}
+          <!-- VIDEOS -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Documentos</h3>
+            </div>
+            <div class="panel-body">
+            {% for documento in oportunidad.documentos.all %}
+            <p>
+              <a href="/media/{{ documento.archivo }}/" target="_blank">{{ documento.nombre}}</a>: {{ documento.descripcion}}
+            </p>
+            {% endfor %}
+
+            </div>
+          </div>              
+          {% endif %}
+
+          {% if oportunidad.franjas.all|length > 0 %}
+          <!-- FRANJAS -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Franjas asociadas</h3>
+            </div>
+            <div class="panel-body">
+              <h4>
+              {% for franja in oportunidad.franjas.all %}
+                <a href="/franjas/{{ franja.nombre }}/"><span class="label label-primary">{{ franja.nombre }}</span></a>
+              {% endfor %}
+              </h4>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if oportunidad.entidades.all|length > 0  %}
+          <!-- ENTIDADES -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Entidades asociadas</h3>
+            </div>
+            <div class="panel-body">
+              <h4>
+              {% for entidad in oportunidad.entidades.all %}
+                <a href="/entidades/{{ entidad.id }}/"><span class="label label-primary">{{ entidad.nombre }}</span></a>
+              {% endfor %}
+              </h4>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if oportunidad.categorias.all|length > 0  %}
+          <!-- CATEGORIAS -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Categorías asociadas</h3>
+            </div>
+            <div class="panel-body">
+              <h4>
+              {% for categoria in oportunidad.categorias.all %}
+              <span class="label label-default">{{ categoria.nombre }}</span>
+              {% endfor %}
+              </h4>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if oportunidad.tags.all|length > 0  %}
+          <!-- TAGS -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Tags asociados</h3>
+            </div>
+            <div class="panel-body">
+              <h4>
+              {% for tag in oportunidad.tags.all %}
+              <span class="label label-default">{{ tag.nombre }}</span>
+              {% endfor %}
+              </h4>
+            </div>
+          </div>              
+          {% endif %}
+
+          <!-- COMENTARIOS -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Comentarios</h3>
+            </div>
+            <div class="panel-body">
+
+            {% if oportunidad.comentarios %}
+              {% for comentario in oportunidad.comentarios.all %}
+              {% if comentario.estado.id == 2 %}
+              <ul class="media-list">
+                <li class="media">
+                  <span class="pull-left">
+                    {% if comentario.usuario.avatar %}
+                      <img class="media-object" style="width:60px" src="/media/{{comentario.usuario.avatar}}" alt="">
+                    {% else %}
+                      <img class="media-object" style="width:60px" src="/media/img/avatar.png" alt="">
+                    {% endif %}
+                  </span>
+                  <div class="media-body">
+                    <h5 class="media-heading">{{ comentario.usuario.user.username }}</h5>
+                    {{ comentario.contenido }} 
+                    <div class="parrafoFecha">{{ comentario.fecha }}</div>
+                  </div>
+                </li>
+              </ul>
+              <hr>
+              {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            {% if user.is_authenticated %}
+              <ul class="media-list">
+                <li class="media">
+                  <a class="pull-left" href="#">
+                    <img class="media-object" src="/media/{{ comentario.usuario.avatar }}" alt="">
+                  </a>
+                  <div class="media-body">
+                    <form action="/comentario oportunidad/" method="POST">
+                    {% csrf_token %}
+                    <h5 class="media-heading">{{ user.username }}</h5>
+                    <input type="hidden" name="id_oportunidad" id="id_oportunidad" value="{{oportunidad.id}}">
+                    <div class="input-group">
+                      <textarea class="col-md-12" name="txt_comentario" id="txt_comentario"></textarea>
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Comentar</button>
+                      </span>
+                    </div>
+                  </form>
+                  </div>
+                  <span class="parrafoFecha">
+                  Los comentarios están sujetos a aprobación del moderador.
+                  </span>
+                </li>
+              </ul>
+            {% else %}
+              <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>Debes estar registrado para poder comentar.
+              </div>
+            {% endif %}
+            </div>
+          </div>              
+
+        </article>
+
+
+        <div  class="hidden-xs hidden-sm col-md-2">
+          <!-- BANNER DERECHO -->          
+          <center>
+            {% if pagina.banner_derecho %}
+              {% if pagina.banner_derecho.codigo_html == "" %}
+                <a href="{{pagina.banner_derecho.direccion_web}}">
+                <img src="/media/{{pagina.banner_derecho.imagen}}" style="width:{{pagina.banner_derecho.tamano.ancho}};height:{{pagina.banner_derecho.tamano.alto}};" alt="{{pagina.banner_derecho.nombre}}"></a>
+              {% else %}
+                <div style="width:{{pagina.banner_derecho.tamano.ancho}};height:{{pagina.banner_derecho.tamano.alto}};">{% autoescape off %}{{ pagina.banner_derecho.codigo_html }}{% endautoescape %}</div>
+              {% endif %}
+            {% endif %}
+          </center>         
+        </div>
+      </div>
+{% endblock %}
+
+{% block imagenPublicidadFooter %}
+  {% if pagina.banner_inferior %}
+    {% if pagina.banner_inferior.codigo_html == "" %}
+      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}

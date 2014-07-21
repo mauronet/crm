@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% block title %}Blog - {{blog.nombre}}{% endblock %}
+{% block description %}Blog - {{blog.nombre}}{% endblock %}
+{% block cssTag %}<link href="/media/css/busqueda.css" rel="stylesheet">{% endblock %}
+
+{% block imagenPublicidadHeader %}
+  {% if pagina.banner_superior %}
+    {% if pagina.banner_superior.codigo_html == "" %}
+      <a href="{{pagina.banner_superior.direccion_web}}">
+      <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block h1 %}Blog - {{blog.nombre}}{% endblock %}
+{% block content%}
+
+      <div class="row">
+        <div class="col-md-12">
+          <ol class="breadcrumb">
+            <li><a href="/">Inicio</a></li>
+            <li>Blogs</li>
+            <li class="active">{{blog.nombre}}</li>
+          </ol>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <!-- BUSQUEDA -->
+			<form action="/blogs/{{blog.id}}/1/" method="POST">
+				{% csrf_token %}
+	          <div class="panel-group" id="accordion">
+	            <div class="panel panel-default">
+	              <div class="panel-heading">
+	                <h4 class="panel-title">
+	                  <a data-toggle="collapse" data-parent="#accordion" href="#collapsePalabras">
+	                    <span class="glyphicon glyphicon-collapse-down"></span> Palabra Clave
+	                  </a>
+	                </h4>
+	              </div>
+	              <div id="collapsePalabras" class="panel-collapse collapse in">
+	                <div class="panel-body">
+	                  <input type="text" class="form-control" name="palabra" placeholder="palabra" value="{{ palabraABuscar }}">
+	                </div>
+	              </div>
+	            </div>
+	            <div class="panel panel-default">
+	              <div class="panel-heading">
+	                <h4 class="panel-title">
+	                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseFranjas">
+	                    <span class="glyphicon glyphicon-collapse-down"></span> Franjas
+	                  </a>
+	                </h4>
+	              </div>
+	              <div id="collapseFranjas" class="panel-collapse collapse">
+	                <div class="panel-body">
+					{% for franja in listaFranjas %}
+						{% with franja.id|stringformat:"s" as franja_id %}
+	                	<input type="checkbox" name="franjas[]" value="{{ franja_id }}"
+						{% if franja_id in franjasABuscar %}
+						checked
+						{% endif %}	                	
+	                	>{{ franja.nombre }}<br>
+	                	{% endwith %}	
+					{% endfor %}
+	                </div>
+	              </div>
+	            </div>
+	            <div class="panel panel-default">
+	              <div class="panel-heading">
+	                <h4 class="panel-title">
+	                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseEntidades">
+	                    <span class="glyphicon glyphicon-collapse-down"></span> Entidades
+	                  </a>
+	                </h4>
+	              </div>
+	              <div id="collapseEntidades" class="panel-collapse collapse">
+	                <div class="panel-body">
+					{% for entidad in listaEntidades %}
+						{% with entidad.id|stringformat:"s" as entidad_id %}
+		                <input type="checkbox" name="entidades[]" value="{{ entidad_id }}"
+						{% if entidad_id in entidadesABuscar %}
+						checked
+						{% endif %}	                	
+		                > {{ entidad.nombre }}<br>
+						{% endwith %}					
+					{% endfor %}
+	                </div>
+	              </div>
+	            </div>
+	            <div class="panel panel-default">
+	              <div class="panel-heading">
+	                <h4 class="panel-title">
+	                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseCategorias">
+	                    <span class="glyphicon glyphicon-collapse-down"></span> Categorías
+	                  </a>
+	                </h4>
+	              </div>
+	              <div id="collapseCategorias" class="panel-collapse collapse">
+	                <div class="panel-body">
+					{% for categoria in listaCategorias %}
+						{% with categoria.id|stringformat:"s" as categoria_id %}
+	                	<input type="checkbox" name="categorias[]" value="{{ categoria_id }}"
+						{% if categoria_id in categoriasABuscar %}
+						checked
+						{% endif %}	                	
+	                	> {{ categoria.nombre }}<br>
+	                	{% endwith %}
+					{% endfor %}
+	                </div>
+	              </div>
+	            </div>
+	            <div class="panel panel-default">
+	              <div class="panel-heading">
+	                <h4 class="panel-title">
+	                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseTags">
+	                    <span class="glyphicon glyphicon-collapse-down"></span> Tags
+	                  </a>
+	                </h4>
+	              </div>
+	              <div id="collapseTags" class="panel-collapse collapse">
+	                <div class="panel-body">
+					{% for tag in listaTags %}
+						{% with tag.id|stringformat:"s" as tag_id %}
+	                	<input type="checkbox" name="tags[]" value="{{ tag_id }}"
+						{% if tag_id in tagsABuscar %}
+						checked
+						{% endif %}	                	
+	                	> {{ tag.nombre }}<br>
+	                	{% endwith %}
+					{% endfor %}
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	          <div>
+	            <center>
+	              <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+	            </center>
+	          </div>
+	        </form>
+        </div>
+
+        <div class="col-md-8">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">{{ numeroEntradasBlog }} Entradas</h3>
+            </div>
+            <div class="panel-body">
+            <!-- RESULTADOS -->
+			{% for entrada in listaEntradasBlog %}
+              <div>
+                <a href="/blogs/entradas/{{ entrada.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
+                  <img class="img-responsive imagenItem pull-left col-xs-6 col-sd-4 col-md-4" src="/media/{{ entrada.imagen_principal.archivo }}" alt="Imagen {{ entrada.titulo }}" >
+                  <h4 class="media-heading">{{ entrada.titulo }}</h4>
+                  
+                </a>
+                <p class="parrafoItem">
+                {{ entrada.lead }}</p>
+                <p class="parrafoFecha">
+                Fecha: {{ entrada.fecha }}</p>
+              </div>
+              <hr>
+			{% endfor %}
+              <!-- FIN RESULTADOS -->
+            </div>
+          </div>
+          <center>
+		  {% if listaEntradasBlog %}
+			<ul class="pagination">
+			{% if listaEntradasBlog.has_previous %}
+				<li><a href="/blogs/{{blog.id}}/1/"> << </a></li>
+				<li><a href="/blogs/{{blog.id}}/{{ listaEntradasBlog.previous_page_number }}/"> Prev </a></li>
+			{% endif %}
+
+			{% for pageNum in paginas %}
+			<li><a href="/blogs/{{blog.id}}/{{ pageNum }}/">{{ pageNum }}</a></li>
+			{% endfor %}
+
+			{% if listaEntradasBlog.has_next %}
+				<li><a href="/blogs/{{blog.id}}/{{ listaEntradasBlog.next_page_number }}/"> Next </a></li>
+				<li><a href="/blogs/{{blog.id}}/{{ listaEntradasBlog.paginator.num_pages }}/"> >> </a></li>
+			{% endif %}
+			</ul>
+		  {% endif %}
+          </center>
+        </div>
+      </div>
+{% endblock %}
+
+{% block imagenPublicidadFooter %}
+  {% if pagina.banner_inferior %}
+    {% if pagina.banner_inferior.codigo_html == "" %}
+      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo_html }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}

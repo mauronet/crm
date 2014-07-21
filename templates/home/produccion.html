@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% block title %}
+  {% if programa.produccion == True %}
+    Produccion
+  {% else %}
+    Programa
+  {% endif %}
+  {{ programa.nombre }} - Canal ZOOM
+{% endblock %}
+{% block description %}
+  {% if programa.produccion == True %}
+    Produccion
+  {% else %}
+    Programa
+  {% endif %}
+  {{ programa.nombre }} - Canal ZOOM
+{% endblock %}
+{% block cssTag %}<link href="/media/css/produccion.css" rel="stylesheet">{% endblock %}
+
+{% block imagenPublicidadHeader %}
+  {% if pagina.banner_superior %}
+    {% if pagina.banner_superior.codigo == "" %}
+      <a href="{{pagina.banner_superior.direccion_web}}">
+      <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block h1 %}
+  {% if programa.produccion == True %}
+    Produccion
+  {% else %}
+    Programa
+  {% endif %}
+  {{ programa.nombre }} - Canal ZOOM
+{% endblock %}
+{% block content%}
+      <!-- CONTENIDO -->
+      <div class="row">
+        <div class="col-md-12">
+          <ol class="breadcrumb">
+            <li><a href="/">Inicio</a></li>
+            <li>
+            {% if programa.produccion == True %}
+              Producciones
+            {% else %}
+              Programas
+            {% endif %}
+            </a>
+            <li class="active">{{ programa.nombre }}</li>
+          </ol>
+        </div>
+      </div>
+      <!-- CONTENIDO PERSONALIZADO -->
+
+      <div class="row">
+        <!-- BANNER -->
+        <center>
+          <img class="img-responsive" src="/media/{{ programa.banner }}" alt="">
+        </center>
+      </div>      
+      <div class="row" style="background-color:#{{ programa.color_fondo }};font:{{ programa.tipo_letra }};">
+        <div class="col-md-5">
+          <center>
+            <p><br></p>
+            <!-- VIDEO INTRODUCTORIO -->
+            <div class="embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item cajaVideo" src="//www.youtube.com/embed/{{ programa.video.codigo }}?rel=0" allowfullscreen=""></iframe>              
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" style="border-color:#{{programa.color_linea}} !important; background-color:#{{programa.color_linea}} !important; color: #{{ programa.color_fondo }} !important;">
+                <!-- NOMBRE -->
+                <h3 class="panel-title"><strong>{{ programa.nombre }}</strong></h3>
+              </div>
+              <div class="panel-body panelSinopsis" style="border-color: #{{programa.color_linea}}; color: #{{programa.color_letra}}; background-color:#{{ programa.color_fondo }};">
+                <div class="row">
+                  <!-- SINOPSIS -->
+                  <p style="text-align:justify; margin:10px;">{% autoescape off %}{{ programa.sinopsis }}{% endautoescape %}</p>
+                </div>
+              </div>
+            </div>
+          </center>            
+        </div>
+
+        <div class="col-md-5">
+            <p><br></p>
+          <!-- CAPITULOS -->
+          <div class="panel panel-default">
+            <div class="panel-heading" style="border-color:#{{programa.color_linea}} !important; background-color:#{{programa.color_linea}} !important; color: #{{ programa.color_fondo }} !important;"> 
+              <h3 class="panel-title"><strong>Capítulos</strong></h3>
+            </div>
+            <div class="panel-body panelCapitulos" style="border-color: #{{programa.color_linea}}; color: #{{programa.color_letra}}; background-color:#{{ programa.color_fondo }};">
+            {% for capitulo in programa.capitulos.all %}
+              <span class="col-xs-6 col-sm-6 col-md-6">
+                  <a href="/producciones/{{programa.id}}/capitulos/{{ capitulo.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
+                    <img class="img-responsive imagenCapitulo col-xs-12 col-sm-12 col-md-12" src="http://img.youtube.com/vi/{{ capitulo.video.codigo }}/0.jpg" alt="...">
+                  </a>
+              </span>
+              <strong>{{ capitulo.nombre }}</strong>
+              <p class="parrafoCapitulo">
+                {{ capitulo.descripcion }}
+              </p>
+              <p class="parrafoDuracion">
+                {{ capitulo.duracion }}
+              </p>
+              <hr>
+            {% endfor %}
+            </div>
+          </div>                        
+        </div>
+
+        <div class="col-md-2">
+            <p><br></p>
+          <!-- IMAGENES -->
+          <div class="panel panel-default">
+            <div class="panel-heading" style="border-color:#{{programa.color_linea}} !important; background-color:#{{programa.color_linea}} !important; color: #{{ programa.color_fondo }} !important;">
+              <h3 class="panel-title"><strong>Imágenes</strong></h3>
+            </div>
+            <div class="panel-body panelImagenes" style="border-color: #{{programa.color_linea}}; color: #{{programa.color_letra}}; background-color:#{{ programa.color_fondo }};">
+            {% for imagen in programa.imagenes.all %}
+              <div class="row">
+                <center>
+                  <a href="/imagenes/{{ imagen.id }}/"><img class="col-md-12 img-responsive" src="/media/{{ imagen.archivo }}" alt=""></a>
+                </center>
+              </div>
+              <div class="row" style="height:10px"></div>
+            {% endfor %}
+            </div>
+          </div>              
+        </div>
+
+      </div>
+      <br>
+      <!-- FIN CONTENIDO PERSONALIZADO -->
+{% endblock %}
+
+
+{% block imagenPublicidadFooter %}
+  {% if pagina.banner_inferior %}
+    {% if pagina.banner_inferior.codigo == "" %}
+      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}

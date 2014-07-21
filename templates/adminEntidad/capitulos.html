@@ -1,0 +1,42 @@
+{% extends 'baseAdminEntidad.html' %}
+{% block content%} 
+<h3>Lista de capitulos - Programa {{programa.nombre}}</h3>
+{% if perfil.tipo.id == 3 %}
+<a href="/adminEntidad/add/capitulo/programa/{{programa.id}}">Agregar Nuevo Capitulo</a><br><br>
+{% endif %}
+{% if programa.capitulos %} 
+	<table class="table table-hover">
+		<theader>
+			<tr>
+				<th>Nombre</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</theader>
+		<tbody>
+		{% for i in programa.capitulos.all %}
+		<tr>
+			<td>{{ i.nombre }}</td>
+			<td>
+				<a href="/adminEntidad/edit/capitulo/{{i.id}}/programa/{{programa.id}}/">
+					<button type="button" class="btn btn-default btn-xs">
+	  					<span class="glyphicon glyphicon-pencil"></span> Editar
+					</button>
+				</a>
+			</td>
+			<td>
+				<a href="/producciones/{{ programa.id }}/capitulos/{{ i.id }}/" target="_blank">
+					<button type="button" class="btn btn-default btn-xs">
+	  					<span class="glyphicon glyphicon-search"></span> Ver en ZOOM
+					</button>
+				</a>
+			</td>
+		</tr>
+		{% endfor%}
+		</tbody>
+	</table>
+{% else %}
+<h2>No existen programas creados</h2>
+{% endif %}
+
+{% endblock %}

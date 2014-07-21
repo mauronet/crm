@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} {% endblock %}</title>
+    <meta name="description" content="{% block description %} {% endblock %}">
+
+    <!-- Bootstrap -->
+    <link href="/media/css/bootstrap-Cerulean.min.css" rel="stylesheet">
+    <link href="/media/css/social-buttons-3.css" rel="stylesheet">
+    <link href="/media/css/font-awesome.css" rel="stylesheet">
+    {% block cssTag %} {% endblock %}
+
+    {% block scriptTag %} {% endblock %}
+
+    <script type="text/javascript" src="/media/js/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="/media/js/underscore.js"></script>
+    <script type="text/javascript" src="/media/js/backbone.js"></script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/media/js/bootstrap.min.js"></script>
+
+    <script>
+      $(document).ready(function() {        
+        $('#menuLogin').click();
+      });
+    </script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="row">
+          <!-- LOGO -->
+          <div class="col-md-2">
+            <figure id="logo">
+              <img src="/media/img/logozoom.jpg" alt="Logo Canal Zoom">
+            </figure>
+          </div>
+          <!-- PUBLICIDAD -->
+          <div class="hidden-xs hidden-sm col-md-7">
+            <div class="row" style="height:10px"></div>
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <figure id="publicidad">
+                  <img class="img-responsive" src="{% block imagenPublicidadHeader %} {% endblock %}" alt="">
+                </figure>
+              </div>
+            </div>
+            <div class="row">
+              <h1 style="font-size:xx-small;color:white">{% block h1 %} H1 Base {% endblock %}</h1>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row" style="height:10px"></div>
+            <!-- MANEJO DE USUARIOS -->
+            <div class="row" style="height:20px">
+              {% if user.is_authenticated %}
+                <div class="col-md-10 col-md-offset-2 text-right">
+                  <strong>
+                    Bienvenido {{ user.username }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#">Salir <i class="fa fa-sign-out"></i></a>
+                  </strong>
+                </div>
+              {% else %}
+                <div class="col-md-10 col-md-offset-2 text-right">
+                  <div class="dropdown open" id="menuLogin">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLogin">Registro <i class="fa fa-pencil"></i></a>
+                    <div class="dropdown-menu" style="padding:15px;">
+                      <form id="formRegister" class="form" style="padding:5px;">
+                        <input name="_csrf" id="token" value="GQCq0qufAZtEZGEaaxPbnyqeVXvd4XORa/cfE=" type="hidden">
+                        <input name="email" id="inputEmail" placeholder="Email" required="" type="email" style="margin:5px;">
+                        <input name="username" id="inputUsername" placeholder="Usuario" pattern="^[a-z,A-Z,0-9,_]{6,15}$" data-valid-min="6" title="Choose a username" required="" type="text" style="margin:5px;"><br>
+                        <input name="password" id="inputpassword" placeholder="Contraseña" required="" type="password" style="margin:5px;"> 
+                        <input name="verify" id="inputVerify" placeholder="Repite tu Contraseña" required="" type="password" style="margin:5px;"><br>                                  
+                        <center><button type="button" id="btnRegister" class="btn btn-primary" style="margin:5px;">Registrarme</button></center>
+                      </form>
+                      <br>
+                      <center><button type="button" id="btnRegisterFb" class="btn btn-primary" style="margin:5px;">Usar mi Facebook</button></center>
+                      <br>
+                      <center><button type="button" id="btnRegisterFb" class="btn btn-primary" style="margin:5px;">Usar mi Twitter</button></center>
+                      <br>
+                      <center><a data-toggle="modal" role="button" href="#contactModal"><small>Necesitas ayuda? Contáctanos</small></a></center>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="dropdown open" id="menuLogin">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLogin">Ingreso <i class="fa fa-sign-in"></i></a>
+                    <div class="dropdown-menu" style="padding:15px;">
+                      <form id="formLogin" class="form" style="padding:5px;" method="POST"> 
+                        {% csrf_token %}
+                        {{mensaje}}
+                        {{ form.as_p }}
+                        <center><button type="submit" id="btnLogin" class="btn btn-primary" style="margin:5px;">Ingresar</button></center>
+                        <!--
+                        <input name="username" id="username" placeholder="Usuario" pattern="^[a-z,A-Z,0-9,_]{6,15}$" data-valid-min="6" title="Enter your username" required="" type="text" style="margin:5px;">
+                        <input name="password" id="password" placeholder="Contraseña" title="Enter your password" required="" type="password" style="margin:5px;"><br>
+                        <center><button type="button" id="btnLogin" class="btn btn-primary" style="margin:5px;">Ingresar</button></center>-->
+                      </form>
+                      <br>
+                      <center><button type="button" id="btnRegisterFb" class="btn btn-primary" style="margin:5px;">Usar mi Facebook</button></center>
+                      <br>
+                      <center><button type="button" id="btnRegisterFb" class="btn btn-primary" style="margin:5px;">Usar mi Twitter</button></center>
+                      <br>
+                      <center><a data-toggle="modal" role="button" href="#forgotPasswordModal"><small>Olvide mi usuario o contraseña?</small></a></center><br>
+                      <center><a data-toggle="modal" role="button" href="#contactModal"><small>Necesitas ayuda? Contáctanos</small></a></center>
+                    </div>
+                  </div>
+
+                </div>
+              {% endif %}
+            </div>
+            <div class="row" style="height:20px"></div>
+            <!-- BUSQUEDA -->     
+            <div class="row">
+              <div class="col-md-9 col-md-offset-3 text-right">
+                <div style="height:15px;">
+                </div>
+                <!--<div class="form-group">
+                  <div class="input-group">
+                    <input type="text" class="form-control">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                    </span>
+                  </div>
+                </div>-->
+              </div>
+            </div>            
+            <div class="row" style="height:5px"></div>
+            <!-- REDES SOCIALES -->
+            <div class="row">
+              <div class="col-md-11 col-md-offset-1 text-right">
+                <span>
+                  <a href="https://www.facebook.com/CanalZOOM" target="_blank">
+                    <img class="img-circle" src="/media/img/facebook_icon.png" width="40" alt="Facebook Canal Zoom">
+                  </a>
+                </span>
+                <span>
+                  <a href="https://twitter.com/canalzoomtv" target="_blank">
+                    <img class="img-circle" src="/media/img/twitter_icon.png" width="40" alt="Twitter Canal Zoom">
+                  </a>
+                </span>
+                <span>
+                  <a href="http://instagram.com/tvzoomgram" target="_blank">
+                    <img class="img-circle" src="/media/img/instagram_icon.png" width="40" alt="Instagram Canal Zoom">
+                  </a>
+                </span>
+                <span>
+                  <a href="https://www.youtube.com/user/ZoomCanal" target="_blank">
+                    <img class="img-circle" src="/media/img/youtube_icon.png" width="40" alt="Youtube Canal Zoom">
+                  </a>
+                </span>
+                <!--<span>
+                <img class="img-circle" src="/media/img/rss_icon.png" width="40" alt="RSS Canal Zoom">
+                </span>-->
+              </div>
+            </div>
+            <div class="row" style="height:10px"></div>
+          </div>
+        </div>
+        <!-- BARRA DE NAVEGACION -->
+        <div class="navbar navbar-default">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+           </button>
+          </div>
+          <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav">
+              <li {% if request.path == '/' %} class="active"{% endif %}><a href="/">Inicio</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">El Canal <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li {% if '/canal/acerca de zoom/' in request.path %} class="active"{% endif %}><a href="/canal/acerca de zoom/">Acerca del Canal</a></li>
+                  <li {% if '/canal/equipo de trabajo/' in request.path %} class="active"{% endif %}><a href="/canal/equipo de trabajo/">Equipo de trabajo</a></li>
+                  <li {% if '/canal/comite programacion/' in request.path %} class="active"{% endif %}><a href="/canal/comite programacion/">Comité de Programación</a></li>
+                  <li {% if '/canal/comites tecnicos regionales/' in request.path %} class="active"{% endif %}><a href="/canal/comites tecnicos regionales/">Comités Técnicos Regionales</a></li>
+                  <li class="divider"></li>
+                  <li {% if '/canal/documentos/' in request.path %} class="active"{% endif %}><a href="/canal/documentos/">Documentos</a></li>
+                  <li class="divider"></li>
+                  <li {% if '/IES Afiliadas/page/' in request.path %} class="active"{% endif %}><a href="/IES Afiliadas/page/1/">IES Afiliadas</a></li>
+                </ul>
+              </li>
+              <li {% if '/senal en vivo/' in request.path %} class="active"{% endif %}><a href="/senal en vivo/">Señal en Vivo</a></li>
+              <li {% if '/programacion/' in request.path %} class="active"{% endif %}><a href="/programacion/">Programación</a></li>
+              <li {% if '/franjas/' in request.path %} class="active"{% endif %}>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Franjas<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li {% if '/franjas/Crea ZOOM/' in request.path %} class="active"{% endif %}><a href="/franjas/Crea ZOOM/">Crea ZOOM</a></li>
+                  <li {% if '/franjas/Gente ZOOM/' in request.path %} class="active"{% endif %}><a href="/franjas/Gente ZOOM/">Gente ZOOM</a></li>
+                  <li {% if '/franjas/Innova ZOOM/' in request.path %} class="active"{% endif %}><a href="/franjas/Innova ZOOM/">Innova ZOOM</a></li>
+                  <li {% if '/franjas/Planeta ZOOM/' in request.path %} class="active"{% endif %}><a href="/franjas/Planeta ZOOM/">Planeta ZOOM</a></li>
+                  <li {% if '/franjas/Acercate ZOOM/' in request.path %} class="active"{% endif %}><a href="/franjas/Acercate ZOOM/">Acercate ZOOM</a></li>
+                </ul>
+              </li>
+              <li {% if '/videos/' in request.path %} class="active"{% endif %}><a href="/videos/page/1/">Videos</a></li>
+              <li {% if '/producciones/' in request.path %} class="active"{% endif %}>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Producciones<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  {% for programa in producciones %}
+                  <li {% if '/producciones/{{programa.id}}/' in request.path %} class="active"{% endif %}><a href="/producciones/{{programa.id}}/">{{programa.nombre}}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+              <li {% if '/noticias/' in request.path %} class="active"{% endif %}><a href="/noticias/page/1/">Noticias</a></li>
+              <li {% if '/oportunidades/' in request.path %} class="active"{% endif %}><a href="/oportunidades/page/1/">Oportunidades</a></li>
+              <li {% if '/eventos/' in request.path %} class="active"{% endif %}><a href="/eventos/page/1/">Eventos</a></li>              
+              <li {% if '/blogs/' in request.path %} class="active"{% endif %}>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blogs<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  {% for blog in blogs %}
+                  <li {% if '/blogs/{{blog.id}}/' in request.path %} class="active"{% endif %}><a href="/blogs/{{blog.id}}/1/">{{blog.nombre}}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>      
+      </header>
+      <section>
+             
+      <!-- CONTENIDO -->
+{% block content %}
+{% endblock%}
+      <footer>
+        <div class="row text-center">
+          <figure id="creditos">
+            <img src="/media/img/LogosCreditos.gif" style="img-responsive" alt="">
+          </figure>
+        </div>
+        <div class="row text-center">
+        <p><small>Calle 36 No 21-10 Piso 4 / Teléfono: (57-1) 805 2866 - Fax: (57-1) 755 9046 / Bogotá D.C., Colombia<br>
+          <a href="mailto:zoomcanal@zoomcanal.com.co" target="_top">zoomcanal@zoomcanal.com.co</a></small></p>
+        </div>
+      </footer>
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+      <!--<script src="/media/js/bootstrap.min.js"></script>-->
+    </div>
+  </body>
+</html>

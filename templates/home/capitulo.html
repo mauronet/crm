@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %}
+  {% if programa.produccion == True %}
+    Produccion
+  {% else %}
+    Programa
+  {% endif %}
+  {{ programa.nombre }} - Canal ZOOM
+{% endblock %}
+{% block description %}
+  {% if programa.produccion == True %}
+    Produccion
+  {% else %}
+    Programa
+  {% endif %}
+  {{ programa.nombre }} - Canal ZOOM
+{% endblock %}
+{% block cssTag %}<link href="/media/css/produccion.css" rel="stylesheet">{% endblock %}
+
+{% block imagenPublicidadHeader %}
+  {% if pagina.banner_superior %}
+    {% if pagina.banner_superior.codigo == "" %}
+      <a href="{{pagina.banner_superior.direccion_web}}">
+      <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block h1 %}
+  {% if programa.produccion == True %}
+    Produccion
+  {% else %}
+    Programa
+  {% endif %}
+  {{ programa.nombre }} - Canal ZOOM
+{% endblock %}
+{% block content%}
+      <!-- CONTENIDO -->
+      <div class="row">
+        <div class="col-md-12">
+          <ol class="breadcrumb">
+            <li><a href="/">Inicio</a></li>
+            <li>
+            {% if programa.produccion == True %}
+              Producciones
+            {% else %}
+              Programas
+            {% endif %}
+            </a>
+            <li class="active">{{ programa.nombre }}</li>
+          </ol>
+        </div>
+      </div>
+      <!-- CONTENIDO PERSONALIZADO -->
+
+      <div class="row">
+        <!-- BANNER -->
+        <center>
+          <img class="img-responsive" src="/media/{{ programa.banner }}" alt="">
+        </center>
+      </div>      
+      <div class="row" style="background-color:#{{ programa.color_fondo }};font:{{ programa.tipo_letra }};">
+        <div class="col-md-6">
+          <center>
+            <p><br></p>
+            <div class="panel panel-default">
+              <div class="panel-heading" style="border-color:#{{programa.color_linea}} !important; background-color:#{{programa.color_linea}} !important; color: #{{ programa.color_fondo }} !important;">
+                <!-- NOMBRE -->
+                <h3 class="panel-title"><strong>{{ capitulo.nombre }}</strong></h3>
+                <small><strong>{{ capitulo.duracion }}</strong></small>
+              </div>
+              <div class="panel-body panelVideo" style="border-color: #{{programa.color_linea}}; color: #{{programa.color_letra}}; background-color:#{{ programa.color_fondo }};">
+              <!-- VIDEO INTRODUCTORIO -->
+                <div class="embed-responsive embed-responsive-16by9">
+                  <iframe class="embed-responsive-item cajaVideo" src="//www.youtube.com/embed/{{ capitulo.video.codigo }}?rel=0" allowfullscreen=""></iframe>
+                  <small><a href="/videos/{{capitulo.video.id}}">Ver detalles del video</a></small>
+                </div>
+              </div>
+            </div>
+          </center>            
+        </div>
+        <div class="col-md-6">
+          <center>
+            <p><br></p>
+            <div class="panel panel-default">
+              <div class="panel-heading" style="border-color:#{{programa.color_linea}} !important; background-color:#{{programa.color_linea}} !important; color: #{{ programa.color_fondo }} !important;">
+                <!-- NOMBRE -->
+                <h3 class="panel-title"><strong>Informacion del Capitulo</strong></h3>
+              </div>
+              <div class="panel-body panelInfoVideo" style="border-color: #{{programa.color_linea}}; color: #{{programa.color_letra}}; background-color:#{{ programa.color_fondo }};">
+                <p style="text-align:justify; margin:10px;"><b>Descripción:</b><br>{% autoescape off %}{{ capitulo.descripcion }}{% endautoescape %}</p><hr>
+                <p style="text-align:justify; margin:10px;"><b>Dirección:</b><br>{% autoescape off %}{{ capitulo.direccion }}{% endautoescape %}</p><hr>
+                <p style="text-align:justify; margin:10px;"><b>Producción:</b><br>{% autoescape off %}{{ capitulo.produccion }}{% endautoescape %}</p>
+              </div>
+            </div>
+          </center>            
+        </div>        
+      </div>
+      <br>
+      <!-- FIN CONTENIDO PERSONALIZADO -->
+{% endblock %}
+
+
+{% block imagenPublicidadFooter %}
+  {% if pagina.banner_inferior %}
+    {% if pagina.banner_inferior.codigo == "" %}
+      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
+    {% else %}
+      <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo }}{% endautoescape %}</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}

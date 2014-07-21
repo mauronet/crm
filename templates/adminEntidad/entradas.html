@@ -1,0 +1,65 @@
+{% extends 'baseAdminEntidad.html' %}
+{% block content%} 
+<h3>Entradas - {{blog.nombre}}</h3>
+{% if perfil.tipo.id == 3 %}
+<a href="/adminEntidad/add/entrada/blog/{{blog.id}}/">Agregar Nueva Entrada</a><br><br>
+{% endif %}
+{% if entradas %} 
+	<table class="table table-hover">
+		<theader>
+			<tr>
+				<th>Titulo</th>
+				<th>Lead</th>
+				<!--<th></th>-->
+				<th></th>
+				<th></th>
+			</tr>
+		</theader>
+		<tbody>
+		{% for i in entradas %}
+		<tr>
+			<td>{{ i.titulo }}</td>
+			<td>{{ i.lead }}</td>
+			<!--<td> <img src="/media/{{ i.archivo }}" width="80px"> </td>-->
+			<td>
+				<a href="/adminEntidad/edit/entrada/{{i.id}}/blog/{{blog.id}}/">
+					<button type="button" class="btn btn-default btn-xs">
+	  					<span class="glyphicon glyphicon-pencil"></span> Editar
+					</button>
+				</a>
+			</td>
+			<td>
+				<a href="/blogs/entradas/{{ i.id }}/" target="_blank">
+					<button type="button" class="btn btn-default btn-xs">
+	  					<span class="glyphicon glyphicon-search"></span> Ver en ZOOM
+					</button>
+				</a>
+			</td>
+		</tr>
+		{% endfor%}
+		</tbody>
+	</table>
+{% else %}
+<h2>No existen entradas creadas</h2>
+{% endif %}
+
+{% if entradas %}
+	<ul class="pagination">
+		<li><a href="/adminEntidad/blogs/{{blog.id}}/entradas/page/1"> << </a></li>
+	{% if entradas.has_previous %}
+		<li><a href="/adminEntidad/blogs/{{blog.id}}/entradas/page/{{ entradas.previous_page_number }}/"> Prev </a></li>
+	{% else %}
+		<li><a href="#"> Prev </a></li>
+	{% endif %}
+
+	{% if entradas.has_next %}
+		<li><a href="/adminEntidad/blogs/{{blog.id}}/entradas/page/{{ entradas.next_page_number }}/"> Next </a></li>
+	{% else %}
+		<li><a href="#"> Next </a></li>
+	{% endif %}
+		<li><a href="/adminEntidad/blogs/{{blog.id}}/entradas/page/{{ entradas.paginator.num_pages }}"> >> </a></li>
+	</ul>
+	<br><br><br>
+	<h4>Pagina {{ entradas.number }} de {{ entradas.paginator.num_pages}}</h4>
+{% endif %}
+{% endblock %}
