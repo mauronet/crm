@@ -7,11 +7,22 @@ from capitulos.models import Capitulo
 from entradas_blogs.models import EntradaBlog
 from comentarios.models import Comentario
 from estados_comentarios.models import EstadoComentario
+from django.core.exceptions import ValidationError
 
 class addImagenForm(forms.ModelForm):
 	class Meta:
 		model = Imagen
-		exclude = {'creado_por'}
+		fields = ('nombre', 'descripcion','creditos','archivo')
+		exclude = {'creado_por','creado_para'}
+
+	def clean_archivo(self):
+		archivo = self.cleaned_data.get('archivo',False)
+		if archivo:
+			if archivo._size > 2*1024*1024:
+				raise ValidationError("El archivo es demasiado grande ( > 2MB )")
+			return archivo
+		else:
+			raise ValidationError("No se puede leer el archivo")
 
 	def __init__(self, *args, **kwargs):
 	    super(addImagenForm, self).__init__(*args, **kwargs)
@@ -23,7 +34,7 @@ class addImagenForm(forms.ModelForm):
 class addVideoForm(forms.ModelForm):
 	class Meta:
 		model = Video
-		exclude = {'creado_por'}
+		exclude = {'creado_por','creado_para','visto'}
 
 	def __init__(self, *args, **kwargs):
 	    super(addVideoForm, self).__init__(*args, **kwargs)
@@ -34,7 +45,7 @@ class addVideoForm(forms.ModelForm):
 class addDocumentoForm(forms.ModelForm):
 	class Meta:
 		model = Documento
-		exclude = {'creado_por'}
+		exclude = {'creado_por','creado_para'}
 
 	def __init__(self, *args, **kwargs):
 	    super(addDocumentoForm, self).__init__(*args, **kwargs)

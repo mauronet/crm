@@ -6,7 +6,7 @@
 {% block imagenPublicidadHeader %}
   {% if pagina.banner_superior %}
     {% if pagina.banner_superior.codigo_html == "" %}
-      <a href="{{pagina.banner_superior.direccion_web}}">
+      <a href="{{pagina.banner_superior.direccion_web}}" target="_blank">
       <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
     {% else %}
       <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo_html }}{% endautoescape %}</div>
@@ -150,16 +150,16 @@
             <div class="panel-body">
             <!-- RESULTADOS -->
 			{% for oportunidad in listaOportunidades %}
-              <div>
+              <div class="cajaItem">
                 <a href="/oportunidades/{{ oportunidad.id }}/">
-                  <img class="img-responsive imagenItem pull-left col-xs-6 col-sd-4 col-md-4" src="/media/{{ oportunidad.imagen_principal.archivo }}" alt="Imagen {{ oportunidad.nombre }}" >
+                  <img class="img-responsive imagenItem pull-left" src="/media/{{ oportunidad.imagen_principal.archivo }}" alt="Imagen {{ oportunidad.nombre }}" >
                   <h4 class="media-heading">{{ oportunidad.nombre }}</h4>
                   
                 </a>
                 <p class="parrafoItem">
                 {{ oportunidad.descripcion|slice:":255" }}... <a href="/oportunidades/{{ oportunidad.id }}/"><small>Leer mas</small></a></p>
                 <p class="parrafoFecha">
-                Fecha: {{ oportunidad.fecha }}</p>
+                Fecha de publicación: {{ oportunidad.fecha }}</p>
               </div>
               <hr>
 			{% endfor %}
@@ -192,7 +192,7 @@
 {% block imagenPublicidadFooter %}
   {% if pagina.banner_inferior %}
     {% if pagina.banner_inferior.codigo_html == "" %}
-      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <a href="{{pagina.banner_inferior.direccion_web}}" target="_blank">
       <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
     {% else %}
       <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo_html }}{% endautoescape %}</div>

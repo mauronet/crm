@@ -20,7 +20,7 @@
 {% block imagenPublicidadHeader %}
   {% if pagina.banner_superior %}
     {% if pagina.banner_superior.codigo == "" %}
-      <a href="{{pagina.banner_superior.direccion_web}}">
+      <a href="{{pagina.banner_superior.direccion_web}}" target="_blank">
       <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
     {% else %}
       <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo }}{% endautoescape %}</div>
@@ -122,7 +122,7 @@
             {% for imagen in programa.imagenes.all %}
               <div class="row">
                 <center>
-                  <a href="/imagenes/{{ imagen.id }}/"><img class="col-md-12 img-responsive" src="/media/{{ imagen.archivo }}" alt=""></a>
+                  <a href="/producciones/{{programa.id}}/imagenes/{{ imagen.id }}/"><img class="col-md-12 img-responsive" src="/media/{{ imagen.archivo }}" alt=""></a>
                 </center>
               </div>
               <div class="row" style="height:10px"></div>
@@ -140,7 +140,7 @@
 {% block imagenPublicidadFooter %}
   {% if pagina.banner_inferior %}
     {% if pagina.banner_inferior.codigo == "" %}
-      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <a href="{{pagina.banner_inferior.direccion_web}}" target="_blank">
       <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
     {% else %}
       <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo }}{% endautoescape %}</div>

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %} {% endblock %}</title>
     <meta name="description" content="{% block description %} {% endblock %}">
+    {% block meta %} {% endblock %}
 
     <!-- Bootstrap -->
     <link href="/media/css/bootstrap-Cerulean.min.css" rel="stylesheet">
@@ -53,7 +54,7 @@
           <div class="hidden-xs hidden-sm hidden-md col-lg-7">
             <div class="row" style="height:10px"></div>
             <div class="row">
-              <div class="col-md-12 text-center">
+              <div class="col-md-12 text-center" style="vertical-align:middle;">
                 <figure id="publicidad">
                   <center>
                   {% block imagenPublicidadHeader %} {% endblock %}
@@ -74,7 +75,7 @@
                   <strong style="text-align:right;">
                     Bienvenido <a href="/mi perfil/">{{ user.username }}</a>
                     {% if perfil %}
-                      {% if perfil.tipo.id == 3 %}
+                      {% if perfil.tipo.id == 3 or perfil.tipo.id == 4 %}
                       <br><a href="/adminEntidad/"  target="_blank">Modulo Administrador</a><br>
                       {% elif perfil.tipo.id == 1%}
                       <br><a href="/admin/" target="_blank">Modulo Administrador</a><br>
@@ -111,27 +112,27 @@
               <div class="col-md-11 col-md-offset-1 text-right">
                 <span>
                   <a href="https://www.facebook.com/CanalZOOM" target="_blank">
-                    <img class="img-circle" src="/media/img/facebook_icon.png" width="40" alt="Facebook Canal Zoom">
+                    <img class="img-circle" src="/media/img/facebook_icon.png" width="36" alt="Facebook Canal Zoom">
                   </a>
                 </span>
                 <span>
                   <a href="https://twitter.com/canalzoomtv" target="_blank">
-                    <img class="img-circle" src="/media/img/twitter_icon.png" width="40" alt="Twitter Canal Zoom">
+                    <img class="img-circle" src="/media/img/twitter_icon.png" width="36" alt="Twitter Canal Zoom">
                   </a>
                 </span>
                 <span>
                   <a href="http://instagram.com/tvzoomgram" target="_blank">
-                    <img class="img-circle" src="/media/img/instagram_icon.png" width="40" alt="Instagram Canal Zoom">
+                    <img class="img-circle" src="/media/img/instagram_icon.png" width="36" alt="Instagram Canal Zoom">
                   </a>
                 </span>
                 <span>
                   <a href="https://www.youtube.com/user/ZoomCanal" target="_blank">
-                    <img class="img-circle" src="/media/img/youtube_icon.png" width="40" alt="Youtube Canal Zoom">
+                    <img class="img-circle" src="/media/img/youtube_icon.png" width="36" alt="Youtube Canal Zoom">
                   </a>
                 </span>
                 <span>
                   <a href="/feeds/">
-                    <img class="img-circle" src="/media/img/rss_icon.png" width="40" alt="RSS Canal Zoom">
+                    <img class="img-circle" src="/media/img/rss_icon.png" width="36" alt="RSS Canal Zoom">
                   </a>
                 </span>
               </div>
@@ -164,6 +165,14 @@
                   <li {% if '/IES Afiliadas/page/' in request.path %} class="active"{% endif %}><a href="/IES Afiliadas/page/1/">IES Afiliadas</a></li>
                 </ul>
               </li>
+              <li {% if '/noticias/' in request.path %} class="active"{% endif %}>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Noticias<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  {% for categoria in categorias %}
+                  <li {% if '/noticias/categoria/{{categoria.id}}/' in request.path %} class="active"{% endif %}><a href="/noticias/categoria/{{categoria.id}}/">{{categoria.nombre}}</a></li>
+                  {% endfor %}              
+                </ul>
+              </li>
               <li {% if '/senal en vivo/' in request.path %} class="active"{% endif %}><a href="/senal en vivo/">Señal en Vivo</a></li>
               <li {% if '/programacion/' in request.path %} class="active"{% endif %}><a href="/programacion/">Programación</a></li>
               <li {% if '/franjas/' in request.path %} class="active"{% endif %}>
@@ -185,17 +194,9 @@
                   {% endfor %}
                 </ul>
               </li>
-              <li {% if '/noticias/' in request.path %} class="active"{% endif %}><a href="/noticias/page/1/">Noticias</a></li>
               <li {% if '/oportunidades/' in request.path %} class="active"{% endif %}><a href="/oportunidades/page/1/">Oportunidades</a></li>
               <li {% if '/eventos/' in request.path %} class="active"{% endif %}><a href="/eventos/page/1/">Eventos</a></li>              
-              <li {% if '/blogs/' in request.path %} class="active"{% endif %}>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blogs<b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  {% for blog in blogs %}
-                  <li {% if '/blogs/{{blog.id}}/' in request.path %} class="active"{% endif %}><a href="/blogs/{{blog.id}}/page/1/">{{blog.nombre}}</a></li>
-                  {% endfor %}
-                </ul>
-              </li>
+              <li {% if '/blogs/' in request.path %} class="active"{% endif %}><a href="/blogs/page/1/">Blogs</a></li>
             </ul>
           </div>
         </div>      

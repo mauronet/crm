@@ -37,7 +37,7 @@ def getPerfil(user):
 @login_required(login_url=LOGIN_URL)
 def adminentidad_index_view(request):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
 		return render(request, 'adminEntidad/index.html')
 	else:
 		return HttpResponseRedirect('/')
@@ -45,8 +45,11 @@ def adminentidad_index_view(request):
 @login_required(login_url=LOGIN_URL)
 def adminentidad_imagenes_view(request, page):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
-		lista_imagenes = Imagen.objects.filter(creado_por=perfil.entidad.id).order_by('-id')
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
+		if perfil.tipo.id == 3:
+			lista_imagenes = Imagen.objects.filter(creado_para=perfil.entidad.id).order_by('-id')
+		else:
+			lista_imagenes = Imagen.objects.filter(creado_por=perfil.id).order_by('-id')
 		paginator = Paginator(lista_imagenes, 10) #Imagenes por pagina
 		try:
 			page = int(page)
@@ -66,13 +69,14 @@ def adminentidad_imagenes_view(request, page):
 @login_required(login_url=LOGIN_URL)
 def add_imagen_view(request):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
 		info=""
 		if request.method == "POST":
 			form = addImagenForm(request.POST,request.FILES)
 			if form.is_valid():
 				add = form.save(commit=False)
-				add.creado_por = perfil.entidad
+				add.creado_para = perfil.entidad
+				add.creado_por = perfil
 				add.save() # Guardamos la informacion
 				#form.save_m2m() # Guarda las relaciones de ManyToMany
 				#return HttpResponseRedirect('/adminEntidad/edit/imagen/%s'%add.id)
@@ -90,7 +94,7 @@ def add_imagen_view(request):
 @login_required(login_url=LOGIN_URL)
 def edit_imagen_view(request, id_img):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
 		img = Imagen.objects.get(pk=id_img)
 		info=""
 		if request.method == "POST":
@@ -114,8 +118,11 @@ def edit_imagen_view(request, id_img):
 @login_required(login_url=LOGIN_URL)
 def adminentidad_videos_view(request, page):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
-		lista_videos = Video.objects.filter(creado_por=perfil.entidad.id).order_by('-id')
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
+		if perfil.tipo.id == 3:
+			lista_videos = Video.objects.filter(creado_para=perfil.entidad.id).order_by('-id')
+		else:
+			lista_videos = Video.objects.filter(creado_por=perfil.id).order_by('-id')
 		paginator = Paginator(lista_videos, 10) #videos por pagina
 		try:
 			page = int(page)
@@ -135,13 +142,14 @@ def adminentidad_videos_view(request, page):
 @login_required(login_url=LOGIN_URL)
 def add_video_view(request):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
 		info=""
 		if request.method == "POST":
 			form = addVideoForm(request.POST,request.FILES)
 			if form.is_valid():
 				add = form.save(commit=False)
-				add.creado_por = perfil.entidad
+				add.creado_para = perfil.entidad
+				add.creado_por = perfil
 				add.save() # Guardamos la informacion
 				#form.save_m2m() # Guarda las relaciones de ManyToMany
 				#return HttpResponseRedirect('/adminEntidad/edit/video/%s'%add.id)
@@ -159,7 +167,7 @@ def add_video_view(request):
 @login_required(login_url=LOGIN_URL)
 def edit_video_view(request, id_img):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
 		img = Video.objects.get(pk=id_img)
 		info=""
 		if request.method == "POST":
@@ -183,8 +191,11 @@ def edit_video_view(request, id_img):
 @login_required(login_url=LOGIN_URL)
 def adminentidad_documentos_view(request, page):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
-		lista_documentos = Documento.objects.filter(creado_por=perfil.entidad.id).order_by('-id')
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
+		if perfil.tipo.id == 3:
+			lista_documentos = Documento.objects.filter(creado_para=perfil.entidad.id).order_by('-id')
+		else:
+			lista_documentos = Documento.objects.filter(creado_por=perfil.id).order_by('-id')
 		paginator = Paginator(lista_documentos, 10) #documentos por pagina
 		try:
 			page = int(page)
@@ -204,13 +215,14 @@ def adminentidad_documentos_view(request, page):
 @login_required(login_url=LOGIN_URL)
 def add_documento_view(request):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
 		info=""
 		if request.method == "POST":
 			form = addDocumentoForm(request.POST,request.FILES)
 			if form.is_valid():
 				add = form.save(commit=False)
-				add.creado_por = perfil.entidad
+				add.creado_para = perfil.entidad
+				add.creado_por = perfil
 				add.save() # Guardamos la informacion
 				#form.save_m2m() # Guarda las relaciones de ManyToMany
 				#return HttpResponseRedirect('/adminEntidad/edit/documento/%s'%add.id)
@@ -228,7 +240,7 @@ def add_documento_view(request):
 @login_required(login_url=LOGIN_URL)
 def edit_documento_view(request, id_img):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
 		img = Documento.objects.get(pk=id_img)
 		info=""
 		if request.method == "POST":
@@ -252,7 +264,7 @@ def edit_documento_view(request, id_img):
 @login_required(login_url=LOGIN_URL)
 def adminentidad_programas_view(request):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
 		lista_programas = Programa.objects.filter(entidad=perfil.entidad.id).order_by('-id')
 		ctx = {
 			'programas': lista_programas,
@@ -279,8 +291,8 @@ def edit_programa_view(request, id_img):
 				return HttpResponseRedirect('/adminEntidad/programas/')
 		else:
 			form = addProgramaForm(instance=img)
-		form.fields['imagenes'] = forms.ModelMultipleChoiceField(queryset=Imagen.objects.filter(creado_por=perfil.entidad.id))
-		form.fields['video'] = forms.ModelChoiceField(queryset=Video.objects.filter(creado_por=perfil.entidad.id))
+		form.fields['imagenes'] = forms.ModelMultipleChoiceField(queryset=Imagen.objects.filter(creado_para=perfil.entidad.id))
+		form.fields['video'] = forms.ModelChoiceField(queryset=Video.objects.filter(creado_para=perfil.entidad.id))
 		idPrograma = id_img
 		ctx = {
 			'form':form,
@@ -326,7 +338,7 @@ def add_capitulo_view(request, id_prg):
 				return HttpResponseRedirect('/adminEntidad/programas/%s/capitulos/'%id_prg)
 		else:
 			form = addCapituloForm()
-		form.fields['video'] = forms.ModelChoiceField(queryset=Video.objects.filter(creado_por=perfil.entidad.id))
+		form.fields['video'] = forms.ModelChoiceField(queryset=Video.objects.filter(creado_para=perfil.entidad.id))
 		ctx = {
 			'form':form,
 			'programa':prg,
@@ -354,7 +366,7 @@ def edit_capitulo_view(request, id_cap, id_prg):
 				return HttpResponseRedirect('/adminEntidad/programas/%s/capitulos/'%id_prg)
 		else:
 			form = addCapituloForm(instance=cap)
-		form.fields['video'] = forms.ModelChoiceField(queryset=Video.objects.filter(creado_por=perfil.entidad.id))
+		form.fields['video'] = forms.ModelChoiceField(queryset=Video.objects.filter(creado_para=perfil.entidad.id))
 		ctx = {
 			'form':form,
 			'informacion':info,
@@ -367,8 +379,8 @@ def edit_capitulo_view(request, id_cap, id_prg):
 @login_required(login_url=LOGIN_URL)
 def adminentidad_blogs_view(request):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
-		lista_blogs = Blog.objects.filter(entidad=perfil.entidad.id).order_by('-id')
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
+		lista_blogs = Blog.objects.filter(administrador=perfil.id).order_by('-id')
 		ctx = {
 			'blogs': lista_blogs,
 		}
@@ -379,7 +391,7 @@ def adminentidad_blogs_view(request):
 @login_required(login_url=LOGIN_URL)
 def adminentidad_entradas_blog_view(request, id_blog, page):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
 		try:
 			blog = Blog.objects.get(id=id_blog)
 		except ObjectDoesNotExist:
@@ -405,10 +417,10 @@ def adminentidad_entradas_blog_view(request, id_blog, page):
 @login_required(login_url=LOGIN_URL)
 def add_entrada_view(request, id_blog):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
 		info=""
 		try:
-			blog = Blog.objects.get(pk=id_blog, entidad=perfil.entidad.id)
+			blog = Blog.objects.get(pk=id_blog, administrador=perfil.id)
 		except ObjectDoesNotExist:
 			return HttpResponseRedirect('/adminEntidad/')
 		if request.method == "POST":
@@ -423,10 +435,16 @@ def add_entrada_view(request, id_blog):
 				return HttpResponseRedirect('/adminEntidad/blogs/%s/entradas/page/1/'%id_blog)
 		else:
 			form = addEntradaBlogForm()
-		form.fields['imagen_principal']  = forms.ModelChoiceField(queryset=Imagen.objects.filter(creado_por=perfil.entidad.id))
-		form.fields['imagenes_adicionales'] = forms.ModelMultipleChoiceField(queryset=Imagen.objects.filter(creado_por=perfil.entidad.id))
-		form.fields['videos']  = forms.ModelMultipleChoiceField(queryset=Video.objects.filter(creado_por=perfil.entidad.id))
-		form.fields['documentos']  = forms.ModelMultipleChoiceField(queryset=Documento.objects.filter(creado_por=perfil.entidad.id))
+		if perfil.tipo.id == 3:
+			form.fields['imagen_principal']  = forms.ModelChoiceField(queryset=Imagen.objects.filter(creado_para=perfil.entidad.id))
+			form.fields['imagenes_adicionales'] = forms.ModelMultipleChoiceField(queryset=Imagen.objects.filter(creado_para=perfil.entidad.id))
+			form.fields['videos']  = forms.ModelMultipleChoiceField(queryset=Video.objects.filter(creado_para=perfil.entidad.id))
+			form.fields['documentos']  = forms.ModelMultipleChoiceField(queryset=Documento.objects.filter(creado_para=perfil.entidad.id))
+		else:
+			form.fields['imagen_principal']  = forms.ModelChoiceField(queryset=Imagen.objects.filter(creado_por=perfil.id))
+			form.fields['imagenes_adicionales'] = forms.ModelMultipleChoiceField(queryset=Imagen.objects.filter(creado_por=perfil.id))
+			form.fields['videos']  = forms.ModelMultipleChoiceField(queryset=Video.objects.filter(creado_por=perfil.id))
+			form.fields['documentos']  = forms.ModelMultipleChoiceField(queryset=Documento.objects.filter(creado_por=perfil.id))
 		ctx = {
 			'form':form,
 			'blog':blog,
@@ -439,11 +457,11 @@ def add_entrada_view(request, id_blog):
 @login_required(login_url=LOGIN_URL)
 def edit_entrada_view(request, id_entrada, id_blog):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
 		info=""
 		try:
 			entradaBlog = EntradaBlog.objects.get(pk=id_entrada)
-			blog = Blog.objects.get(pk=id_blog, entidad=perfil.entidad.id)
+			blog = Blog.objects.get(pk=id_blog, administrador=perfil.id)
 		except ObjectDoesNotExist:
 			return HttpResponseRedirect('/adminEntidad/')
 		if request.method == "POST":
@@ -456,10 +474,16 @@ def edit_entrada_view(request, id_entrada, id_blog):
 				return HttpResponseRedirect('/adminEntidad/blogs/%s/entradas/page/1/'%id_blog)
 		else:
 			form = addEntradaBlogForm(instance=entradaBlog)
-		form.fields['imagen_principal']  = forms.ModelChoiceField(queryset=Imagen.objects.filter(creado_por=perfil.entidad.id))
-		form.fields['imagenes_adicionales'] = forms.ModelMultipleChoiceField(queryset=Imagen.objects.filter(creado_por=perfil.entidad.id))
-		form.fields['videos']  = forms.ModelMultipleChoiceField(queryset=Video.objects.filter(creado_por=perfil.entidad.id))
-		form.fields['documentos']  = forms.ModelMultipleChoiceField(queryset=Documento.objects.filter(creado_por=perfil.entidad.id))
+		if perfil.tipo.id == 3:
+			form.fields['imagen_principal']  = forms.ModelChoiceField(queryset=Imagen.objects.filter(creado_para=perfil.entidad.id))
+			form.fields['imagenes_adicionales'] = forms.ModelMultipleChoiceField(queryset=Imagen.objects.filter(creado_para=perfil.entidad.id))
+			form.fields['videos']  = forms.ModelMultipleChoiceField(queryset=Video.objects.filter(creado_para=perfil.entidad.id))
+			form.fields['documentos']  = forms.ModelMultipleChoiceField(queryset=Documento.objects.filter(creado_para=perfil.entidad.id))
+		else:
+			form.fields['imagen_principal']  = forms.ModelChoiceField(queryset=Imagen.objects.filter(creado_por=perfil.id))
+			form.fields['imagenes_adicionales'] = forms.ModelMultipleChoiceField(queryset=Imagen.objects.filter(creado_por=perfil.id))
+			form.fields['videos']  = forms.ModelMultipleChoiceField(queryset=Video.objects.filter(creado_por=perfil.id))
+			form.fields['documentos']  = forms.ModelMultipleChoiceField(queryset=Documento.objects.filter(creado_por=perfil.id))
 		ctx = {
 			'form':form,
 			'informacion':info,
@@ -473,7 +497,7 @@ def edit_entrada_view(request, id_entrada, id_blog):
 @login_required(login_url=LOGIN_URL)
 def adminentidad_moderar_comentarios_blog_view(request):
 	perfil = getPerfil(request.user)
-	if perfil.tipo.id == 3:
+	if perfil.tipo.id == 3 or perfil.tipo.id == 4:
 		commentsSetForm = modelformset_factory(Comentario,form=ComentarioForm,extra=0)
 		if request.method == 'POST':
 			form = commentsSetForm(request.POST, request.FILES)
@@ -482,7 +506,7 @@ def adminentidad_moderar_comentarios_blog_view(request):
 					f.save()
 		else:
 			#Carga de datos para inicializacion del form
-			blogs = Blog.objects.filter(entidad=perfil.entidad.id)
+			blogs = Blog.objects.filter(administrador=perfil.id)
 			ids_comentarios = []
 			for blog in blogs:
 				entradas = blog.entradas.all()

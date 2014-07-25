@@ -19,7 +19,7 @@ from paginas.models import Pagina
 
 import pdb
 
-def noticias_view(request,pagina=1):
+def noticias_view(request,id_pagina=1,id_categoria=0):
 	pagina = Pagina.objects.get(id=15)
 	listaFranjas = Franja.objects.filter()
 	listaEntidades = Entidad.objects.filter(activo=True)
@@ -57,11 +57,17 @@ def noticias_view(request,pagina=1):
 			if len(tagsABuscar) > 0:
 				filters = filters & Q(tags__id__in = tagsABuscar)
 
-			listaNoticias = Noticia.objects.filter(filters)
+			listaNoticias = Noticia.objects.filter(filters).order_by("-id")
 		else:
-			listaNoticias = Noticia.objects.filter()
+			listaNoticias = Noticia.objects.filter().order_by("-id")
 	else:
-		listaNoticias = Noticia.objects.filter()
+		if id_categoria != 0:
+			filters = Q()
+			categoriasABuscar = [id_categoria]
+			filters = filters & Q(categorias__id__in = categoriasABuscar)
+			listaNoticias = Noticia.objects.filter(filters).order_by("-id")
+		else:
+			listaNoticias = Noticia.objects.filter().order_by("-id")
 
 	numeroTotalNoticias = len(listaNoticias)
 	paginator = Paginator(listaNoticias, 5) #Cuantos items van por pagina
@@ -71,7 +77,7 @@ def noticias_view(request,pagina=1):
 	    paginas += [str(numPagina+1)]
 
 	try:
-		page = int(pagina)
+		page = int(id_pagina)
 	except:
 		page = 1
 	try:

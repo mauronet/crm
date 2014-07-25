@@ -3,7 +3,7 @@ from entidades.models import Entidad
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from paginas.models import Pagina
 
-def entidades_view(request,pagina):
+def entidades_view(request,id_pagina=1):
 	pagina = Pagina.objects.get(id=5)
 	listaIESAfiliadas = Entidad.objects.filter(activo=True, tipo=2)
 
@@ -15,7 +15,7 @@ def entidades_view(request,pagina):
 	    paginas += [str(numPagina+1)]
 
 	try:
-		page = int(pagina)
+		page = int(id_pagina)
 	except:
 		page = 1
 	try:
@@ -46,6 +46,8 @@ def entidad_view(request,id_entidad):
 def ies_view(request,id_entidad):
 	pagina = Pagina.objects.get(id=10)
 	ies = get_object_or_404(Entidad, id=id_entidad)
+	ies.leyenda = "<br>".join(ies.leyenda.split("\n"))	
+
 	ctx = {
 		'ies':ies,
 		'pagina':pagina,

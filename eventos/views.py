@@ -19,7 +19,7 @@ from django.http import HttpResponseRedirect
 from paginas.models import Pagina
 import pdb
 
-def eventos_view(request,pagina=1):
+def eventos_view(request,id_pagina=1):
 	pagina = Pagina.objects.get(id=7)
 	listaFranjas = Franja.objects.filter()
 	listaEntidades = Entidad.objects.filter(activo=True)
@@ -57,11 +57,11 @@ def eventos_view(request,pagina=1):
 			if len(tagsABuscar) > 0:
 				filters = filters & Q(tags__id__in = tagsABuscar)
 
-			listaEventos = Evento.objects.filter(filters)
+			listaEventos = Evento.objects.filter(filters).order_by("-inicio")
 		else:
-			listaEventos = Evento.objects.filter()
+			listaEventos = Evento.objects.filter().order_by("-inicio")
 	else:
-		listaEventos = Evento.objects.filter()
+		listaEventos = Evento.objects.filter().order_by("-inicio")
 
 	numeroTotalEventos = len(listaEventos)
 	paginator = Paginator(listaEventos, 5) #Cuantos items van por pagina
@@ -71,7 +71,7 @@ def eventos_view(request,pagina=1):
 	    paginas += [str(numPagina+1)]
 
 	try:
-		page = int(pagina)
+		page = int(id_pagina)
 	except:
 		page = 1
 	try:
@@ -134,5 +134,5 @@ def nuevo_comentario_evento_view(request):
 			comentario.save()
 			evento.comentarios.add(comentario.id)
 			url = "/eventos/" + request.POST['id_evento'] + "/"
-			pdb.set_trace()
+			#pdb.set_trace()
 	return HttpResponseRedirect(url)

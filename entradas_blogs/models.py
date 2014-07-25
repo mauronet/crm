@@ -13,7 +13,7 @@ class EntradaBlog(models.Model):
 	titulo = models.CharField(max_length=255)
 	lead = models.TextField()
 	contenido = models.TextField()
-	fecha = models.DateField()
+	fecha = models.DateTimeField()
 	direccion_web = models.URLField(blank=True)
 	imagen_principal = models.ForeignKey(Imagen, related_name='imagenprincipal_entrada_blog')
 	

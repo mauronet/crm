@@ -15,6 +15,9 @@ class Entidad(models.Model):
 	activo = models.BooleanField()
 	latitud = models.FloatField(default=0)
 	longitud = models.FloatField(default=0)
+	leyenda = models.TextField(blank=True)
+	sede = models.ImageField(upload_to="sedes", blank=True)
+
 
 	def __unicode__(self):
 		return self.nombre

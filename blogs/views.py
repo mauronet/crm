@@ -20,7 +20,92 @@ from paginas.models import Pagina
 
 import pdb
 
-def blog_view(request,id_blog,pagina):
+
+def blogs_view(request,id_pagina=1):
+	pagina = Pagina.objects.get(id=3)
+	listaFranjas = Franja.objects.filter()
+	listaEntidades = Entidad.objects.filter(activo=True)
+	listaCategorias = Categoria.objects.filter()
+	listaTags = Tag.objects.filter()
+	listaBlogs = Blog.objects.filter()
+
+	palabraABuscar = ""
+	franjasABuscar = []
+	entidadesABuscar = []
+	categoriasABuscar = []
+	tagsABuscar = []
+	blogsABuscar = []
+
+	if request.method=="POST":
+		if "palabra" in request.POST:
+			palabraABuscar = request.POST['palabra']
+			franjasABuscar = request.POST.getlist('franjas[]')
+			entidadesABuscar = request.POST.getlist('entidades[]')
+			categoriasABuscar = request.POST.getlist('categorias[]')
+			tagsABuscar = request.POST.getlist('tags[]')
+			blogsABuscar = request.POST.getlist('blogs[]')
+
+			filters = Q()
+
+			if palabraABuscar != "":
+				filters = filters | Q(titulo__icontains = palabraABuscar) | Q(lead__icontains = palabraABuscar) | Q(contenido__icontains = palabraABuscar) 
+
+			if len(franjasABuscar) > 0:
+				filters = filters & Q(franjas__id__in = franjasABuscar)
+
+			if len(entidadesABuscar) > 0:
+				filters = filters & Q(entidades__id__in = entidadesABuscar)
+
+			if len(categoriasABuscar) > 0:
+				filters = filters & Q(categorias__id__in = categoriasABuscar)
+
+			if len(tagsABuscar) > 0:
+				filters = filters & Q(tags__id__in = tagsABuscar)
+
+			if len(blogsABuscar) > 0:
+				filters = filters & Q(blog__id__in=blogsABuscar)
+
+			listaEntradasBlog = EntradaBlog.objects.filter(filters).order_by("-id")
+		else:
+			listaEntradasBlog = EntradaBlog.objects.filter().order_by("-id")
+	else:
+		listaEntradasBlog = EntradaBlog.objects.filter().order_by("-id")
+
+	numeroTotalEntradasBlog = len(listaEntradasBlog)
+	paginator = Paginator(listaEntradasBlog, 5) #Cuantos items van por pagina
+
+	paginas = []
+	for numPagina in range(paginator.num_pages):
+	    paginas += [str(numPagina+1)]
+
+	try:
+		page = int(id_pagina)
+	except:
+		page = 1
+	try:
+		listaEntradasBlogPorPagina = paginator.page(page)
+	except (EmptyPage, InvalidPage):
+		listaEntradasBlogPorPagina = paginator.page(paginator.num_pages)
+
+	ctx = {
+		'listaFranjas':listaFranjas,
+		'listaEntidades':listaEntidades,
+		'listaCategorias':listaCategorias,
+		'listaTags':listaTags,
+		'listaBlogs':listaBlogs,
+		'listaEntradasBlog':listaEntradasBlogPorPagina,
+		'palabraABuscar':palabraABuscar,
+		'franjasABuscar':franjasABuscar,
+		'entidadesABuscar':entidadesABuscar,
+		'categoriasABuscar':categoriasABuscar,
+		'tagsABuscar':tagsABuscar,
+		'numeroTotalEntradasBlog':numeroTotalEntradasBlog,
+		'paginas':paginas,
+		'pagina':pagina,
+	}
+	return render(request, 'home/blogs.html',ctx)	
+
+def blog_view(request,id_blog,pagina=1):
 	pagina = Pagina.objects.get(id=3)
 	blog = Blog.objects.get(id=id_blog)
 	listaFranjas = Franja.objects.filter()

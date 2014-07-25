@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from userprofiles.models import UserProfile
 from entidades.models import Entidad
 from django.forms.extras.widgets import SelectDateWidget
+from django.core.exceptions import ValidationError
 from datetime import date
 
 class LoginForm(forms.Form):
@@ -62,14 +63,12 @@ class ProfileForm(forms.Form):
 	def clean(self):
 		return self.cleaned_data
 
-	def clean_image(self):
+	def clean_avatar(self):
 		avatar = self.cleaned_data.get('avatar',False)
 		if avatar:
 			if avatar._size > 1*1024*1024:
-				raise ValidationError("avatar file too large ( > 1mb )")
+				raise ValidationError("El avatar es demasiado grande ( > 1 MB )")
 			return avatar
-		else:
-			raise ValidationError("Couldn't read uploaded avatar")
 
 class EmailForm(forms.Form):
 	email = forms.EmailField(widget = forms.TextInput())

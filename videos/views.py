@@ -8,7 +8,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from paginas.models import Pagina
 
-def videos_view(request,pagina):
+def videos_view(request,id_pagina=1):
 	pagina = Pagina.objects.get(id=24)
 	listaFranjas = Franja.objects.filter()
 	listaEntidades = Entidad.objects.filter(activo=True)
@@ -46,11 +46,11 @@ def videos_view(request,pagina):
 			if len(tagsABuscar) > 0:
 				filters = filters & Q(tags__id__in = tagsABuscar)
 
-			listaVideos = Video.objects.filter(filters)
+			listaVideos = Video.objects.filter(filters).order_by("-id")
 		else:
-			listaVideos = Video.objects.filter()
+			listaVideos = Video.objects.filter().order_by("-id")
 	else:
-		listaVideos = Video.objects.filter()
+		listaVideos = Video.objects.filter().order_by("-id")
 
 	numeroTotalvideos = len(listaVideos)
 	paginator = Paginator(listaVideos, 6) #Cuantos items van por pagina
@@ -60,7 +60,7 @@ def videos_view(request,pagina):
 	    paginas += [str(numPagina+1)]
 
 	try:
-		page = int(pagina)
+		page = int(id_pagina)
 	except:
 		page = 1
 	try:
@@ -91,6 +91,8 @@ def videos_view(request,pagina):
 def video_view(request,id_video):
 	pagina = Pagina.objects.get(id=23)
 	video = get_object_or_404(Video, id=id_video)
+	video.visto += 1;
+	video.save() 
 	video.descripcion = "<br>".join(video.descripcion.split("\n"))
 	video.creditos = "<br>".join(video.creditos.split("\n"))
 	ctx = {

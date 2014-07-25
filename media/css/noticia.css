@@ -1,6 +1,9 @@
 .imagenNoticia{
     display: inline;
     margin-bottom: 10px;
+    max-height:300px;
+    max-width:300px;
+    padding: 15px;
 }
 
 .parrafoNoticia{
@@ -22,4 +25,8 @@
     text-align:right;
     font-size: 0.8em;
     color: #424242;
+}
+
+.cajaItem{
+    min-height:300px;
 }

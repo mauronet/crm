@@ -1,12 +1,32 @@
 {% extends 'base.html' %}
 {% block title %}{{blog.nombre}} - {{ entrada_blog.titulo }}{% endblock %}
+
+{% block meta %}
+<meta property="og:title" content="Entrada Blog - {{ entrada_blog.titulo }} via Canal Zoom"/>
+<meta property="og:url" content="{{ request.get_full_path }}"/>
+<meta property="og:image" content="/media/{{ entrada_blog.imagen_principal.archivo }}"/>
+<meta property="og:site_name" content="Canal ZOOM"/>
+<meta property="og:description" content="{{ entrada_blog.lead }}"/>
+{% endblock %}
+
 {% block description %}{{blog.nombre}} - {{ entrada_blog.titulo }}{% endblock %}
 {% block cssTag %}<link href="/media/css/noticia.css" rel="stylesheet">{% endblock %}
+
+{% block scriptTag %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=257656264425434&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+{% endblock %}
 
 {% block imagenPublicidadHeader %}
   {% if pagina.banner_superior %}
     {% if pagina.banner_superior.codigo_html == "" %}
-      <a href="{{pagina.banner_superior.direccion_web}}">
+      <a href="{{pagina.banner_superior.direccion_web}}" target="_blank">
       <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
     {% else %}
       <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo_html }}{% endautoescape %}</div>
@@ -21,8 +41,8 @@
         <div class="col-md-12">
           <ol class="breadcrumb">
             <li><a href="/">Inicio</a></li>
-            <li>Blogs</li>
-            <li><a href="/blogs/{{blog.id}}/1/">{{blog.nombre}}</a></li>
+            <li><a href="/blogs/">Blogs</a></li>
+            <li>{{blog.nombre}}</li>
             <li class="active">{{ entrada_blog.titulo }}</li>
           </ol>
         </div>
@@ -33,7 +53,7 @@
           <center>
           {% if pagina.banner_izquierdo %}
             {% if pagina.banner_izquierdo.codigo_html == "" %}
-              <a href="{{pagina.banner_izquierdo.direccion_web}}">
+              <a href="{{pagina.banner_izquierdo.direccion_web}}" target="_blank">
               <img src="/media/{{pagina.banner_izquierdo.imagen}}" style="width:{{pagina.banner_izquierdo.tamano.ancho}};height:{{pagina.banner_izquierdo.tamano.alto}};" alt="{{pagina.banner_izquierdo.nombre}}"></a>
             {% else %}
               <div style="width:{{pagina.banner_izquierdo.tamano.ancho}};height:{{pagina.banner_izquierdo.tamano.alto}};">{% autoescape off %}{{ pagina.banner_izquierdo.codigo_html }}{% endautoescape %}</div>
@@ -43,10 +63,10 @@
         </div>
         <article class="col-md-8">
           <!-- entrada_blog -->
-          <div>
-            <span class="col-md-6">
+          <div class="cajaItem">
+            <span>
               <a class="pull-left" href="/imagenes/{{ entrada_blog.imagen_principal.id }}/">
-                <img class="img-responsive imagenentrada_blog col-md-12" src="/media/{{ entrada_blog.imagen_principal.archivo }}" alt="Imagen - {{ entrada_blog.imagen_principal.nombre }}" >
+                <img class="img-responsive imagenNoticia" src="/media/{{ entrada_blog.imagen_principal.archivo }}" alt="Imagen - {{ entrada_blog.imagen_principal.nombre }}" >
               </a>
             </span>
             <h4 class="media-heading">{{ entrada_blog.titulo }}</h4>
@@ -58,12 +78,14 @@
             
             <p>
               <span class="pull-left parrafoFecha">
-                Fecha: {{ entrada_blog.fecha }}
+                Fecha de publicación: {{ entrada_blog.fecha }}
               </span>
               <span class="pull-right">
                 {% if entrada_blog.direccion_web != ""%}
                 <p align="right">
                   <a href="{{ entrada_blog.direccion_web }}" target="_blank">Mas informacion</a></p>            
+                 {% else %}
+                <p align="right">&nbsp;</p>
                 {% endif %}
               </span>              
             </p>
@@ -71,16 +93,13 @@
           <!-- COMPARTIR -->
             <p align="center">
               <span>
-                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.get_full_path }}">
-                  <img src="/media/img/facebook-compartir.png" style="position:relative;top:-6px;" alt="">
-                </a>
+                <div class="fb-share-button" data-href="#" data-type="button_count" style="position:relative;top:-6px;"></div>
               </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <span>
-                <a href="https://twitter.com/share" class="twitter-share-button" data-lang="es" data-count="none">Twittear</a>
-                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+                <a href="https://twitter.com/intent/tweet?via=canalzoomtv" class="twitter-share-button" data-lang="es">Twittear</a>
               </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </p>
-
+            </p>   
           </div>
 
           {% if entrada_blog.imagenes_adicionales.all|length > 0  %}
@@ -222,13 +241,15 @@
               {% if comentario.estado.id == 2 %}
               <ul class="media-list">
                 <li class="media">
-                  <span class="pull-left">
-                    {% if comentario.usuario.avatar %}
-                      <img class="media-object" style="width:60px" src="/media/{{comentario.usuario.avatar}}" alt="">
-                    {% else %}
-                      <img class="media-object" style="width:60px" src="/media/img/avatar.png" alt="">
-                    {% endif %}
-                  </span>
+                  <a href="/perfiles/{{comentario.usuario.id}}/">
+                    <span class="pull-left">
+                      {% if comentario.usuario.avatar %}
+                        <img class="media-object" style="width:60px" src="/media/{{comentario.usuario.avatar}}" alt="">
+                      {% else %}
+                        <img class="media-object" style="width:60px" src="/media/img/avatar.png" alt="">
+                      {% endif %}
+                    </span>
+                  </a>
                   <div class="media-body">
                     <h5 class="media-heading">{{ comentario.usuario.user.username }}</h5>
                     {{ comentario.contenido }} 
@@ -244,9 +265,11 @@
             {% if user.is_authenticated %}
               <ul class="media-list">
                 <li class="media">
-                  <a class="pull-left" href="#">
-                    <img class="media-object" src="/media/{{ comentario.usuario.avatar }}" alt="">
-                  </a>
+                  {% if perfil.avatar != "" %}
+                    <img class="media-object pull-left" style="width:60px" src="/media/{{ perfil.avatar }}" alt="">
+                  {% else %}
+                    <img class="media-object pull-left" style="width:60px" src="/media/img/avatar.png" alt="">
+                  {% endif %}
                   <div class="media-body">
                     <form action="/comentario entrada blog/" method="POST">
                     {% csrf_token %}
@@ -281,7 +304,7 @@
           <center>
             {% if pagina.banner_derecho %}
               {% if pagina.banner_derecho.codigo_html == "" %}
-                <a href="{{pagina.banner_derecho.direccion_web}}">
+                <a href="{{pagina.banner_derecho.direccion_web}}" target="_blank">
                 <img src="/media/{{pagina.banner_derecho.imagen}}" style="width:{{pagina.banner_derecho.tamano.ancho}};height:{{pagina.banner_derecho.tamano.alto}};" alt="{{pagina.banner_derecho.nombre}}"></a>
               {% else %}
                 <div style="width:{{pagina.banner_derecho.tamano.ancho}};height:{{pagina.banner_derecho.tamano.alto}};">{% autoescape off %}{{ pagina.banner_derecho.codigo_html }}{% endautoescape %}</div>
@@ -295,7 +318,7 @@
 {% block imagenPublicidadFooter %}
   {% if pagina.banner_inferior %}
     {% if pagina.banner_inferior.codigo_html == "" %}
-      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <a href="{{pagina.banner_inferior.direccion_web}}" target="_blank">
       <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
     {% else %}
       <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo_html }}{% endautoescape %}</div>

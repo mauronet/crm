@@ -9,7 +9,7 @@
 {% block imagenPublicidadHeader %}
   {% if pagina.banner_superior %}
     {% if pagina.banner_superior.codigo_html == "" %}
-      <a href="{{pagina.banner_superior.direccion_web}}">
+      <a href="{{pagina.banner_superior.direccion_web}}" target="_blank">
       <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
     {% else %}
       <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo_html }}{% endautoescape %}</div>
@@ -144,6 +144,7 @@ $(window).load(function() {
 					        <a href="/videos/{{ video.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">{{ video.nombre }}
 					        </a>
 				    	</div>
+              <div class="parrafoVistas">Visto: {{ video.visto }} veces</div>
 				    </div>
 				  </div>
 				{% endfor %}
@@ -162,28 +163,47 @@ $(window).load(function() {
               <div class="panel-heading">
                 <h3 class="panel-title">Programacion de Hoy</h3>
               </div>
-              <div class="panel-body programacion">
+              <div class="panel-body programacion" {% if not pagina.banner_robapagina %}style="max-height: 440px;"{%endif%}>
                 <p class="text-muted programacionContent">
                 {% for programacionHora in programacionDia %}
-					{% if programacionHora.horario.id == id_horario and esHorarioManana == True %}
-						<span class="text-info"><strong>{{programacionHora.horario.manana|date:"g:i"}} - {{programacionHora.programa}}<br></span>
-					{% else %}
-						{{programacionHora.horario.manana|date:"g:i"}} - {{programacionHora.programa}}<br>
-					{% endif %}
+                  {% if esHorarioManana == True %}
+                    {% if programacionHora.horario.id == horarioProgramacionActual.id %}
+                      <span class="text-info"><strong>{{programacionHora.horario.manana|date:"g:i"}} - {{programacionHora.programa}}</span><br>
+                    {% elif programacionHora.horario.manana > horarioProgramacionActual.manana %}
+                      {{programacionHora.horario.manana|date:"g:i"}} - {{programacionHora.programa}}<br>
+                    {% endif %}
+                  {% endif %}
                 {% endfor %}
+
                 {% for programacionHora in programacionDia %}
-					{% if programacionHora.horario.id == id_horario and esHorarioManana == False %}
-						<span class="text-info"><strong>{{programacionHora.horario.tarde_noche|date:"g:i"}} - {{programacionHora.programa}}<br></span>
-					{% else %}
-						{{programacionHora.horario.tarde_noche|date:"g:i"}} - {{programacionHora.programa}}<br>
-					{% endif %}
+                  {% if programacionHora.horario.id == horarioProgramacionActual.id %}
+                    {% if esHorarioManana == False %}
+                      <span class="text-info"><strong>{{programacionHora.horario.tarde_noche|date:"g:i"}} - {{programacionHora.programa}}</span><br>
+                    {% else %}
+                      {{programacionHora.horario.tarde_noche|date:"g:i"}} - {{programacionHora.programa}}<br>
+                    {% endif %}
+                  {% elif programacionHora.horario.tarde_noche > horarioProgramacionActual.tarde_noche %}
+                    {{programacionHora.horario.tarde_noche|date:"g:i"}} - {{programacionHora.programa}}<br>
+                  {% elif programacionHora.horario.tarde_noche < horarioProgramacionActual.tarde_noche %}
+                    {% if esHorarioManana == True %}
+                      {{programacionHora.horario.tarde_noche|date:"g:i"}} - {{programacionHora.programa}}<br>
+                    {% endif %}
+                  {% endif %}
                 {% endfor %}
-                {{id_horario}}<br>
-                {{esHorarioManana}}
                 </p>
               </div>
             </div>              
-          </section>            
+          </section>
+          <center>
+          {% if pagina.banner_robapagina %}
+            {% if pagina.banner_robapagina.codigo_html == "" %}
+              <a href="{{pagina.banner_robapagina.direccion_web}}" target="_blank">
+              <img src="/media/{{pagina.banner_robapagina.imagen}}" style="width:{{pagina.banner_robapagina.tamano.ancho}};height:{{pagina.banner_robapagina.tamano.alto}};" alt="{{pagina.banner_robapagina.nombre}}"></a>
+            {% else %}
+              <div style="width:{{pagina.banner_robapagina.tamano.ancho}};height:{{pagina.banner_robapagina.tamano.alto}};">{% autoescape off %}{{ pagina.banner_robapagina.codigo_html }}{% endautoescape %}</div>
+            {% endif %}
+          {% endif %}
+          </center>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4">
         <!-- TWITTER -->
@@ -315,7 +335,7 @@ $(window).load(function() {
   {% if pagina.banner_inferior %}
     {% if pagina.banner_inferior.codigo_html == "" %}
       <a href="{{pagina.banner_inferior.direccion_web}}">
-      <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
+      <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}" target="_blank"></a>
     {% else %}
       <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo_html }}{% endautoescape %}</div>
     {% endif %}

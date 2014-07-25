@@ -1,12 +1,33 @@
 {% extends 'base.html' %}
 {% block title %}Video {{ video.nombre }} - Canal ZOOM{% endblock %}
+
+{% block meta %}
+<meta property="og:title" content="Video {{ video.nombre }} via Canal Zoom"/>
+<meta property="og:type" content="video"/>
+<meta property="og:url" content="{{ request.get_full_path }}"/>
+<meta property="og:image" content="http://img.youtube.com/vi/{{ video.codigo }}/0.jpg"/>
+<meta property="og:site_name" content="Canal ZOOM"/>
+<meta property="og:description" content="{{ video.descripcion }}"/>
+{% endblock %}
+
 {% block description %} {{ video.descripcion }} {% endblock %}
 {% block cssTag %}<link href="/media/css/video.css" rel="stylesheet">{% endblock %}
+
+{% block scriptTag %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=257656264425434&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+{% endblock %}
 
 {% block imagenPublicidadHeader %}
   {% if pagina.banner_superior %}
     {% if pagina.banner_superior.codigo_html == "" %}
-      <a href="{{pagina.banner_superior.direccion_web}}">
+      <a href="{{pagina.banner_superior.direccion_web}}" target="_blank">
       <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
     {% else %}
       <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo_html }}{% endautoescape %}</div>
@@ -35,7 +56,7 @@
           <center>
           {% if pagina.banner_izquierdo %}
             {% if pagina.banner_izquierdo.codigo_html == "" %}
-              <a href="{{pagina.banner_izquierdo.direccion_web}}">
+              <a href="{{pagina.banner_izquierdo.direccion_web}}" target="_blank">
               <img src="/media/{{pagina.banner_izquierdo.imagen}}" style="width:{{pagina.banner_izquierdo.tamano.ancho}};height:{{pagina.banner_izquierdo.tamano.alto}};" alt="{{pagina.banner_izquierdo.nombre}}"></a>
             {% else %}
               <div style="width:{{pagina.banner_izquierdo.tamano.ancho}};height:{{pagina.banner_izquierdo.tamano.alto}};">{% autoescape off %}{{ pagina.banner_izquierdo.codigo_html }}{% endautoescape %}</div>
@@ -50,6 +71,18 @@
               <div class="embed-responsive embed-responsive-16by9">
                 <iframe class="embed-responsive-item cajaVideo" src="//www.youtube.com/embed/{{ video.codigo }}?rel=0" allowfullscreen=""></iframe>              
               </div>
+              <div class="parrafoVistas">Visto: {{ video.visto }} veces</div>
+
+          <!-- COMPARTIR -->
+            <p align="center">
+              <span>
+                <div class="fb-share-button" data-href="#" data-type="button_count" style="position:relative;top:-6px;"></div>
+              </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>
+                <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+                <a href="https://twitter.com/intent/tweet?via=canalzoomtv" class="twitter-share-button" data-lang="es">Twittear</a>
+              </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </p>              
             </center>
           </div>
           <div class="well">
@@ -67,7 +100,7 @@
           <center>
             {% if pagina.banner_derecho %}
               {% if pagina.banner_derecho.codigo_html == "" %}
-                <a href="{{pagina.banner_derecho.direccion_web}}">
+                <a href="{{pagina.banner_derecho.direccion_web}}" target="_blank">
                 <img src="/media/{{pagina.banner_derecho.imagen}}" style="width:{{pagina.banner_derecho.tamano.ancho}};height:{{pagina.banner_derecho.tamano.alto}};" alt="{{pagina.banner_derecho.nombre}}"></a>
               {% else %}
                 <div style="width:{{pagina.banner_derecho.tamano.ancho}};height:{{pagina.banner_derecho.tamano.alto}};">{% autoescape off %}{{ pagina.banner_derecho.codigo_html }}{% endautoescape %}</div>
@@ -81,7 +114,7 @@
 {% block imagenPublicidadFooter %}
   {% if pagina.banner_inferior %}
     {% if pagina.banner_inferior.codigo_html == "" %}
-      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <a href="{{pagina.banner_inferior.direccion_web}}" target="_blank">
       <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
     {% else %}
       <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo_html }}{% endautoescape %}</div>

@@ -32,7 +32,7 @@
 {% block imagenPublicidadHeader %}
   {% if pagina.banner_superior %}
     {% if pagina.banner_superior.codigo_html == "" %}
-      <a href="{{pagina.banner_superior.direccion_web}}">
+      <a href="{{pagina.banner_superior.direccion_web}}" target="_blank">
       <img src="/media/{{pagina.banner_superior.imagen}}" style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};" alt="{{pagina.banner_superior.nombre}}"></a>
     {% else %}
       <div style="width:{{pagina.banner_superior.tamano.ancho}};height:{{pagina.banner_superior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_superior.codigo_html }}{% endautoescape %}</div>
@@ -54,10 +54,6 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-5">
-          <div id="map-canvas" class="col-md-12"></div>
-        </div>
-
         <div class="col-md-7">
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -73,17 +69,25 @@
                 <p class="parrafoItem"><strong>Teléfonos:</strong>&nbsp;&nbsp;{{ ies.telefonos }}</p>
                 <p class="parrafoItem"><strong>Email:</strong>&nbsp;&nbsp;<a href="mailto:{{ ies.email }}" target="_blank">{{ ies.email }}</a></p>
                 <p class="parrafoItem"><strong>Sitio Web:</strong>&nbsp;&nbsp;<a href="{{ ies.sitio_web }}" target="_blank">{{ ies.sitio_web }}</p>
+                <p>{% autoescape off %}{{ ies.leyenda }}{% endautoescape %}</p>
               </div>
             </div>
           </div>
         </div>
+        <div class="col-md-5">
+          {% if ies.sede != "" %}
+          <div><img class="img-responsive col-md-12" src="/media/{{ ies.sede }}" alt="Imagen Sede {{ ies.nombre }}" ></div>
+          <div><p>&nbsp;</p> </div>
+          {% endif %}
+          <div id="map-canvas" class="col-md-12"></div>
+        </div>        
       </div>
 {% endblock %}
 
 {% block imagenPublicidadFooter %}
   {% if pagina.banner_inferior %}
     {% if pagina.banner_inferior.codigo_html == "" %}
-      <a href="{{pagina.banner_inferior.direccion_web}}">
+      <a href="{{pagina.banner_inferior.direccion_web}}" target="_blank">
       <img src="/media/{{pagina.banner_inferior.imagen}}" style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};" alt="{{pagina.banner_inferior.nombre}}"></a>
     {% else %}
       <div style="width:{{pagina.banner_inferior.tamano.ancho}};height:{{pagina.banner_inferior.tamano.alto}};">{% autoescape off %}{{ pagina.banner_inferior.codigo_html }}{% endautoescape %}</div>

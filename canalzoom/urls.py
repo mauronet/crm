@@ -23,12 +23,14 @@ urlpatterns = patterns('',
     url(r'^canal/comites tecnicos regionales/', 'home.views.comites_tecnicos_regionales_view', name='vista_comitestecnicosregionales'),
     url(r'^canal/documentos/', 'home.views.documentos_view', name='vista_documentos'),
 
-    url(r'^IES Afiliadas/page/(?P<pagina>.*)/$', 'entidades.views.entidades_view', name='vista_entidades'),
+    url(r'^IES Afiliadas/page/(?P<id_pagina>.*)/$', 'entidades.views.entidades_view', name='vista_entidades'),
     url(r'^IES Afiliadas/entidades/(?P<id_entidad>.*)/$', 'entidades.views.ies_view', name='vista_ies'),
 
     url(r'^senal en vivo/', 'home.views.senal_en_vivo_view', name='vista_senalenvivo'),
 
-    url(r'^noticias/page/(?P<pagina>.*)/$', 'noticias.views.noticias_view', name='vista_pagina_noticias'),
+
+    url(r'^noticias/categoria/(?P<id_categoria>.*)/$', 'noticias.views.noticias_view', name='vista_pagina_noticias'),
+    url(r'^noticias/page/(?P<id_pagina>.*)/$', 'noticias.views.noticias_view', name='vista_pagina_noticias'),
     url(r'^noticias/(?P<id_noticia>.*)/$', 'noticias.views.noticia_view', name='vista_noticia'),
     url(r'^noticias/$', 'noticias.views.noticias_view', name='vista_default_pagina_noticias'),
 
@@ -38,29 +40,33 @@ urlpatterns = patterns('',
 
     url(r'^entidades/(?P<id_entidad>.*)/$', 'entidades.views.entidad_view', name='vista_entidad'),
 
-    url(r'^videos/page/(?P<pagina>.*)/$', 'videos.views.videos_view', name='vista_videos'),
+    url(r'^videos/page/(?P<id_pagina>.*)/$', 'videos.views.videos_view', name='vista_videos'),
     url(r'^videos/(?P<id_video>.*)/$', 'videos.views.video_view', name='vista_video'),
 
+    url(r'^producciones/(?P<id_programa>.*)/imagenes/(?P<id_imagen>.*)/$', 'programas.views.imagen_view', name='vista_imagenprograma'),
     url(r'^producciones/(?P<id_programa>.*)/capitulos/(?P<id_capitulo>.*)/$', 'programas.views.capitulo_view', name='vista_capitulo'),
     url(r'^producciones/(?P<id_programa>.*)/$', 'programas.views.programa_view', name='vista_programa'),
 
-    url(r'^eventos/page/(?P<pagina>.*)/$', 'eventos.views.eventos_view', name='vista_pagina_eventos'),
+    url(r'^eventos/page/(?P<id_pagina>.*)/$', 'eventos.views.eventos_view', name='vista_pagina_eventos'),
     url(r'^eventos/(?P<id_evento>.*)/$', 'eventos.views.evento_view', name='vista_evento'),
     url(r'^eventos/$', 'eventos.views.eventos_view', name='vista_default_evento'),
 
-    url(r'^oportunidades/page/(?P<pagina>.*)/$', 'oportunidades.views.oportunidades_view', name='vista_pagina_oportunidades'),
+    url(r'^oportunidades/page/(?P<id_pagina>.*)/$', 'oportunidades.views.oportunidades_view', name='vista_pagina_oportunidades'),
     url(r'^oportunidades/(?P<id_oportunidad>.*)/$', 'oportunidades.views.oportunidad_view', name='vista_oportunidad'),
     url(r'^oportunidades/$', 'oportunidades.views.oportunidades_view', name='vista_pagina_oportunidades'),
 
     url(r'^programacion/', 'programaciones.views.programacion_view', name='vista_programacion'),
 
     url(r'^blogs/entradas/(?P<id_entrada>.*)/$', 'blogs.views.entrada_blog_view', name='vista_entradablog'),
-    url(r'^blogs/(?P<id_blog>.*)/page/(?P<pagina>.*)/$', 'blogs.views.blog_view', name='vista_blog'),
+    url(r'^blogs/page/(?P<id_pagina>.*)/$', 'blogs.views.blogs_view', name='vista_blogs'),
+    url(r'^blogs/(?P<id_blog>.*)/$', 'blogs.views.blog_view', name='vista_blog'),
+    url(r'^blogs/$', 'blogs.views.blogs_view', name='vista_blogs'),
 
     url(r'^login/$', 'home.views.login_view', name='vista_login'),
     url(r'^logout/$', 'home.views.logout_view', name='vista_logout'),
     url(r'^registro/$', 'home.views.registro_view', name='vista_registro'),
     url(r'^mi perfil/$','home.views.perfil_view',name='vista_perfil'),
+    url(r'^perfiles/(?P<id_perfil>.*)/$','home.views.verperfil_view',name='vista_verperfil'),
     url(r'^confirm/(?P<activation_key>\w+)/', 'home.views.register_confirm_view', name='vista_confirmarregistro'),
     url(r'^cambiar_contrasena/$', 'home.views.ask_email_view', name='vista_solicitaremail'),
     url(r'^cambiar_contrasena/(?P<activation_key>\w+)/', 'home.views.change_password_view', name='vista_cambiarcontrasena'),
@@ -109,3 +115,8 @@ urlpatterns = patterns('',
 urlpatterns += patterns('',
 	url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT,}),
 )
+
+"""
+    url(r'^blogs/(?P<id_blog>.*)/page/(?P<pagina>.*)/$', 'blogs.views.blog_view', name='vista_blog'),
+
+"""

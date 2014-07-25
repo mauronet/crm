@@ -1,7 +1,7 @@
 {% extends 'baseAdminEntidad.html' %}
 {% block content%} 
 <h3>Lista de videos</h3>
-{% if perfil.tipo.id == 3 %}
+{% if perfil.tipo.id == 3 or perfil.tipo.id == 4 %}
 <a href="/adminEntidad/add/video/">Agregar Nuevo Video</a><br><br>
 {% endif %}
 {% if videos %} 

@@ -8,12 +8,13 @@ from imagenes.models import Imagen
 from tags.models import Tag
 from videos.models import Video
 from documentos.models import Documento
+import datetime
 
 class Noticia(models.Model):
 	titulo = models.CharField(max_length=255)
 	lead = models.TextField()
 	contenido = models.TextField()
-	fecha = models.DateField()
+	fecha = models.DateTimeField(auto_now_add=True)
 	direccion_web = models.URLField(blank=True)
 	imagen_principal = models.ForeignKey(Imagen, related_name='imagenprincipal_noticias')
 	

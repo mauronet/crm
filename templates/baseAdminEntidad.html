@@ -38,11 +38,10 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/adminEntidad/">Administrador Canal ZOOM {% if not perfil.entidad %}(No tiene asociada una entidad){% else %} - {{perfil.entidad}}{% endif %}
-</a>
+            <a class="navbar-brand" href="/adminEntidad/">Administrador Canal ZOOM {% if perfil.entidad %} - {{perfil.entidad}}{% endif %} {%if perfil.tipo.id == 3 and not perfil.entidad %}(No tiene una entidad asignada){% endif %}</a>
           </div>
           <div class="navbar-collapse collapse">
-            {% if perfil.entidad %}
+            {% if perfil.tipo.id == 3 and perfil.entidad %}
             <ul class="nav navbar-nav">
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Multimedia <span class="caret"></span></a>
@@ -59,9 +58,27 @@
                   <li><a href="/adminEntidad/comentarios/">Moderar Comentarios</a></li>
                 </ul>
               </li>
-              <li><a href="/adminEntidad/programas/">Programas</a></li>
+              <li><a href="/adminEntidad/programas/">Programas</a></li>   
+            </ul>
+            {% endif %}
 
-              
+            {% if perfil.tipo.id == 4 %}
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Multimedia <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="/adminEntidad/imagenes/page/1/">Imagenes</a></li>
+                  <li><a href="/adminEntidad/videos/page/1/">Videos</a></li>
+                  <li><a href="/adminEntidad/documentos/page/1/">Documentos</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="/adminEntidad/blogs/">Lista de Blogs</a></li>
+                  <li><a href="/adminEntidad/comentarios/">Moderar Comentarios</a></li>
+                </ul>
+              </li>
             </ul>
             {% endif %}
             <ul class="nav navbar-nav navbar-right">

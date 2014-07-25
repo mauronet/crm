@@ -1,7 +1,7 @@
 {% extends 'baseAdminEntidad.html' %}
 {% block content%} 
 <h3>Lista de documentos</h3>
-{% if perfil.tipo.id == 3 %}
+{% if perfil.tipo.id == 3 or perfil.tipo.id == 4%}
 <a href="/adminEntidad/add/documento/">Agregar Nuevo Documento</a><br><br>
 {% endif %}
 {% if documentos %} 

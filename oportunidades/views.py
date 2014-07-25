@@ -18,7 +18,7 @@ from tipos_usuario.models import TipoUsuario
 from django.http import HttpResponseRedirect
 from paginas.models import Pagina
 
-def oportunidades_view(request,pagina=1):
+def oportunidades_view(request,id_pagina=1):
 	pagina = Pagina.objects.get(id=17)
 	listaFranjas = Franja.objects.filter()
 	listaEntidades = Entidad.objects.filter(activo=True)
@@ -70,7 +70,7 @@ def oportunidades_view(request,pagina=1):
 	    paginas += [str(numPagina+1)]
 
 	try:
-		page = int(pagina)
+		page = int(id_pagina)
 	except:
 		page = 1
 	try:

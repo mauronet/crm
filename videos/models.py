@@ -6,18 +6,21 @@ from entidades.models import Entidad
 from categorias.models import Categoria
 from django.core.validators import RegexValidator
 from tipos_videos.models import TipoVideo 
+from userprofiles.models import UserProfile
 
 class Video(models.Model):
 	nombre = models.CharField(max_length=255)
 	descripcion = models.TextField(blank=True)
 	tipo = models.ForeignKey(TipoVideo, default=1)
-	creado_por = models.ForeignKey(Entidad, default=1, related_name='defaultEntidad')
+	creado_para = models.ForeignKey(Entidad, default=1, blank=True, null=True, related_name='defaultEntidad')
+	creado_por = models.ForeignKey(UserProfile,default=2)
 	codigo = models.CharField(max_length=255)
 	creditos =  models.TextField(blank=True)
 	categorias = models.ManyToManyField(Categoria, blank=True)
 	tags = models.ManyToManyField(Tag, blank=True)
 	franjas = models.ManyToManyField(Franja, blank=True)
 	entidades = models.ManyToManyField(Entidad, blank=True)
+	visto = models.SmallIntegerField(default=0)
 
 	def __unicode__(self):
 		return self.nombre

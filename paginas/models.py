@@ -9,6 +9,6 @@ class Pagina(models.Model):
 	banner_izquierdo = models.ForeignKey(BannerPublicidad, blank=True, related_name='banner2', null=True)
 	banner_derecho = models.ForeignKey(BannerPublicidad, blank=True, related_name='banner3', null=True)
 	banner_inferior = models.ForeignKey(BannerPublicidad, blank=True, related_name='banner4', null=True)
-	
+	banner_robapagina  = models.ForeignKey(BannerPublicidad, blank=True, related_name='banner5', null=True)
 	def __unicode__(self):
 		return self.nombre

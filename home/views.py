@@ -26,6 +26,7 @@ from eventos.models import Evento
 from entidades.models import Entidad
 from django.core.mail import EmailMultiAlternatives
 from paginas.models import Pagina
+from datetime import datetime 
 
 import time, hashlib, random
 #import twitter
@@ -58,15 +59,16 @@ def index_view(request):
 			esHorarioManana = False
 
 	oportunidades = Oportunidad.objects.order_by("-id")[:3]
-	eventos = Evento.objects.order_by("-id")[:3]
+	eventos = Evento.objects.filter(fin__gte=datetime.now()).order_by("inicio")[:3]
 	aliados = Entidad.objects.filter(tipo__id=3,activo=True)
 
+	horarioProgramacionActual = HorarioProgramacion.objects.get(id=id_horario)
 	ctx = {
 		'items':items,
 		'carrusel':carrusel,
 		'videos':videos,
 		'programacionDia':programacionDia,
-		'id_horario':id_horario,
+		'horarioProgramacionActual':horarioProgramacionActual,
 		'esHorarioManana':esHorarioManana,
 		'oportunidades':oportunidades,
 		'eventos':eventos,
@@ -281,6 +283,18 @@ def perfil_view(request):
 
 	else:
 		return HttpResponseRedirect('/login/')
+
+def verperfil_view(request,id_perfil):
+	pagina = Pagina.objects.get(id=19)
+	try:
+		perfil = UserProfile.objects.get(id=id_perfil)
+		perfil.biografia = "<br>".join(perfil.biografia.split("\n"))
+	except ObjectDoesNotExist:
+		return HttpResponseRedirect('/')
+	ctx = {
+		'perfil':perfil,
+	}
+	return render(request,'home/verperfil.html',ctx)
 
 def getProgramacionDia(fechaDia):
 	horariosProgramacion = HorarioProgramacion.objects.filter().order_by('manana')
