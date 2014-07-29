@@ -41,13 +41,12 @@ display:none;
     line-height:0px;
 }
 .nbs-flexisel-item img {
-    width: 100%;
     cursor: pointer;
     position: relative;
     margin-top: 10px;
     margin-bottom: 10px;
-    max-width:150px;
-    max-height:65px;
+    max-width:164px;
+    max-height:94px;
 }
 
 /*** Navigation ***/

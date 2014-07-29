@@ -27,6 +27,7 @@ from entidades.models import Entidad
 from django.core.mail import EmailMultiAlternatives
 from paginas.models import Pagina
 from datetime import datetime 
+from django.utils import timezone
 
 import time, hashlib, random
 #import twitter
@@ -59,7 +60,7 @@ def index_view(request):
 			esHorarioManana = False
 
 	oportunidades = Oportunidad.objects.order_by("-id")[:3]
-	eventos = Evento.objects.filter(fin__gte=datetime.now()).order_by("inicio")[:3]
+	eventos = Evento.objects.filter(fin__gte=timezone.now()).order_by("inicio")[:3]
 	aliados = Entidad.objects.filter(tipo__id=3,activo=True)
 
 	horarioProgramacionActual = HorarioProgramacion.objects.get(id=id_horario)

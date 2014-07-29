@@ -67,56 +67,60 @@ $(window).load(function() {
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
               {% for noticia in carrusel.noticias.all %}
-              <div class="item {% if forloop.counter == 1%}active{% endif %}">
-                <a href="/noticias/{{ noticia.id }}/">
-                	<img src="/media/{{noticia.imagen_principal.archivo}}" style="width:750px;height:420px">
-	                <div class="carousel-caption infoCarrusel">
-	                  <h4 class="tituloCarrusel">{{ noticia.titulo }}</h4>
-	                  <span class="leadCarrusel">{% autoescape off %}{{ noticia.lead|slice:":255" }}{% endautoescape %}...</span>
-	                </div>
-                </a>
+              <div class="item tiempoItem {% if forloop.counter == 1%}active{% endif %}">
+                <center>
+                  <a href="/noticias/{{ noticia.id }}/">
+                  	<img src="/media/{{noticia.imagen_principal.archivo}}" class="imagenCarrusel">
+  	                <div class="carousel-caption infoCarrusel">
+  	                  <h4 class="tituloCarrusel">{{ noticia.titulo }}</h4>
+  	                </div>
+                  </a>
+                </center>
               </div>
               {% endfor %}
               {% for oportunidad in carrusel.oportunidades.all %}
-              <div class="item">
-                <a href="/oportunidades/{{ oportunidad.id }}/">
-                	<img src="/media/{{oportunidad.imagen_principal.archivo}}" style="width:750px;height:420px">
-	                <div class="carousel-caption infoCarrusel">
-	                  <h4 class="tituloCarrusel">{{ oportunidad.nombre }}</h4>
-	                  <span class="leadCarrusel">{% autoescape off %}{{ oportunidad.descripcion|slice:":255" }}{% endautoescape %}... </a></span>
-	                </div>
-                </a>
+              <div class="item tiempoItem">
+                <center>
+                  <a href="/oportunidades/{{ oportunidad.id }}/">
+                  	<img src="/media/{{oportunidad.imagen_principal.archivo}}" class="imagenCarrusel">
+  	                <div class="carousel-caption infoCarrusel">
+  	                  <h4 class="tituloCarrusel">{{ oportunidad.nombre }}</h4>
+  	                </div>
+                  </a>
+                </center>
               </div>
               {% endfor %}
               {% for evento in carrusel.eventos.all %}
-              <div class="item">
-                <a href="/eventos/{{ evento.id }}/">
-                	<img src="/media/{{evento.imagen_principal.archivo}}" style="width:750px;height:420px">
-	                <div class="carousel-caption infoCarrusel">
-	                  <h4 class="tituloCarrusel">{{ evento.nombre }}</h4>
-	                  <span class="leadCarrusel">{% autoescape off %}{{ evento.descripcion|slice:":255" }}{% endautoescape %}... <a href="/eventos/{{ evento.id }}/"><small>Leer mas</small></a></span>
-	                </div>
-                </a>
+              <div class="item tiempoItem">
+                <center>
+                  <a href="/eventos/{{ evento.id }}/">
+                  	<img src="/media/{{evento.imagen_principal.archivo}}" class="imagenCarrusel">
+  	                <div class="carousel-caption infoCarrusel">
+  	                  <h4 class="tituloCarrusel">{{ evento.nombre }}</h4>
+  	                </div>
+                  </a>
+                </center>
               </div>
               {% endfor %}
               {% for entrada in carrusel.entradas.all %}
-              <div class="item">
-                <a href="/entradas/{{ entrada.id }}/">
-                	<img src="/media/{{entrada.imagen_principal.archivo}}" style="width:750px;height:420px">
-	                <div class="carousel-caption infoCarrusel">
-	                  <h4 class="tituloCarrusel">{{ entrada.titulo }}</h4>
-	                  <span class="leadCarrusel">{% autoescape off %}{{ entrada.lead|slice:":255" }}{% endautoescape %}...</span>
-	                </div>
-                </a>
+              <div class="item tiempoItem">
+                <center>
+                  <a href="/entradas/{{ entrada.id }}/">
+                  	<img src="/media/{{entrada.imagen_principal.archivo}}" class="imagenCarrusel">
+  	                <div class="carousel-caption infoCarrusel">
+  	                  <h4 class="tituloCarrusel">{{ entrada.titulo }}</h4>
+  	                </div>
+                  </a>
+                </center>
               </div>
               {% endfor %}
             </div>
 
             <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <a class="left carousel-control" href="#ccarousel-zoom" role="button" data-slide="prev">
               <span class="glyphicon glyphicon-chevron-left"></span>
             </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <a class="right carousel-control" href="#carousel-zoom" role="button" data-slide="next">
               <span class="glyphicon glyphicon-chevron-right"></span>
             </a>
           </div>
@@ -154,6 +158,64 @@ $(window).load(function() {
           <!-- END VIDEOS --> 
         </div>
       </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+        <!-- OPORTUNIDADES DESTACADAS -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Últimas Oportunidades</h3>
+              </div>
+              <div class="panel-body panelOportunidades">
+                {% for oportunidad in oportunidades %}
+                <div class="media">
+                  <a href="/oportunidades/{{ oportunidad.id }}/" class="pull-left">
+                  <img class="media-object" src="/media/{{ oportunidad.imagen_principal.archivo }}" alt="Imagen {{ oportunidad.nombre }}" width="60" >
+                    </a>
+                  <div class="media-body">
+                    <a href="/oportunidades/{{ oportunidad.id }}/">
+                    <h4 class="media-heading">{{ oportunidad.nombre }}</h4></a>
+                    <p class="parrafoItem">{% autoescape off %}{{ oportunidad.descripcion|slice:":255" }}{% endautoescape %}... <a href="/oportunidades/{{ oportunidad.id }}/"><small>Leer mas</small></a></p>
+                  </div>
+                </div>
+                <hr>
+                {% endfor %}
+              </div>
+            </div>              
+          </section>
+          <!-- END OPORTUNIDADES DESTACADAS -->            
+        </div>
+
+        <div class="col-md-6">
+        <!-- PROXIMOS EVENTOS -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Próximos Eventos</h3>
+              </div>
+              <div class="panel-body panelEventos">
+                {% for evento in eventos %}
+                <div class="media">
+                  <a href="/eventos/{{ evento.id }}/" class="pull-left">
+                  <img class="media-object" src="/media/{{ evento.imagen_principal.archivo }}" alt="Imagen {{ evento.nombre }}" width="60" >
+                    </a>
+                  <div class="media-body">
+                    <a href="/eventos/{{ evento.id }}/">
+                    <h4 class="media-heading">{{ evento.nombre }}</h4></a>
+                    <p class="parrafoItem">{% autoescape off %}{{ evento.descripcion|slice:":255" }}{% endautoescape %}... <a href="/eventos/{{ evento.id }}/"><small>Leer mas</small></a></p>
+                  </div>
+                </div>
+                <hr>
+                {% endfor %}
+              </div>
+            </div>              
+          </section>            
+          <!-- END PROXIMOS EVENTOS -->
+        </div>
+      </div>
+
 
       <div class="row">
         <div class="col-md-4">
@@ -247,62 +309,6 @@ $(window).load(function() {
         </div>
       </section>
 
-
-      <div class="row">
-        <div class="col-md-6">
-        <!-- OPORTUNIDADES DESTACADAS -->
-          <section>
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <h3 class="panel-title">Ultimas Oportunidades</h3>
-              </div>
-              <div class="panel-body panelOportunidades">
-                {% for oportunidad in oportunidades %}
-                <div class="media">
-                	<a href="/oportunidades/{{ oportunidad.id }}/" class="pull-left">
-                	<img class="media-object" src="/media/{{ oportunidad.imagen_principal.archivo }}" alt="Imagen {{ oportunidad.nombre }}" width="60" >
-                  	</a>
-                  <div class="media-body">
-                    <a href="/oportunidades/{{ oportunidad.id }}/">
-                    <h4 class="media-heading">{{ oportunidad.nombre }}</h4></a>
-                    <p class="parrafoItem">{% autoescape off %}{{ oportunidad.descripcion|slice:":255" }}{% endautoescape %}... <a href="/oportunidades/{{ oportunidad.id }}/"><small>Leer mas</small></a></p>
-                  </div>
-                </div>
-                <hr>
-                {% endfor %}
-              </div>
-            </div>              
-          </section>
-          <!-- END OPORTUNIDADES DESTACADAS -->            
-        </div>
-
-        <div class="col-md-6">
-        <!-- PROXIMOS EVENTOS -->
-          <section>
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <h3 class="panel-title">Proximos Eventos</h3>
-              </div>
-              <div class="panel-body panelEventos">
-                {% for evento in eventos %}
-                <div class="media">
-                	<a href="/eventos/{{ evento.id }}/" class="pull-left">
-                	<img class="media-object" src="/media/{{ evento.imagen_principal.archivo }}" alt="Imagen {{ evento.nombre }}" width="60" >
-                  	</a>
-                  <div class="media-body">
-                    <a href="/eventos/{{ evento.id }}/">
-                    <h4 class="media-heading">{{ evento.nombre }}</h4></a>
-                    <p class="parrafoItem">{% autoescape off %}{{ evento.descripcion|slice:":255" }}{% endautoescape %}... <a href="/eventos/{{ evento.id }}/"><small>Leer mas</small></a></p>
-                  </div>
-                </div>
-                <hr>
-                {% endfor %}
-              </div>
-            </div>              
-          </section>            
-          <!-- END PROXIMOS EVENTOS -->
-        </div>
-      </div>
 
       <div class="row">
         <div class="col-md-12">

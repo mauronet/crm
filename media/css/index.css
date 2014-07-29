@@ -95,3 +95,8 @@
     color: #424242;
     padding: 7px;
 }
+
+.imagenCarrusel{
+    max-width:750px;
+    max-height:420px    
+}

@@ -11,7 +11,19 @@
 {% endblock %}
 
 {% block description %} {{ noticia.lead }} {% endblock %}
-{% block cssTag %}<link href="/media/css/noticia.css" rel="stylesheet">{% endblock %}
+{% block cssTag %}
+    <link href="/media/css/noticia.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/media/css/styleGallery.css" />
+    <link rel="stylesheet" type="text/css" href="/media/css/elastislide.css" />
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow&v1' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css' />
+    <style>
+      .es-carousel ul{
+        display:block;
+      }
+    </style>    
+{% endblock %}
 
 {% block scriptTag %}
 <div id="fb-root"></div>
@@ -22,6 +34,29 @@
   js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=257656264425434&version=v2.0";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
+{% endblock %}
+
+{% block scriptTag2 %}
+<script id="img-wrapper-tmpl" type="text/x-jquery-tmpl">  
+  <div class="rg-image-wrapper">
+      <div class="rg-image-nav">
+        <a href="#" class="rg-image-nav-prev">Previous Image</a>
+        <a href="#" class="rg-image-nav-next">Next Image</a>
+      </div>
+    <div class="rg-image"></div>
+    <div class="rg-loading"></div>
+    <div class="rg-caption-wrapper">
+      <div class="rg-caption" style="display:none;">
+        <p></p>
+      </div>
+    </div>
+  </div>
+</script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="/media/js/jquery.tmpl.min.js"></script>
+<script type="text/javascript" src="/media/js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="/media/js/jquery.elastislide.js"></script>
+<script type="text/javascript" src="/media/js/gallery.js"></script>
 {% endblock %}
 
 {% block imagenPublicidadHeader %}
@@ -109,13 +144,28 @@
               <h3 class="panel-title">Imágenes Adicionales</h3>
             </div>
             <div class="panel-body">
-              {% for imagen in noticia.imagenes_adicionales.all %}
-                <div class="col-xs-6 col-md-3">
-                  <a href="/imagenes/{{ imagen.id }}/" class="thumbnail">
-                    <img src="/media/{{ imagen.archivo }}" alt="Imagen - {{ imagen.nombre }}">
-                  </a>
-                </div>
-              {% endfor %}
+
+              <div id="rg-gallery" class="rg-gallery">
+                <div class="rg-thumbs">
+                  <!-- Elastislide Carousel Thumbnail Viewer -->
+                  <div class="es-carousel-wrapper">
+                    <div class="es-nav">
+                      <span class="es-nav-prev">Previous</span>
+                      <span class="es-nav-next">Next</span>
+                    </div>
+                    <div class="es-carousel">
+                      <ul>
+                        {% for imagen in noticia.imagenes_adicionales.all %}
+                        <li><a href="/imagenes/{{ imagen.id }}/"><img src="/media/{{ imagen.archivo }}" data-large="/media/{{ imagen.archivo }}" alt="Imagen - {{ imagen.nombre }}" data-description="{{ imagen.nombre }}" /></a></li>
+                        {% endfor %}
+                        <li><a href="#"><img src="/media/img/finGaleria.jpg" data-large="/media/img/finGaleria.jpg" alt=" " data-description=" " style="height: 0px; width: 0px; border: 0px;"/></a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- End Elastislide Carousel Thumbnail Viewer -->
+                </div><!-- rg-thumbs -->
+              </div><!-- rg-gallery -->
+
             </div>
           </div>
           {% endif %}
