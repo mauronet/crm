@@ -30,3 +30,11 @@
 .cajaItem{
     min-height:300px;
 }
+
+.fill {
+    margin-bottom: -99999px;
+    padding-bottom: 99999px;
+    background-image: url('/media/img/fishBackBlue.png');
+    background-repeat:repeat-y;
+    background-position:center;
+}

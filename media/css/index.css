@@ -1,5 +1,5 @@
 .programacion{
-    max-height: 170px;
+    max-height: 220px;
     overflow-y:scroll; 
     overflow-x:scroll;
 }
@@ -97,6 +97,7 @@
 }
 
 .imagenCarrusel{
-    max-width:750px;
-    max-height:420px    
+    width:750px;
+    height:420px    
 }
+

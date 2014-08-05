@@ -82,8 +82,8 @@
           </ol>
         </div>
       </div>
-      <div class="row">
-        <div class="hidden-xs hidden-sm col-md-2">
+      <div class="row" style="overflow: hidden;">
+        <div class="hidden-xs hidden-sm col-md-2 fill">
           <!-- BANNER IZQUIERDO -->
           <center>
           {% if pagina.banner_izquierdo %}
@@ -93,8 +93,10 @@
             {% else %}
               <div style="width:{{pagina.banner_izquierdo.tamano.ancho}};height:{{pagina.banner_izquierdo.tamano.alto}};">{% autoescape off %}{{ pagina.banner_izquierdo.codigo_html }}{% endautoescape %}</div>
             {% endif %}
+          {%else%}
+            &nbsp;
           {% endif %}
-          </center>         
+          </center>
         </div>
         <article class="col-md-8">
           <!-- NOTICIA -->
@@ -349,7 +351,7 @@
         </article>
 
 
-        <div  class="hidden-xs hidden-sm col-md-2">
+        <div class="hidden-xs hidden-sm col-md-2 fill">
           <!-- BANNER DERECHO -->          
           <center>
             {% if pagina.banner_derecho %}
@@ -359,6 +361,8 @@
               {% else %}
                 <div style="width:{{pagina.banner_derecho.tamano.ancho}};height:{{pagina.banner_derecho.tamano.alto}};">{% autoescape off %}{{ pagina.banner_derecho.codigo_html }}{% endautoescape %}</div>
               {% endif %}
+            {%else%}
+              &nbsp;
             {% endif %}
           </center>         
         </div>
