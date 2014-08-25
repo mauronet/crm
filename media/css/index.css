@@ -1,33 +1,68 @@
 .programacion{
-    max-height: 220px;
+    max-height: 260px;
     overflow-y:scroll; 
-    overflow-x:scroll;
+    overflow-x:hidden;
+}
+
+.casillaProgramacion{
+    display: inline-block;
+    width:220px;
+    text-align: left;
+    overflow-x:hidden;
+    padding: 8px;
+    line-height: 120%;
+}
+
+.casillaActiva{
+    color: #81BEF7;
+    background-color: #6E6E6E;
+}
+
+.casillaNoActiva{
+    color: #D8D8D8;
+    background-color: #6E6E6E;
+}
+
+.letraProgramacion{
+    margin-top:5px;
+    margin-bottom:5px;
+}
+
+.letraHora{
+    font-size: 110%;
+    color: #FE9A2E;
 }
 
 .programacionContent{
-	width: 1000px;
+	/*width: 1000px;*/
 }
 
 .panelVideos{
-    max-height: 380px;
-    overflow-y:scroll; 
+    max-height: 240px;
+    overflow-y:hidden; 
 }
 
 .panelNoticias{
     height: 450px;
     overflow-y:scroll; 
 }
+
 .panelAliados{
     height: 120px;
 }
 
-.panelOportunidades{
-    height: 300px;
+.panelEfemerides{
+    height: 250px;
+    overflow-y:scroll; 
+}
+
+.panelNoticiasDestacadas{
+    height: 310px;
     overflow-y:scroll; 
 }
 
 .panelEventos{
-    height: 300px;
+    height: 250px;
     overflow-y:scroll; 
 }
 
@@ -74,14 +109,15 @@
 }
 
 .imagenThumbnail{
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .tituloThumbnail{
     text-align:right;
     font-size: 0.8em;
     color: #424242;
+    padding: 1px;
 }
 
 .parrafoItem{
@@ -93,11 +129,65 @@
     text-align:right;
     font-size: 0.8em;
     color: #424242;
-    padding: 7px;
+    padding: 0px;
 }
 
 .imagenCarrusel{
-    width:750px;
-    height:420px    
+    width:425px;
+    height:220px    
 }
 
+.panelActualidad{
+    height: 260px;
+}
+
+.panelSenalEnVivo{
+    height: 260px;
+}
+
+.parrafoLead{
+    text-align:justify;
+    font-size: 1em;
+    color: #424242;
+    padding: 0px;
+}
+
+.imagenItem{
+    display: inline;
+    margin-bottom: 10px;
+    max-height:150px;
+    max-width:300px;
+    padding: 6px;
+}
+
+.tituloEvento{
+    text-align:left;
+    font-size: 0.8em;
+    color: #424242;
+    padding: 2px !important;
+}
+
+.parrafoFecha{
+    text-align:left;
+    font-size: 0.8em;
+    color: #424242;
+    padding: 4px;
+    font-weight: bold;
+}
+
+.cajaEvento{
+    padding: 4px;
+    margin: 4px;
+}
+
+.panelEncuesta{
+    height: 250px;
+    overflow-y:scroll; 
+}
+
+.parrafoPreguntas{
+    text-align:right;
+    font-size: 0.8em;
+    color: #424242;
+    padding: 0px;
+}

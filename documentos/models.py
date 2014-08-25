@@ -10,6 +10,5 @@ class Documento(models.Model):
 	creado_por = models.ForeignKey(UserProfile,default=2)
 	archivo = ContentTypeRestrictedFileField(upload_to='documents', content_types=['application/pdf', 'application/msword', ],max_upload_size=5242880)
 
-
 	def __unicode__(self):
 		return self.nombre

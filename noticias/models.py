@@ -14,7 +14,8 @@ class Noticia(models.Model):
 	titulo = models.CharField(max_length=255)
 	lead = models.TextField()
 	contenido = models.TextField()
-	fecha = models.DateTimeField(auto_now_add=True)
+	now = datetime.datetime.now()
+	fecha = models.DateTimeField(default=now)
 	direccion_web = models.URLField(blank=True)
 	imagen_principal = models.ForeignKey(Imagen, related_name='imagenprincipal_noticias')
 	

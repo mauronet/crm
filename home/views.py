@@ -15,6 +15,7 @@ from userprofiles.models import UserProfile
 from tipos_usuario.models import TipoUsuario
 from django.core.exceptions import ObjectDoesNotExist
 from carrusel.models import Carrusel
+from noticias_destacadas.models import NoticiasDestacadas
 from videos.models import Video
 from datetime import date
 from programaciones.models import Programacion
@@ -24,10 +25,14 @@ from datetime import datetime
 from oportunidades.models import Oportunidad
 from eventos.models import Evento
 from entidades.models import Entidad
+from encuestas.models import Encuesta
 from django.core.mail import EmailMultiAlternatives
 from paginas.models import Pagina
+from noticias.models import Noticia
+from respuestas_encuestas.models import RespuestaEncuesta
 from datetime import datetime 
 from django.utils import timezone
+from django.db.models import Q
 
 import time, hashlib, random
 #import twitter
@@ -37,6 +42,7 @@ import pdb
 def index_view(request):
 	#Carrusel
 	carrusel = get_object_or_404(Carrusel, id=1)
+	noticiasDestacadas = get_object_or_404(NoticiasDestacadas, id=1)
 	pagina = Pagina.objects.get(id=1)
 	numeroItems = carrusel.noticias.count() + carrusel.oportunidades.count() + carrusel.eventos.count() + carrusel.entradas.count()
 	items = [] # array utilizado para el despliegue de controles del carrusel
@@ -44,7 +50,7 @@ def index_view(request):
 		items.append(i)
 
 	#Videos
-	videos = Video.objects.order_by("-id")[:3]
+	videos = Video.objects.order_by("-id")[:6]
 
 	#Programacion
 	programacionDia = getProgramacionDia(date.today())
@@ -59,11 +65,37 @@ def index_view(request):
 			id_horario = horario.id
 			esHorarioManana = False
 
-	oportunidades = Oportunidad.objects.order_by("-id")[:3]
-	eventos = Evento.objects.filter(fin__gte=timezone.now()).order_by("inicio")[:3]
+	eventos = Evento.objects.filter(fin__gte=timezone.now()).order_by("inicio")[:4]
 	aliados = Entidad.objects.filter(tipo__id=3,activo=True)
+	encuestas = Encuesta.objects.filter(activa=True)[:1]
+	encuesta = encuestas[0]
+
+	totalVotos = 0
+	for respuesta in encuesta.respuestas.all():
+		totalVotos += respuesta.votos
+
+	porcentajes = []
+	for respuesta in encuesta.respuestas.all():
+		if totalVotos == 0:
+			value = 0
+		else:
+			value = ( respuesta.votos * 100 ) / totalVotos
+		porcentajes.append(value)
+
+	resultados = zip(encuesta.respuestas.all(), porcentajes)
 
 	horarioProgramacionActual = HorarioProgramacion.objects.get(id=id_horario)
+
+	yaVoto = ""
+	if "yaVoto" in request.session:
+		yaVoto = request.session["yaVoto"]
+	else:
+		request.session["yaVoto"] = "False"
+
+	filters = Q()
+	filters = filters & Q(categorias__id__in = [6])
+	noticiasEfemerides = Noticia.objects.filter(filters).order_by("-id")[:3]
+
 	ctx = {
 		'items':items,
 		'carrusel':carrusel,
@@ -71,11 +103,16 @@ def index_view(request):
 		'programacionDia':programacionDia,
 		'horarioProgramacionActual':horarioProgramacionActual,
 		'esHorarioManana':esHorarioManana,
-		'oportunidades':oportunidades,
 		'eventos':eventos,
 		'aliados':aliados,
 		'pagina':pagina,
+		'noticiasDestacadas':noticiasDestacadas,
+		'encuesta':encuesta,
+		'resultados':resultados,
+		'yaVoto':yaVoto,
+		'noticiasEfemerides':noticiasEfemerides,
 	}
+	#pdb.set_trace()
 	return render(request, 'home/index.html',ctx)
 
 def senal_en_vivo_view(request):
@@ -373,3 +410,14 @@ def change_password_view(request, activation_key):
 
 def lista_fees_view(request):
 	return render(request,'home/feeds.html')	
+
+def responder_encuesta_view(request):
+	if request.method == "POST":
+		if "encuestaId" in request.POST:
+			encuestaId = request.POST['encuestaId']
+			respuestaId = request.POST['respuesta']
+			respuestaEncuesta = RespuestaEncuesta.objects.get(id=respuestaId)
+			respuestaEncuesta.votos += 1
+			respuestaEncuesta.save()
+			request.session["yaVoto"] = "True"
+	return HttpResponseRedirect('/')

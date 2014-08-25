@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^canal/comite programacion/', 'home.views.comite_programacion_view', name='vista_comiteprogramacion'),
     url(r'^canal/comites tecnicos regionales/', 'home.views.comites_tecnicos_regionales_view', name='vista_comitestecnicosregionales'),
     url(r'^canal/documentos/', 'home.views.documentos_view', name='vista_documentos'),
+    url(r'^encuesta/responder/', 'home.views.responder_encuesta_view', name='vista_responder_encuesta'),
 
     url(r'^IES Afiliadas/page/(?P<id_pagina>.*)/$', 'entidades.views.entidades_view', name='vista_entidades'),
     url(r'^IES Afiliadas/entidades/(?P<id_entidad>.*)/$', 'entidades.views.ies_view', name='vista_ies'),

@@ -13,6 +13,7 @@
     <link href="/media/css/bootstrap-Cerulean.min.css" rel="stylesheet">
     <link href="/media/css/social-buttons-3.css" rel="stylesheet">
     <link href="/media/css/font-awesome.css" rel="stylesheet">
+    <link href="/media/css/base.css" rel="stylesheet">
     <link rel="shortcut icon" href="/media/img/favicon.ico">
     {% block cssTag %} {% endblock %}
 
@@ -42,20 +43,21 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body style="height: 100%;">
+  <body style="height: 100%; background-image: url('/media/{{ fondoPrincipal.archivo }}');">
     <div class="container" style="height: 100%;">
       <header>
         <div class="row">
           <!-- LOGO -->
           <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
             <figure id="logo">
-              <img src="/media/img/logozoom.jpg" alt="Logo Canal Zoom">
+              <img src="/media/img/logozoom.png" alt="Logo Canal Zoom">
             </figure>
           </div>
-          <!-- PUBLICIDAD -->
-          <div class="hidden-xs hidden-sm hidden-md col-lg-7">
+          
+          <div class="hidden-xs hidden-sm hidden-md col-lg-10">
+            <!-- PUBLICIDAD -->
             <div class="row" style="height:10px"></div>
-            <div class="row">
+            <div class="row" style="height:120px">
               <div class="col-md-12 text-center" style="vertical-align:middle;">
                 <figure id="publicidad">
                   <center>
@@ -64,82 +66,58 @@
                 </figure>
               </div>
             </div>
+
             <div class="row">
-              <h1 style="font-size:xx-small;color:white">{% block h1 %} H1 Base {% endblock %}</h1>
+              <h1 style="font-size:xx-small;color:white; display: none;">{% block h1 %} H1 Base {% endblock %}</h1>
             </div>
-          </div>
-          <div class="col-xs-8 col-sm-8 col-md-8 col-lg-3">
-            <div class="row" style="height:10px"></div>
-            <!-- MANEJO DE USUARIOS -->
-            <div class="row" style="height:20px">
-              {% if user.is_authenticated %}
-                <div class="col-md-12 text-right">
-                  <strong style="text-align:right;">
-                    Bienvenido <a href="/mi perfil/">{{ user.username }}</a>
-                    {% if perfil %}
-                      {% if perfil.tipo.id == 3 or perfil.tipo.id == 4 %}
-                      <br><a href="/adminEntidad/"  target="_blank">Modulo Administrador</a><br>
-                      {% elif perfil.tipo.id == 1%}
-                      <br><a href="/admin/" target="_blank">Modulo Administrador</a><br>
-                      {% endif %}
-                    {% endif %}
-                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="/logout/">Salir <i class="fa fa-sign-out"></i></a>
-                  </strong>
-                </div>
-              {% else %}
-                <div class="col-md-12 text-right">
-                  <strong><a href="/registro/">Registro <i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url "vista_login" %}">Ingresar <i class="fa fa-sign-in"></i></a></strong>
-                </div>
-              {% endif %}
+            <div class="row" style="height:6px"></div>
+            <div class="row" style="height:28px">
+              <div class="col-md-12 text-right">
+
+                <!-- REDES SOCIALES -->
+                <span>
+                  <a href="https://www.facebook.com/CanalZOOM" target="_blank">
+                    <img class="img-circle" src="/media/img/facebook_icon.png" width="28" alt="Facebook Canal Zoom">
+                  </a>
+                </span>
+                <span>
+                  <a href="https://twitter.com/canalzoomtv" target="_blank">
+                    <img class="img-circle" src="/media/img/twitter_icon.png" width="28" alt="Twitter Canal Zoom">
+                  </a>
+                </span>
+                <span>
+                  <a href="http://instagram.com/tvzoomgram" target="_blank">
+                    <img class="img-circle" src="/media/img/instagram_icon.png" width="28" alt="Instagram Canal Zoom">
+                  </a>
+                </span>
+                <span>
+                  <a href="https://www.youtube.com/user/ZoomCanal" target="_blank">
+                    <img class="img-circle" src="/media/img/youtube_icon.png" width="28" alt="Youtube Canal Zoom">
+                  </a>
+                </span>
+                <span>
+                  <a href="/feeds/">
+                    <img class="img-circle" src="/media/img/rss_icon.png" width="28" alt="RSS Canal Zoom">
+                  </a>
+                </span>
+              </div>
             </div>
-            <div class="row" style="height:20px"></div>
             <!-- BUSQUEDA -->     
-            <div class="row">
+            <!--<div class="row">
               <div class="col-md-9 col-md-offset-3 text-right">
                 <div style="height:15px;">
                 </div>
-                <!--<div class="form-group">
+                <div class="form-group">
                   <div class="input-group">
                     <input type="text" class="form-control">
                     <span class="input-group-btn">
                       <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
                     </span>
                   </div>
-                </div>-->
+                </div>
               </div>
-            </div>            
+            </div>-->            
             <div class="row" style="height:5px"></div>
-            <!-- REDES SOCIALES -->
-            <div class="row">
-              <div class="col-md-11 col-md-offset-1 text-right">
-                <span>
-                  <a href="https://www.facebook.com/CanalZOOM" target="_blank">
-                    <img class="img-circle" src="/media/img/facebook_icon.png" width="36" alt="Facebook Canal Zoom">
-                  </a>
-                </span>
-                <span>
-                  <a href="https://twitter.com/canalzoomtv" target="_blank">
-                    <img class="img-circle" src="/media/img/twitter_icon.png" width="36" alt="Twitter Canal Zoom">
-                  </a>
-                </span>
-                <span>
-                  <a href="http://instagram.com/tvzoomgram" target="_blank">
-                    <img class="img-circle" src="/media/img/instagram_icon.png" width="36" alt="Instagram Canal Zoom">
-                  </a>
-                </span>
-                <span>
-                  <a href="https://www.youtube.com/user/ZoomCanal" target="_blank">
-                    <img class="img-circle" src="/media/img/youtube_icon.png" width="36" alt="Youtube Canal Zoom">
-                  </a>
-                </span>
-                <span>
-                  <a href="/feeds/">
-                    <img class="img-circle" src="/media/img/rss_icon.png" width="36" alt="RSS Canal Zoom">
-                  </a>
-                </span>
-              </div>
-            </div>
-            <div class="row" style="height:10px"></div>
           </div>
         </div>
         <!-- BARRA DE NAVEGACION -->
@@ -175,7 +153,6 @@
                   {% endfor %}              
                 </ul>
               </li>
-              <li {% if '/senal en vivo/' in request.path %} class="active"{% endif %}><a href="/senal en vivo/">Señal en Vivo</a></li>
               <li {% if '/programacion/' in request.path %} class="active"{% endif %}><a href="/programacion/">Programación</a></li>
               <li {% if '/franjas/' in request.path %} class="active"{% endif %}>
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Franjas<b class="caret"></b></a>
@@ -200,6 +177,28 @@
               <li {% if '/eventos/' in request.path %} class="active"{% endif %}><a href="/eventos/page/1/">Eventos</a></li>              
               <li {% if '/blogs/' in request.path %} class="active"{% endif %}><a href="/blogs/page/1/">Blogs</a></li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% if user.is_authenticated %}Bienvenido {{ user.username }}{% else %}Login / Registrarse{% endif %}</a>
+                <ul class="dropdown-menu">
+                  <!-- MANEJO DE USUARIOS -->
+                  {% if user.is_authenticated %}
+                      <li><a href="/mi perfil/">Ver mi perfil</a></li>
+                      {% if perfil %}
+                        {% if perfil.tipo.id == 3 or perfil.tipo.id == 4 %}
+                        <li><a href="/adminEntidad/" target="_blank">Modulo Administrador</a></li>
+                        {% elif perfil.tipo.id == 1%}
+                        <li><a href="/admin/" target="_blank">Modulo Administrador</a></li>
+                        {% endif %}
+                      {% endif %}
+                      <li><a href="/logout/">Salir <i class="fa fa-sign-out"></i></a></li>
+                  {% else %}
+                    <li><a href="/registro/">Registro <i class="fa fa-pencil"></i></a></li>
+                    <li><a href="{% url "vista_login" %}">Ingresar <i class="fa fa-sign-in"></i></a></li>
+                  {% endif %}
+                </ul>
+              </li>
+            </ul>
           </div>
         </div>      
       </header>
@@ -215,6 +214,7 @@
             <center>
           </figure>
         </div>
+        <div class="row" style="height:10px;"></div>
         <div class="row text-center">
           <figure id="creditos">
             <center>

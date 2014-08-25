@@ -109,9 +109,11 @@ def noticia_view(request,id_noticia):
 	noticia = get_object_or_404(Noticia, id=id_noticia)
 	noticia.lead = "<br>".join(noticia.lead.split("\n"))	
 	noticia.contenido = "<br>".join(noticia.contenido.split("\n"))
+	isEfemerides = noticia.categorias.filter(id=6).count() > 0
 	ctx = {
 		'noticia':noticia,
 		'pagina':pagina,
+		'isEfemerides':isEfemerides,
 	}
 	return render(request, 'home/noticia.html', ctx)
 

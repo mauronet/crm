@@ -54,69 +54,138 @@ $(window).load(function() {
 
       <!-- CONTENIDO -->
       <div class="row">
-        <div class="col-md-8">
-          <!-- CAROUSEL -->
-          <div id="carousel-zoom" class="carousel slide" data-ride="carousel">
-            <!-- Indicators -->
-            <ol class="carousel-indicators controles">
-              {% for item in items %}
-              <li data-target="#carousel-zoom" data-slide-to="{{item}}" class="{% if forloop.counter == 1%}active{% endif %}"></li>
-              {% endfor %}
-            </ol>
+        <div class="col-md-5">
 
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner">
-              {% for noticia in carrusel.noticias.all %}
-              <div class="item tiempoItem {% if forloop.counter == 1%}active{% endif %}">
-                <center>
-                  <a href="/noticias/{{ noticia.id }}/">
-                  	<img src="/media/{{noticia.imagen_principal.archivo}}" class="imagenCarrusel">
-                  </a>
-                </center>
+        <!-- ACTUALIDAD -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Actualidad ZOOM</h3>
               </div>
-              {% endfor %}
-              {% for oportunidad in carrusel.oportunidades.all %}
-              <div class="item tiempoItem">
-                <center>
-                  <a href="/oportunidades/{{ oportunidad.id }}/">
-                  	<img src="/media/{{oportunidad.imagen_principal.archivo}}" class="imagenCarrusel">
+              <div class="panel-body panelActualidad">
+
+                <!-- CAROUSEL -->
+                <div id="carousel-zoom" class="carousel slide" data-ride="carousel">
+                  <!-- Indicators -->
+                  <ol class="carousel-indicators controles">
+                    {% for item in items %}
+                    <li data-target="#carousel-zoom" data-slide-to="{{item}}" class="{% if forloop.counter == 1%}active{% endif %}"></li>
+                    {% endfor %}
+                  </ol>
+
+                  <!-- Wrapper for slides -->
+                  <div class="carousel-inner">
+                    {% for noticia in carrusel.noticias.all %}
+                    <div class="item tiempoItem {% if forloop.counter == 1%}active{% endif %}">
+                      <center>
+                        <a href="/noticias/{{ noticia.id }}/">
+                        	<img src="/media/{{noticia.imagen_principal.archivo}}" class="imagenCarrusel">
+                        </a>
+                      </center>
+                    </div>
+                    {% endfor %}
+                    {% for oportunidad in carrusel.oportunidades.all %}
+                    <div class="item tiempoItem">
+                      <center>
+                        <a href="/oportunidades/{{ oportunidad.id }}/">
+                        	<img src="/media/{{oportunidad.imagen_principal.archivo}}" class="imagenCarrusel">
+                        </a>
+                      </center>
+                    </div>
+                    {% endfor %}
+                    {% for evento in carrusel.eventos.all %}
+                    <div class="item tiempoItem">
+                      <center>
+                        <a href="/eventos/{{ evento.id }}/">
+                        	<img src="/media/{{evento.imagen_principal.archivo}}" class="imagenCarrusel">
+                        </a>
+                      </center>
+                    </div>
+                    {% endfor %}
+                    {% for entrada in carrusel.entradas.all %}
+                    <div class="item tiempoItem">
+                      <center>
+                        <a href="/entradas/{{ entrada.id }}/">
+                        	<img src="/media/{{entrada.imagen_principal.archivo}}" class="imagenCarrusel">
+                        </a>
+                      </center>
+                    </div>
+                    {% endfor %}
+                  </div>
+
+                  <!-- Controls -->
+                  <a class="left carousel-control" href="#carousel-zoom" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
                   </a>
-                </center>
-              </div>
-              {% endfor %}
-              {% for evento in carrusel.eventos.all %}
-              <div class="item tiempoItem">
-                <center>
-                  <a href="/eventos/{{ evento.id }}/">
-                  	<img src="/media/{{evento.imagen_principal.archivo}}" class="imagenCarrusel">
+                  <a class="right carousel-control" href="#carousel-zoom" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
                   </a>
-                </center>
+                </div>
+                <!-- END CAROUSEL -->
               </div>
-              {% endfor %}
-              {% for entrada in carrusel.entradas.all %}
-              <div class="item tiempoItem">
-                <center>
-                  <a href="/entradas/{{ entrada.id }}/">
-                  	<img src="/media/{{entrada.imagen_principal.archivo}}" class="imagenCarrusel">
-                  </a>
-                </center>
-              </div>
-              {% endfor %}
             </div>
-
-            <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-zoom" role="button" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left"></span>
-            </a>
-            <a class="right carousel-control" href="#carousel-zoom" role="button" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right"></span>
-            </a>
-          </div>
-          <!-- END CAROUSEL -->
-
+          </section>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <!-- PROGRAMACION -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Programación de Hoy</h3>
+              </div>
+              <div class="panel-body programacion">
+                {% for programacionHora in programacionDia %}
+                  {% if esHorarioManana == True %}
+                    {% if programacionHora.horario.id == horarioProgramacionActual.id %}
+                      <h4 class="letraProgramacion"><span class="label label-success casillaProgramacion casillaActiva" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.manana|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
+                    {% elif programacionHora.horario.manana > horarioProgramacionActual.manana %}
+                      <h4 class="letraProgramacion"><span class="label label-primary casillaProgramacion casillaNoActiva" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.manana|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
 
+                {% for programacionHora in programacionDia %}
+                  {% if programacionHora.horario.id == horarioProgramacionActual.id %}
+                    {% if esHorarioManana == False %}
+                      <h4 class="letraProgramacion"><span class="label label-success casillaProgramacion casillaActiva" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.tarde_noche|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
+                    {% else %}
+                      <h4 class="letraProgramacion"><span class="label label-primary casillaProgramacion casillaNoActiva" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.tarde_noche|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
+                    {% endif %}
+                  {% elif programacionHora.horario.tarde_noche > horarioProgramacionActual.tarde_noche %}
+                    <h4 class="letraProgramacion"><span class="label label-primary casillaProgramacion casillaNoActiva" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.tarde_noche|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
+                  {% elif programacionHora.horario.tarde_noche < horarioProgramacionActual.tarde_noche %}
+                    {% if esHorarioManana == True %}
+                      <h4 class="letraProgramacion"><span class="label label-primary casillaProgramacion casillaNoActiva" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.tarde_noche|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              
+              </div>
+            </div>              
+          </section>
+          <!-- END PROGRAMACION -->
+        </div>
+
+
+        <div class="col-md-4">
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Señal en Vivo</h3>
+              </div>
+              <div class="panel-body panelSenalEnVivo">
+                <center>
+                    <iframe src="http://cdn.livestream.com/embed/canalzoomtv?layout=4&amp;color=0x8cb6e5&amp;autoPlay=true&amp;mute=false&amp;iconColorOver=0x5484ba&amp;iconColor=0x386496&amp;allowchat=true" allowfullscreen="" width="320" frameborder="0" height="220"></iframe>
+                </center>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
           <!-- VIDEOS -->
           <section>
             <div class="panel panel-primary">
@@ -124,22 +193,20 @@ $(window).load(function() {
                 <h3 class="panel-title">Ultimos Videos</h3>
               </div>
               <div class="panel-body panelVideos">
-				{% for video in videos %}
-				  <div class="col-md-12">
-				    <div class="thumbnail">		
-				        <div class="col-md-12 imagenThumbnail">
-				        	<a href="/videos/{{ video.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
-				        		<img src="http://img.youtube.com/vi/{{ video.codigo }}/0.jpg" alt="...">
-				        	</a>
-				        </div>
-				        <div class="caption tituloThumbnail">
-					        <a href="/videos/{{ video.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">{{ video.nombre }}
-					        </a>
-				    	</div>
-              <div class="parrafoVistas">Visto: {{ video.visto }} veces</div>
-				    </div>
-				  </div>
-				{% endfor %}
+              {% for video in videos %}
+                <div class="col-md-2 thumbnail">   
+                  <div class="imagenThumbnail">
+                    <a href="/videos/{{ video.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
+                      <img src="http://img.youtube.com/vi/{{ video.codigo }}/0.jpg" alt="...">
+                    </a>
+                  </div>
+                  <div class="caption tituloThumbnail">
+                    <a href="/videos/{{ video.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">{% autoescape off %}{{ video.nombre|slice:":40" }}{% endautoescape %}...
+                    </a>
+                  </div>
+                  <div class="parrafoVistas">Visto: {{ video.visto }} veces</div>
+                </div>
+              {% endfor %}
               </div>
             </div>              
           </section>            
@@ -147,162 +214,180 @@ $(window).load(function() {
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-md-10">
+          <!-- NOTICIAS DESTACADAS -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Noticias Destacadas</h3>
+              </div>
+              <div class="panel-body panelNoticiasDestacadas">
+                <div class="row">
+                {% for noticia in noticiasDestacadas.noticias.all %}
+                  {% if forloop.counter|divisibleby:3 %}
+                  </div>
+                  <div class="row" style="height:16px"></div>
+                  <div class="row">
+                  {% endif %}                  
+                  <div class="col-md-6">   
+                    <a href="/noticias/{{ noticia.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
+                      <img class="img-responsive imagenItem pull-left col-md-4" src="/media/{{ noticia.imagen_principal.archivo }}" alt="Imagen {{ noticia.titulo }}" width="60"><h5 class="media-heading"><b>{% autoescape off %}{{ noticia.titulo }}{% endautoescape %}</b></h5>
+                    </a>
+                    <span class="parrafoLead">{% autoescape off %}{{ noticia.lead|slice:":255" }}{% endautoescape %}</span>
+                  </div>
+                {% endfor %}
+                </div>
+              </div>
+            </div>              
+          </section>
+          <!-- END OPORTUNIDADES DESTACADAS -->
+        </div>
+        <div class="col-md-2" style="padding:0px;">
+          <!-- COMUNIDAD ZOOM -->
+          <img src="/media/img/comunidadZOOM.jpg" class="img-responsive" alt="Comunidad ZOOM" usemap="#communitymap">
+          <map name="communitymap">
+            <area shape="rect" coords="0,80,180,148" href="https://www.youtube.com/user/ZoomCanal" alt="Youtube Canal ZOOM" target="_blank">
+            <area shape="rect" coords="0,149,180,220" href="http://instagram.com/tvzoomgram" alt="Instagram tvzoomgram" target="_blank">
+            <area shape="rect" coords="0,221,180,285" href="https://www.facebook.com/CanalZOOM" alt="Facebook Canal ZOOM" target="_blank">
+            <area shape="rect" coords="0,286,180,350" href="https://twitter.com/canalzoomtv" alt="Twitter @canalzoomtv" target="_blank">
+          </map>
+
+          <!-- END COMUNIDAD ZOOM -->
+        </div>
+      </div>
+
 
       <div class="row">
         <div class="col-md-8">
-          <div class="row">
-          <!-- OPORTUNIDADES DESTACADAS -->
-            <section>
-              <div class="panel panel-primary">
-                <div class="panel-heading">
-                  <h3 class="panel-title">Últimas Oportunidades</h3>
-                </div>
-                <div class="panel-body panelOportunidades">
-                  {% for oportunidad in oportunidades %}
-                  <div class="media">
-                    <a href="/oportunidades/{{ oportunidad.id }}/" class="pull-left">
-                    <img class="media-object" src="/media/{{ oportunidad.imagen_principal.archivo }}" alt="Imagen {{ oportunidad.nombre }}" width="60" >
-                      </a>
-                    <div class="media-body">
-                      <a href="/oportunidades/{{ oportunidad.id }}/">
-                      <h4 class="media-heading">{{ oportunidad.nombre }}</h4></a>
-                      <p class="parrafoItem">{% autoescape off %}{{ oportunidad.descripcion|slice:":255" }}{% endautoescape %}... <a href="/oportunidades/{{ oportunidad.id }}/"><small>Leer mas</small></a></p>
-                    </div>
-                  </div>
-                  <hr>
-                  {% endfor %}
-                </div>
-              </div>              
-            </section>
-            <!-- END OPORTUNIDADES DESTACADAS -->            
-          </div>
-          <div class="row">
           <!-- PROXIMOS EVENTOS -->
-            <section>
-              <div class="panel panel-primary">
-                <div class="panel-heading">
-                  <h3 class="panel-title">Próximos Eventos</h3>
-                </div>
-                <div class="panel-body panelEventos">
-                  {% for evento in eventos %}
-                  <div class="media">
-                    <a href="/eventos/{{ evento.id }}/" class="pull-left">
-                    <img class="media-object" src="/media/{{ evento.imagen_principal.archivo }}" alt="Imagen {{ evento.nombre }}" width="60" >
-                      </a>
-                    <div class="media-body">
-                      <a href="/eventos/{{ evento.id }}/">
-                      <h4 class="media-heading">{{ evento.nombre }}</h4></a>
-                      <p class="parrafoItem">{% autoescape off %}{{ evento.descripcion|slice:":255" }}{% endautoescape %}... <a href="/eventos/{{ evento.id }}/"><small>Leer mas</small></a></p>
-                    </div>
-                  </div>
-                  <hr>
-                  {% endfor %}
-                </div>
-              </div>              
-            </section>            
-            <!-- END PROXIMOS EVENTOS -->
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <!-- PROGRAMACION -->
-              <section>
-                <div class="panel panel-primary">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">Programacion de Hoy</h3>
-                  </div>
-                  <div class="panel-body programacion" {% if not pagina.banner_robapagina %}style="max-height: 440px;"{%endif%}>
-                    <p class="text-muted programacionContent">
-                    {% for programacionHora in programacionDia %}
-                      {% if esHorarioManana == True %}
-                        {% if programacionHora.horario.id == horarioProgramacionActual.id %}
-                          <span class="text-info"><strong>{{programacionHora.horario.manana|date:"g:i"}} - {{programacionHora.programa}}</span><br>
-                        {% elif programacionHora.horario.manana > horarioProgramacionActual.manana %}
-                          {{programacionHora.horario.manana|date:"g:i"}} - {{programacionHora.programa}}<br>
-                        {% endif %}
-                      {% endif %}
-                    {% endfor %}
-
-                    {% for programacionHora in programacionDia %}
-                      {% if programacionHora.horario.id == horarioProgramacionActual.id %}
-                        {% if esHorarioManana == False %}
-                          <span class="text-info"><strong>{{programacionHora.horario.tarde_noche|date:"g:i"}} - {{programacionHora.programa}}</span><br>
-                        {% else %}
-                          {{programacionHora.horario.tarde_noche|date:"g:i"}} - {{programacionHora.programa}}<br>
-                        {% endif %}
-                      {% elif programacionHora.horario.tarde_noche > horarioProgramacionActual.tarde_noche %}
-                        {{programacionHora.horario.tarde_noche|date:"g:i"}} - {{programacionHora.programa}}<br>
-                      {% elif programacionHora.horario.tarde_noche < horarioProgramacionActual.tarde_noche %}
-                        {% if esHorarioManana == True %}
-                          {{programacionHora.horario.tarde_noche|date:"g:i"}} - {{programacionHora.programa}}<br>
-                        {% endif %}
-                      {% endif %}
-                    {% endfor %}
-                    </p>
-                  </div>
-                </div>              
-              </section>
-              <!-- END PROGRAMACION -->
-            </div>
-            <div class="col-md-6">
-              <!-- ROBAPAGINA -->
-              <center>
-              {% if pagina.banner_robapagina %}
-                {% if pagina.banner_robapagina.codigo_html == "" %}
-                  <a href="{{pagina.banner_robapagina.direccion_web}}" target="_blank">
-                  <img src="/media/{{pagina.banner_robapagina.imagen}}" style="width:{{pagina.banner_robapagina.tamano.ancho}};height:{{pagina.banner_robapagina.tamano.alto}};" alt="{{pagina.banner_robapagina.nombre}}"></a>
-                {% else %}
-                  <div style="width:{{pagina.banner_robapagina.tamano.ancho}};height:{{pagina.banner_robapagina.tamano.alto}};">{% autoescape off %}{{ pagina.banner_robapagina.codigo_html }}{% endautoescape %}</div>
-                {% endif %}
-              {% endif %}
-              </center>
-              <!-- END ROBAPAGINA -->
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xs-12 col-sm-6 col-md-4">
-        <!-- TWITTER -->
           <section>
             <div class="panel panel-primary">
               <div class="panel-heading">
-                <h3 class="panel-title">Twitter</h3>
+                <h3 class="panel-title">Próximos Eventos</h3>
               </div>
-              <div class="panel-body panelTwitter">
-        				<a class="twitter-timeline"  href="https://twitter.com/canalzoomtv"  data-widget-id="489537345574547456" data-chrome="noheader nofooter noborders transparent" height="410">Tweets by @canalzoomtv</a>
-        				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-              </div>
-            </div>
-          </section>            
-        <!-- END TWITTER -->
-
-        <!-- FACEBOOK -->
-          <section>
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <h3 class="panel-title">Facebook</h3>
-              </div>
-              <div class="panel-body panelFacebook">
-        				<iframe src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2FCanalZOOM&amp;width&amp;height=258&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false&amp;appId=257656264425434" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:258px;" allowTransparency="true"></iframe>
+              <div class="panel-body panelEventos">
+                {% for evento in eventos %}
+                <div class="col-md-3 thumbnail cajaEvento">   
+                  <div class="parrafoFecha">{{ evento.inicio|date:'F j' }}</div>
+                  <div class="caption tituloEvento">
+                    <a href="/eventos/{{ evento.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text"><b>{{ evento.nombre }}</b>
+                    </a>
+                  </div>
+                  <div class="imagenThumbnail">
+                    <a href="/eventos/{{ evento.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
+                      <img src="/media/{{ evento.imagen_principal.archivo }}" alt="Imagen {{ evento.nombre }}">
+                    </a>
+                  </div>
+                </div>
+                {% endfor %}
               </div>
             </div>              
           </section>            
-        <!-- END FACEBOOK -->
+          <!-- END PROXIMOS EVENTOS -->
+        </div>
 
-        <!-- INSTAGRAM -->
+        <div class="col-md-4">
+          <!-- ROBAPAGINA -->
+          {% if pagina.banner_robapagina %}
+            <center>
+            {% if pagina.banner_robapagina.codigo_html == "" %}
+              <a href="{{pagina.banner_robapagina.direccion_web}}" target="_blank">
+              <img src="/media/{{pagina.banner_robapagina.imagen}}" style="width:{{pagina.banner_robapagina.tamano.ancho}};height:{{pagina.banner_robapagina.tamano.alto}};" alt="{{pagina.banner_robapagina.nombre}}"></a>
+            {% else %}
+              <div style="width:{{pagina.banner_robapagina.tamano.ancho}};height:{{pagina.banner_robapagina.tamano.alto}};">{% autoescape off %}{{ pagina.banner_robapagina.codigo_html }}{% endautoescape %}</div>
+            {% endif %}
+            </center>
+          {% else %}
+            <section>
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Encuesta ZOOM</h3>
+                </div>
+                <div class="panel-body panelEncuesta">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h5 class="media-heading"><b>{{encuesta.pregunta}}</b></h5>
+                    </div>
+                  </div>
+                  <div class="row">
+                    {% if yaVoto == "True" %}
+                      <div class="col-md-12">
+                        {% for respuesta, porcentaje in resultados %}
+                          <div class="row">
+                            <div class="col-md-8">
+                              <span class="parrafoPreguntas">{{respuesta.respuesta}} - {{respuesta.votos}} Votos</span>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="progress" style="height:20px; margin-bottom:10px;">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{porcentaje}}" aria-valuemin="0" aria-valuemax="100" style="width: {{porcentaje}}%;">
+                                  {{porcentaje}}%
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </div>  
+                    {% else %}
+                      <div class="col-md-12">
+                        <form id="frm_encuesta" name="frm_encuesta" action="/encuesta/responder/" method="POST">
+                          {% csrf_token %}
+                          <input type="hidden" id="encuestaId" name="encuestaId" value="{{encuesta.id}}">
+                          <div class="row">
+                            <div class="col-md-9">                        
+                            {% for respuesta in encuesta.respuestas.all %}
+                              <input type="radio" name="respuesta" value="{{ respuesta.id }}" {% if forloop.first %}checked{% endif %}> {{respuesta.respuesta}}<br>
+                            {% endfor %}
+                            </div>
+                            <div class="col-md-3 centrarVertical">
+                              <div class="row" style="height:50px">
+                              </div>
+                              <div class="row">
+                                <center>
+                                  <button type="submit" class="btn btn-primary">Votar<br><span class="glyphicon glyphicon-ok"></span></button>
+                                </center>
+                              </div>
+                            </div>
+                        </form>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </section>
+          {% endif %}
+          <!-- END ROBAPAGINA -->
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+          <!-- LOGOS ALIADOS -->
           <section>
             <div class="panel panel-primary">
               <div class="panel-heading">
-                <h3 class="panel-title">Instagram</h3>
+                <h3 class="panel-title">ZOOM a la historia</h3>
               </div>
-              <div class="panel-body panelInstagram">
-                <div class="media">
-      					<iframe src="http://widget.stagram.com/in/tvzoomgram/?s=90&w=3&h=1&b=1&p=5" allowtransparency="true" frameborder="0" scrolling="no" style="border:none;overflow:hidden;width:345px; height: 115px" ></iframe> <!-- websta - web.stagram.com -->
-                </div>
+              <div class="panel-body panelEfemerides">
+                <div class="row">
+                {% for noticia in noticiasEfemerides.all %}
+                  {% if forloop.counter|divisibleby:4 %}
+                  </div>
+                  <div class="row" style="height:16px"></div>
+                  <div class="row">
+                  {% endif %}                  
+                  <div class="col-md-4">   
+                    <a href="/noticias/{{ noticia.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
+                      <img class="img-responsive imagenItem pull-left col-md-4" src="/media/{{ noticia.imagen_principal.archivo }}" alt="Imagen {{ noticia.titulo }}" width="60"><h5 class="media-heading"><b>{% autoescape off %}{{ noticia.titulo }}{% endautoescape %}</b></h5>
+                    </a><h5 style="color:#000000;"><b>{{ noticia.fecha|date:'F j' }} de {{ noticia.fecha|date:'Y' }}</b></h5>
+                    <span class="parrafoLead">{% autoescape off %}{{ noticia.lead|slice:":255" }}{% endautoescape %}</span>
+                  </div>
+                {% endfor %}
+                </div>                
               </div>
-            </div>
-          </section>
-        <!-- END INSTAGRAM -->
-
+            </div>              
+          </section>            
         </div>
       </div>
 

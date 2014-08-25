@@ -10,3 +10,8 @@
 .parrafoItem{
     text-align:justify;
 }
+
+.cajaTabla {
+    background-color: #FFFFFF;
+    padding: 10px;    
+}

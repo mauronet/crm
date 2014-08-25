@@ -82,6 +82,10 @@ INSTALLED_APPS = (
     'carrusel',
     'banner_sizes',
     'tipos_videos',
+    'fondos',
+    'noticias_destacadas',
+    'encuestas',
+    'respuestas_encuestas',
 )
 
 MIDDLEWARE_CLASSES = (

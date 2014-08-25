@@ -160,7 +160,7 @@
                 <p class="parrafoItem">
                 {{ noticia.lead }}</p>
                 <p class="parrafoFecha">
-                Fecha de publicación: {{ noticia.fecha }}</p>
+                Fecha: {{ noticia.fecha|date:'F j' }} de {{ noticia.fecha|date:'Y' }}</p>
               </div>
               <hr>
 			{% endfor %}

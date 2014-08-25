@@ -1,6 +1,5 @@
 .imagenNoticia{
     display: inline;
-    margin-bottom: 10px;
     max-height:300px;
     max-width:300px;
     padding: 15px;
@@ -29,6 +28,8 @@
 
 .cajaItem{
     min-height:300px;
+    background-color: #FFFFFF;
+    padding: 15px;
 }
 
 .fill {
@@ -37,4 +38,13 @@
     background-image: url('/media/img/fishBackBlue.png');
     background-repeat:repeat-y;
     background-position:center;
+}
+
+.cajaArticle {
+    background-color: #FFFFFF;
+    padding: 15px;    
+}
+
+.parrafoentrada_blog{
+    text-align:justify;
 }

@@ -29,4 +29,6 @@
 
 .cajaItem{
     min-height:300px;
+    background-color: #FFFFFF;
+    padding: 10px;
 }
