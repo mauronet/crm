@@ -24,7 +24,7 @@
 <script type="text/javascript">
 
 $(window).load(function() {
-    $("#flexiselSlider").flexisel({
+    $("#flexiselSliderAliados").flexisel({
         visibleItems: 5,
         animationSpeed: 1000,
         autoPlay: true,
@@ -46,6 +46,53 @@ $(window).load(function() {
             }
         }
     });    
+
+    $("#flexiselSliderIESs").flexisel({
+        visibleItems: 5,
+        animationSpeed: 1000,
+        autoPlay: true,
+        autoPlaySpeed: 3000,            
+        pauseOnHover: true,
+        enableResponsiveBreakpoints: true,
+        responsiveBreakpoints: { 
+            portrait: { 
+                changePoint:480,
+                visibleItems: 1
+            }, 
+            landscape: { 
+                changePoint:640,
+                visibleItems: 2
+            },
+            tablet: { 
+                changePoint:768,
+                visibleItems: 3
+            }
+        }
+    });    
+
+    $("#flexiselSliderVideos").flexisel({
+        visibleItems: 6,
+        animationSpeed: 1000,
+        autoPlay: false,
+        autoPlaySpeed: 3000,            
+        pauseOnHover: true,
+        enableResponsiveBreakpoints: true,
+        responsiveBreakpoints: { 
+            portrait: { 
+                changePoint:480,
+                visibleItems: 1
+            }, 
+            landscape: { 
+                changePoint:640,
+                visibleItems: 2
+            },
+            tablet: { 
+                changePoint:768,
+                visibleItems: 3
+            }
+        }
+    });    
+
 });
 </script>
 
@@ -60,7 +107,7 @@ $(window).load(function() {
           <section>
             <div class="panel panel-primary">
               <div class="panel-heading">
-                <h3 class="panel-title">Actualidad ZOOM</h3>
+                <h3 class="tituloBarra">Actualidad ZOOM</h3>
               </div>
               <div class="panel-body panelActualidad">
 
@@ -131,7 +178,7 @@ $(window).load(function() {
           <section>
             <div class="panel panel-primary">
               <div class="panel-heading">
-                <h3 class="panel-title">Programación de Hoy</h3>
+                <h3 class="tituloBarra">Programación de Hoy</h3>
               </div>
               <div class="panel-body programacion">
                 {% for programacionHora in programacionDia %}
@@ -171,7 +218,7 @@ $(window).load(function() {
           <section>
             <div class="panel panel-primary">
               <div class="panel-heading">
-                <h3 class="panel-title">Señal en Vivo</h3>
+                <h3 class="tituloBarra">Señal en Vivo</h3>
               </div>
               <div class="panel-body panelSenalEnVivo">
                 <center>
@@ -183,34 +230,61 @@ $(window).load(function() {
         </div>
       </div>
 
-
       <div class="row">
         <div class="col-md-12">
-          <!-- VIDEOS -->
+          <!-- LOGOS IES -->
           <section>
             <div class="panel panel-primary">
               <div class="panel-heading">
-                <h3 class="panel-title">Ultimos Videos</h3>
+                <h3 class="tituloBarra">Ultimos Videos</h3>
               </div>
               <div class="panel-body panelVideos">
-              {% for video in videos %}
-                <div class="col-md-2 thumbnail">   
-                  <div class="imagenThumbnail">
-                    <a href="/videos/{{ video.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
-                      <img src="http://img.youtube.com/vi/{{ video.codigo }}/0.jpg" alt="...">
-                    </a>
-                  </div>
-                  <div class="caption tituloThumbnail">
-                    <a href="/videos/{{ video.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">{% autoescape off %}{{ video.nombre|slice:":40" }}{% endautoescape %}...
-                    </a>
-                  </div>
-                  <div class="parrafoVistas">Visto: {{ video.visto }} veces</div>
-                </div>
-              {% endfor %}
+                <ul id="flexiselSliderVideos">
+                  {% for video in videos %}
+                  <li>
+                    <div class="thumbnail">   
+                      <div class="imagenThumbnail">
+                        <a href="/videos/{{ video.id }}/">
+                          <img src="http://img.youtube.com/vi/{{ video.codigo }}/0.jpg" alt="...">
+                        </a>
+                      </div>
+                      <div class="caption tituloThumbnail">
+                        <a href="/videos/{{ video.id }}/">{% autoescape off %}{{ video.nombre|truncatewords:6 }}{% endautoescape %}
+                        </a>
+                      </div>
+                      <div class="parrafoVistas">Visto: {{ video.visto }} veces</div>
+                    </div>                      
+                  </li>
+                  {% endfor %}
+                </ul> 
               </div>
             </div>              
           </section>            
-          <!-- END VIDEOS --> 
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+          <!-- LOGOS IES -->
+          <section>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="tituloBarra">Instituciónes de Educación Superior Afiliadas</h3>
+              </div>
+              <div class="panel-body panelIESAfiliadas">
+                <ul id="flexiselSliderIESs">
+                  {% for ies in iesAfiliadas %}
+                  <li>
+                    <a href="/IES Afiliadas/entidades/{{ ies.id }}/">
+                      <img height="70px"src="/media/{{ ies.logo }}" alt="Imagen {{ ies.nombre }}" >
+                   </a>
+                  </li>
+                  {% endfor %}
+                </ul> 
+              </div>
+            </div>              
+          </section>            
         </div>
       </div>
 
@@ -220,28 +294,32 @@ $(window).load(function() {
           <section>
             <div class="panel panel-primary">
               <div class="panel-heading">
-                <h3 class="panel-title">Noticias Destacadas</h3>
+                <h3 class="tituloBarra">Noticias Destacadas</h3>
               </div>
               <div class="panel-body panelNoticiasDestacadas">
-                <div class="row">
+                <div class="row" style="margin:0px; padding:0px;">
                 {% for noticia in noticiasDestacadas.noticias.all %}
                   {% if forloop.counter|divisibleby:3 %}
                   </div>
-                  <div class="row" style="height:16px"></div>
-                  <div class="row">
+                  <div class="row" style="margin:0px; padding:0px;">
                   {% endif %}                  
-                  <div class="col-md-6">   
-                    <a href="/noticias/{{ noticia.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
-                      <img class="img-responsive imagenItem pull-left col-md-4" src="/media/{{ noticia.imagen_principal.archivo }}" alt="Imagen {{ noticia.titulo }}" width="60"><h5 class="media-heading"><b>{% autoescape off %}{{ noticia.titulo }}{% endautoescape %}</b></h5>
-                    </a>
-                    <span class="parrafoLead">{% autoescape off %}{{ noticia.lead|slice:":255" }}{% endautoescape %}</span>
+                  <div class="col-md-6 thumbnail" style="height:140px;margin:0px; padding:5px;">
+                    <div class="row">
+                      <div class="col-md-7">
+                        <a href="/noticias/{{ noticia.id }}/"><img class="img-responsive col-md-12" style="max-height:130px; margin:0px; padding:0px;" src="/media/{{ noticia.imagen_principal.archivo }}" alt="Imagen {{ noticia.titulo }}">                        
+                      </div>
+                      <div class="col-md-5" style="text-align:justify; padding:0px; padding-right:20px;">
+                        <h5 class="media-heading" style="height:45px; margin-top: 5px;"><b>{% autoescape off %}{{ noticia.titulo }}{% endautoescape %}</b></h5>
+                        <span class="parrafoLead">{% autoescape off %}{{ noticia.lead|truncatewords:12 }}{% endautoescape %}</span></a>
+                      </div>
+                    </div>
                   </div>
                 {% endfor %}
                 </div>
               </div>
             </div>              
           </section>
-          <!-- END OPORTUNIDADES DESTACADAS -->
+          <!-- END NOTICIAS DESTACADAS -->
         </div>
         <div class="col-md-2" style="padding:0px;">
           <!-- COMUNIDAD ZOOM -->
@@ -264,23 +342,19 @@ $(window).load(function() {
           <section>
             <div class="panel panel-primary">
               <div class="panel-heading">
-                <h3 class="panel-title">Próximos Eventos</h3>
+                <h3 class="tituloBarra">Próximos Eventos</h3>
               </div>
               <div class="panel-body panelEventos">
-                {% for evento in eventos %}
-                <div class="col-md-3 thumbnail cajaEvento">   
-                  <div class="parrafoFecha">{{ evento.inicio|date:'F j' }}</div>
-                  <div class="caption tituloEvento">
-                    <a href="/eventos/{{ evento.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text"><b>{{ evento.nombre }}</b>
-                    </a>
-                  </div>
-                  <div class="imagenThumbnail">
-                    <a href="/eventos/{{ evento.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
+                <div class="row" style="margin:0px; padding:0px;">
+                  {% for evento in eventos %}
+                  <div class="col-md-3 thumbnail cajaEvento">   
+                    <h5 style="color:#000000;"><b>{{ evento.inicio|date:'F j' }}</b></h5>                    
+                    <a href="/eventos/{{ evento.id }}/"><h5 class="media-heading"><b>{{ evento.nombre }}</b></h5>
                       <img src="/media/{{ evento.imagen_principal.archivo }}" alt="Imagen {{ evento.nombre }}">
                     </a>
                   </div>
+                  {% endfor %}
                 </div>
-                {% endfor %}
               </div>
             </div>              
           </section>            
@@ -302,7 +376,7 @@ $(window).load(function() {
             <section>
               <div class="panel panel-primary">
                 <div class="panel-heading">
-                  <h3 class="panel-title">Encuesta ZOOM</h3>
+                  <h3 class="tituloBarra">Encuesta ZOOM</h3>
                 </div>
                 <div class="panel-body panelEncuesta">
                   <div class="row">
@@ -363,25 +437,32 @@ $(window).load(function() {
 
       <div class="row">
         <div class="col-md-12">
-          <!-- LOGOS ALIADOS -->
+          <!-- EFEMERIDES -->
           <section>
             <div class="panel panel-primary">
               <div class="panel-heading">
-                <h3 class="panel-title">ZOOM a la historia</h3>
+                <h3 class="tituloBarra">ZOOM a la historia</h3>
               </div>
               <div class="panel-body panelEfemerides">
-                <div class="row">
+                <div class="row" style="margin:0px; padding:0px;">
                 {% for noticia in noticiasEfemerides.all %}
                   {% if forloop.counter|divisibleby:4 %}
                   </div>
-                  <div class="row" style="height:16px"></div>
-                  <div class="row">
+                  <div class="row" style="margin:0px; padding:0px;">
                   {% endif %}                  
-                  <div class="col-md-4">   
-                    <a href="/noticias/{{ noticia.id }}/" data-toggle="lightbox" data-title="A random title" data-footer="A custom footer text">
-                      <img class="img-responsive imagenItem pull-left col-md-4" src="/media/{{ noticia.imagen_principal.archivo }}" alt="Imagen {{ noticia.titulo }}" width="60"><h5 class="media-heading"><b>{% autoescape off %}{{ noticia.titulo }}{% endautoescape %}</b></h5>
-                    </a><h5 style="color:#000000;"><b>{{ noticia.fecha|date:'F j' }} de {{ noticia.fecha|date:'Y' }}</b></h5>
-                    <span class="parrafoLead">{% autoescape off %}{{ noticia.lead|slice:":255" }}{% endautoescape %}</span>
+                  <div class="col-md-4 thumbnail" style="height:120px;margin:0px; padding:5px;">
+                    <div class="row">
+                      <div class="col-md-7">
+                        <a href="/noticias/{{ noticia.id }}/">
+                        <img class="img-responsive col-md-12" src="/media/{{ noticia.imagen_principal.archivo }}" alt="Imagen {{ noticia.titulo }}" style="max-height:110px; margin:0px; padding:0px;">
+                      </div>
+                      <div class="col-md-5"  style="text-align:justify; padding:0px; padding-right:20px;">
+                        <h5 style="color:#000000;"><b>{{ noticia.fecha|date:'F j' }} de {{ noticia.fecha|date:'Y' }}</b></h5>
+                        <h5 class="media-heading"><b>{% autoescape off %}{{ noticia.titulo }}{% endautoescape %}</b></h5>
+                        </a>
+                        <!--<span class="parrafoLead">{% autoescape off %}{{ noticia.lead|slice:":255" }}{% endautoescape %}</span>--></a>
+                      </div>
+                    </div>                    
                   </div>
                 {% endfor %}
                 </div>                
@@ -398,10 +479,10 @@ $(window).load(function() {
           <section>
             <div class="panel panel-primary">
               <div class="panel-heading">
-                <h3 class="panel-title">Nuestros Aliados</h3>
+                <h3 class="tituloBarra">Nuestros Aliados</h3>
               </div>
               <div class="panel-body panelAliados">
-        				<ul id="flexiselSlider">
+        				<ul id="flexiselSliderAliados">
 	                {% for aliado in aliados %}
 	                <li>
 	                	<a href="{{ aliado.sitio_web }}" target="_blank">

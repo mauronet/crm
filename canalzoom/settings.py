@@ -86,6 +86,7 @@ INSTALLED_APPS = (
     'noticias_destacadas',
     'encuestas',
     'respuestas_encuestas',
+    'suscriptores',
 )
 
 MIDDLEWARE_CLASSES = (

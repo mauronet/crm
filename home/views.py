@@ -28,18 +28,28 @@ from entidades.models import Entidad
 from encuestas.models import Encuesta
 from django.core.mail import EmailMultiAlternatives
 from paginas.models import Pagina
+from imagenes.models import Imagen
+from entradas_blogs.models import EntradaBlog
 from noticias.models import Noticia
+from programas.models import Programa
 from respuestas_encuestas.models import RespuestaEncuesta
+from suscriptores.models import Suscriptor
 from datetime import datetime 
 from django.utils import timezone
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 
 import time, hashlib, random
 #import twitter
 
 import pdb
 
-def index_view(request):
+def index_view(request, mensaje=None):
+
+	if request.method == "GET":
+		if "mensaje" in request.GET:
+			mensaje = request.GET['mensaje']
+
 	#Carrusel
 	carrusel = get_object_or_404(Carrusel, id=1)
 	noticiasDestacadas = get_object_or_404(NoticiasDestacadas, id=1)
@@ -50,7 +60,7 @@ def index_view(request):
 		items.append(i)
 
 	#Videos
-	videos = Video.objects.order_by("-id")[:6]
+	videos = Video.objects.order_by("-id")[:12]
 
 	#Programacion
 	programacionDia = getProgramacionDia(date.today())
@@ -67,6 +77,7 @@ def index_view(request):
 
 	eventos = Evento.objects.filter(fin__gte=timezone.now()).order_by("inicio")[:4]
 	aliados = Entidad.objects.filter(tipo__id=3,activo=True)
+	iesAfiliadas = Entidad.objects.filter(tipo__id=2,activo=True)
 	encuestas = Encuesta.objects.filter(activa=True)[:1]
 	encuesta = encuestas[0]
 
@@ -94,7 +105,7 @@ def index_view(request):
 
 	filters = Q()
 	filters = filters & Q(categorias__id__in = [6])
-	noticiasEfemerides = Noticia.objects.filter(filters).order_by("-id")[:3]
+	noticiasEfemerides = Noticia.objects.filter(filters).order_by("-id")[:6]
 
 	ctx = {
 		'items':items,
@@ -111,6 +122,8 @@ def index_view(request):
 		'resultados':resultados,
 		'yaVoto':yaVoto,
 		'noticiasEfemerides':noticiasEfemerides,
+		'iesAfiliadas':iesAfiliadas,
+		'mensaje':mensaje,		
 	}
 	#pdb.set_trace()
 	return render(request, 'home/index.html',ctx)
@@ -421,3 +434,151 @@ def responder_encuesta_view(request):
 			respuestaEncuesta.save()
 			request.session["yaVoto"] = "True"
 	return HttpResponseRedirect('/')
+
+def new_suscriptor_view(request):
+	if request.method == "POST":
+		if "email" in request.POST:
+			Suscriptor.objects.get_or_create(email=request.POST['email'])
+			return HttpResponseRedirect('/?mensaje=Gracias por suscribirte a nuestro boletín. Dentro de poco lo recibiras en tu email.')
+	return HttpResponseRedirect('/')
+
+def busqueda_view(request,id_pagina=1):
+	pagina = Pagina.objects.get(id=25)
+	paginas = []
+	listaItems = []
+	numeroTotalItems = 0
+	listaItemsPorPagina = []
+	palabrasABuscar = None
+
+	if request.method == "POST":
+		if "palabras" in request.POST:
+			request.session["palabrasABuscar"] = request.POST['palabras']
+	else:
+		if not "palabrasABuscar" in request.session:
+			request.session["palabrasABuscar"] = ""
+	palabrasABuscar = request.session["palabrasABuscar"].split()
+
+	if len(palabrasABuscar) > 0:
+		# Busqueda de noticias
+		filters = Q()
+		filters = filters | (reduce(lambda x, y: x & y, [Q(titulo__icontains=palabra) for palabra in palabrasABuscar]))
+		filters = filters | (reduce(lambda x, y: x & y, [Q(lead__icontains=palabra) for palabra in palabrasABuscar]))
+		filters = filters | (reduce(lambda x, y: x & y, [Q(contenido__icontains=palabra) for palabra in palabrasABuscar]))
+		listaTemporal = Noticia.objects.filter(filters).order_by("-id")
+		for item in listaTemporal:
+			info = {}
+			info['tipo'] = "Noticia"
+			info['link'] = "/noticias/" + str(item.id) + "/"
+			info['titulo'] = item.titulo
+			info['descripcion'] = item.lead + " " + item.contenido
+			listaItems.append(info)
+			numeroTotalItems += 1
+
+		# Busqueda de oportunidades
+		filters = Q()
+		filters = filters | (reduce(lambda x, y: x & y, [Q(nombre__icontains=palabra) for palabra in palabrasABuscar]))
+		filters = filters | (reduce(lambda x, y: x & y, [Q(descripcion__icontains=palabra) for palabra in palabrasABuscar]))
+		listaTemporal = Oportunidad.objects.filter(filters).order_by("-id")
+		for item in listaTemporal:
+			info = {}
+			info['tipo'] = "Oportunidad"
+			info['link'] = "/oportunidades/" + str(item.id) + "/"
+			info['titulo'] = item.nombre
+			info['descripcion'] = item.descripcion
+			listaItems.append(info)
+			numeroTotalItems += 1
+
+		# Busqueda de eventos
+		filters = Q()
+		filters = filters | (reduce(lambda x, y: x & y, [Q(nombre__icontains=palabra) for palabra in palabrasABuscar]))
+		filters = filters | (reduce(lambda x, y: x & y, [Q(descripcion__icontains=palabra) for palabra in palabrasABuscar]))
+		listaTemporal = Evento.objects.filter(filters).order_by("-id")
+		for item in listaTemporal:
+			info = {}
+			info['tipo'] = "Evento"
+			info['link'] = "/eventos/" + str(item.id) + "/"
+			info['titulo'] = item.nombre
+			info['descripcion'] = item.descripcion
+			listaItems.append(info)
+			numeroTotalItems += 1
+
+		# Busqueda de blogs
+		filters = Q()
+		filters = filters | (reduce(lambda x, y: x & y, [Q(titulo__icontains=palabra) for palabra in palabrasABuscar]))
+		filters = filters | (reduce(lambda x, y: x & y, [Q(lead__icontains=palabra) for palabra in palabrasABuscar]))
+		filters = filters | (reduce(lambda x, y: x & y, [Q(contenido__icontains=palabra) for palabra in palabrasABuscar]))
+		listaTemporal = EntradaBlog.objects.filter(filters).order_by("-id")
+		for item in listaTemporal:
+			info = {}
+			info['tipo'] = "Entrada Blog"
+			info['link'] = "/blogs/entradas/" + str(item.id) + "/"
+			info['titulo'] = item.titulo
+			info['descripcion'] = item.lead + " " + item.contenido
+			listaItems.append(info)
+			numeroTotalItems += 1
+
+		# Busqueda de producciones
+		filters = Q()
+		filters = filters | (reduce(lambda x, y: x & y, [Q(nombre__icontains=palabra) for palabra in palabrasABuscar]))
+		filters = filters | (reduce(lambda x, y: x & y, [Q(sinopsis__icontains=palabra) for palabra in palabrasABuscar]))
+		listaTemporal = Programa.objects.filter(filters).order_by("-id")
+		for item in listaTemporal:
+			info = {}
+			info['tipo'] = "Produccion"
+			info['link'] = "/producciones/" + str(item.id) + "/"
+			info['titulo'] = item.nombre
+			info['descripcion'] = item.sinopsis
+			listaItems.append(info)
+			numeroTotalItems += 1
+
+		# Busqueda de videos
+		filters = Q()
+		filters = filters | (reduce(lambda x, y: x & y, [Q(nombre__icontains=palabra) for palabra in palabrasABuscar]))
+		filters = filters | (reduce(lambda x, y: x & y, [Q(descripcion__icontains=palabra) for palabra in palabrasABuscar]))
+		listaTemporal = Video.objects.filter(filters).order_by("-id")
+		for item in listaTemporal:
+			info = {}
+			info['tipo'] = "Video"
+			info['link'] = "/videos/" + str(item.id) + "/"
+			info['titulo'] = item.nombre
+			info['descripcion'] = item.descripcion
+			listaItems.append(info)
+			numeroTotalItems += 1
+
+		# Busqueda de imagenes
+		filters = Q()
+		filters = filters | (reduce(lambda x, y: x & y, [Q(nombre__icontains=palabra) for palabra in palabrasABuscar]))
+		filters = filters | (reduce(lambda x, y: x & y, [Q(descripcion__icontains=palabra) for palabra in palabrasABuscar]))
+		listaTemporal = Imagen.objects.filter(filters).order_by("-id")
+		for item in listaTemporal:
+			info = {}
+			info['tipo'] = "Imagen"
+			info['link'] = "/imagenes/" + str(item.id) + "/"
+			info['titulo'] = item.nombre
+			info['descripcion'] = item.descripcion
+			listaItems.append(info)
+			numeroTotalItems += 1
+
+		numeroTotalItems = len(listaItems)
+		paginator = Paginator(listaItems, 10) #Cuantos items van por pagina
+
+		for numPagina in range(paginator.num_pages):
+			paginas += [str(numPagina+1)]
+
+		try:
+			page = int(id_pagina)
+		except:
+			page = 1
+		try:
+			listaItemsPorPagina = paginator.page(page)
+		except (EmptyPage, InvalidPage):
+			listaItemsPorPagina = paginator.page(paginator.num_pages)
+
+	ctx = {
+		'palabrasABuscar': " ".join(palabrasABuscar),
+		'listaItems':listaItemsPorPagina,
+		'numeroTotalItems':numeroTotalItems,
+		'paginas':paginas,
+		'pagina':pagina,
+	}
+	return render(request, 'home/busqueda.html',ctx)

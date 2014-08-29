@@ -10,6 +10,7 @@
 
     <!-- Bootstrap -->
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>    
     <link href="/media/css/bootstrap-Cerulean.min.css" rel="stylesheet">
     <link href="/media/css/social-buttons-3.css" rel="stylesheet">
     <link href="/media/css/font-awesome.css" rel="stylesheet">
@@ -35,6 +36,28 @@
       });
     </script>
 
+<script language="javascript">
+  function validarEmail()
+  {
+    if (document.forms['frm-boletin'].elements['email'].value.match(/^\w+([\.-]?\w+)+@\w+([\.-]?\w+)*(\.\w{2,3})+$/)==null)
+    {
+      alert ("El email no es valido.");
+      document.forms['frm-boletin'].elements['email'].focus();
+      return false;
+    }
+
+  }
+
+  function validarPalabrasABuscar()
+  {
+    if (document.forms['frm-busqueda'].elements['palabras'].value=="")
+    {
+      alert ("No ha especificado las palabras a buscar.");
+      document.forms['frm-busqueda'].elements['palabras'].focus();
+      return false;
+    }
+  }
+</script>
     {% block scriptTag2 %} {% endblock %}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -72,56 +95,74 @@
             </div>
             <div class="row" style="height:6px"></div>
             <div class="row" style="height:28px">
-              <div class="col-md-12 text-right">
-
+              <div class="col-md-3 text-left">
                 <!-- REDES SOCIALES -->
-                <span>
+                <span style="margin-right:3px;">
                   <a href="https://www.facebook.com/CanalZOOM" target="_blank">
-                    <img class="img-circle" src="/media/img/facebook_icon.png" width="28" alt="Facebook Canal Zoom">
+                    <img class="img-circle" src="/media/img/facebook_icon.png" width="32" alt="Facebook Canal Zoom">
                   </a>
                 </span>
-                <span>
+                <span style="margin-right:3px;">
                   <a href="https://twitter.com/canalzoomtv" target="_blank">
-                    <img class="img-circle" src="/media/img/twitter_icon.png" width="28" alt="Twitter Canal Zoom">
+                    <img class="img-circle" src="/media/img/twitter_icon.png" width="32" alt="Twitter Canal Zoom">
                   </a>
                 </span>
-                <span>
+                <span style="margin-right:3px;">
                   <a href="http://instagram.com/tvzoomgram" target="_blank">
-                    <img class="img-circle" src="/media/img/instagram_icon.png" width="28" alt="Instagram Canal Zoom">
+                    <img class="img-circle" src="/media/img/instagram_icon.png" width="32" alt="Instagram Canal Zoom">
                   </a>
                 </span>
-                <span>
+                <span style="margin-right:3px;">
                   <a href="https://www.youtube.com/user/ZoomCanal" target="_blank">
-                    <img class="img-circle" src="/media/img/youtube_icon.png" width="28" alt="Youtube Canal Zoom">
+                    <img class="img-circle" src="/media/img/youtube_icon.png" width="32" alt="Youtube Canal Zoom">
                   </a>
                 </span>
-                <span>
+                <span style="margin-right:3px;">
                   <a href="/feeds/">
-                    <img class="img-circle" src="/media/img/rss_icon.png" width="28" alt="RSS Canal Zoom">
+                    <img class="img-circle" src="/media/img/rss_icon.png" width="32" alt="RSS Canal Zoom">
                   </a>
                 </span>
+              </div>
+              <div class="col-md-6 text-center">
+                <form method="POST" name="frm-boletin" action="/boletin/suscriptor/nuevo/">
+                  {% csrf_token %}  
+                  <div class="form-group">            
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-addon" style="font-family: 'Oswald', sans-serif; background-color:#0F689B; color: #FFFFFF; border-color:#0F689B;">Suscribete a nuestro boletín&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-envelope"></span></span>
+                      <input name="email" type="text" class="form-control" placeholder="Correo electrónico" style="background-color:#CECEF6; border-color:#0F689B; color:#2E2E2E;">
+                      <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit" onclick="return validarEmail()" style="background-color:#0F689B;"><i class="glyphicon glyphicon-ok"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-3 text-right">
+                <!-- BUSQUEDA -->
+                <form method="POST" name="frm-busqueda" action="/busqueda/">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <div class="input-group input-group-sm">
+                      <input name="palabras" type="text" class="form-control" placeholder="Buscar" style="background-color:#CECEF6; border-color:#0F689B; color:#2E2E2E;">
+                      <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit" onclick="return validarPalabrasABuscar()"><i class="fa fa-search"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
-            <!-- BUSQUEDA -->     
-            <!--<div class="row">
-              <div class="col-md-9 col-md-offset-3 text-right">
-                <div style="height:15px;">
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <input type="text" class="form-control">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>-->            
-            <div class="row" style="height:5px"></div>
           </div>
         </div>
+
+        {% if mensaje %}
+              <div class="alert alert-warning fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>{{mensaje}}
+              </div>
+        {% endif%}
+
         <!-- BARRA DE NAVEGACION -->
-        <div class="navbar navbar-default">
+        <div class="navbar navbar-default" style="font-family: 'Oswald', sans-serif; font-size: 1.1em; border-color:#0F689B;">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
               <span class="icon-bar"></span>
@@ -129,7 +170,7 @@
               <span class="icon-bar"></span>
            </button>
           </div>
-          <div class="navbar-collapse collapse navbar-responsive-collapse">
+          <div class="navbar-collapse collapse navbar-responsive-collapse" style="background-color:#0F689B;">
             <ul class="nav navbar-nav">
               <li {% if request.path == '/' %} class="active"{% endif %}><a href="/">Inicio</a></li>
               <li class="dropdown">

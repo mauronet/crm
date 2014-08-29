@@ -9,5 +9,12 @@ class BannerPublicidad(models.Model):
 	direccion_web = models.URLField(blank=True)
 	codigo_html = models.TextField(blank=True)
 
+	def img_thumbnail(self):
+		if self.imagen == "":
+			return ''
+		else:
+			return '<a href="/media/%s" target="_blank"><img src="/media/%s" height="100px"/></a>' % (self.imagen, self.imagen)
+	img_thumbnail.allow_tags = True
+
 	def __unicode__(self):
 		return self.nombre + '(' + str(self.tamano.ancho) + 'px * ' + str(self.tamano.alto) + 'px)'

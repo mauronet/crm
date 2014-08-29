@@ -10,5 +10,9 @@ class Imagen(models.Model):
 	creditos = models.TextField(blank=True)
 	archivo = models.ImageField(upload_to="images")
 
+	def img_thumbnail(self):
+		return '<a href="/media/%s" target="_blank"><img src="/media/%s" height="100px"/></a>' % (self.archivo, self.archivo)
+	img_thumbnail.allow_tags = True
+
 	def __unicode__(self):
 		return self.nombre

@@ -38,30 +38,41 @@
 }
 
 .panelVideos{
-    max-height: 240px;
-    overflow-y:hidden; 
+    height: 240px;
 }
 
 .panelNoticias{
-    height: 450px;
+    height: 550px;
     overflow-y:scroll; 
+
 }
 
 .panelAliados{
     height: 120px;
 }
 
+.panelIESAfiliadas{
+    height: 120px;
+}
+
 .panelEfemerides{
-    height: 250px;
-    overflow-y:scroll; 
+    height: 240px;
+    overflow-y:hidden; 
+    overflow-x:hidden; 
+    padding:0px;
+    margin: 0px;
 }
 
 .panelNoticiasDestacadas{
-    height: 310px;
-    overflow-y:scroll; 
+    height: 280px;
+    overflow-y:hidden; 
+    overflow-x:hidden; 
+    padding:0px;
 }
 
 .panelEventos{
+    padding:0px;
+    margin: 0px;
     height: 250px;
     overflow-y:scroll; 
 }
@@ -178,6 +189,7 @@
 .cajaEvento{
     padding: 4px;
     margin: 4px;
+    text-align:justify;
 }
 
 .panelEncuesta{
@@ -190,4 +202,11 @@
     font-size: 0.8em;
     color: #424242;
     padding: 0px;
+}
+
+.tituloBarra{
+    font-family: 'Oswald', sans-serif;
+    color: #FFFFFF;
+    margin:0px;
+    font-size: 1.4em;
 }

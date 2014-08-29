@@ -16,6 +16,7 @@ urlpatterns = patterns('',
 	url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'home.views.index_view', name='index_view'),
+    url(r'^mensaje=(?P<mensaje>.*)$', 'home.views.index_view', name='index_view_message'),
 
     url(r'^canal/acerca de zoom/', 'home.views.acerca_de_zoom_view', name='vista_acercadezoom'),
     url(r'^canal/equipo de trabajo/', 'home.views.equipo_zoom_view', name='vista_equipozoom'),
@@ -103,6 +104,10 @@ urlpatterns = patterns('',
     url(r'^adminEntidad/edit/entrada/(?P<id_entrada>.*)/blog/(?P<id_blog>.*)/$', 'admin_entidad.views.edit_entrada_view', name='vista_adminentidadeditentrada'),
 
     url(r'^adminEntidad/comentarios/$', 'admin_entidad.views.adminentidad_moderar_comentarios_blog_view', name='vista_adminentidadmoderarcomentariosblog'),
+
+    url(r'^boletin/suscriptor/nuevo/$', 'home.views.new_suscriptor_view'),
+    url(r'^busqueda/$', 'home.views.busqueda_view'),
+    url(r'^busqueda/page/(?P<id_pagina>.*)/$', 'home.views.busqueda_view', name='vista_busqueda'),
 
     url(r'^feeds/$', 'home.views.lista_fees_view'),
     url(r'^feeds/noticias/$', FeedNoticias()),

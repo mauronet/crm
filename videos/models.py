@@ -22,5 +22,9 @@ class Video(models.Model):
 	entidades = models.ManyToManyField(Entidad, blank=True)
 	visto = models.SmallIntegerField(default=0)
 
+	def img_thumbnail(self):
+		return '<a href="https://www.youtube.com/watch?v=%s" target="_blank"><img src="http://img.youtube.com/vi/%s/0.jpg" height="100px"/></a>' % (self.codigo, self.codigo)
+	img_thumbnail.allow_tags = True
+
 	def __unicode__(self):
 		return self.nombre
