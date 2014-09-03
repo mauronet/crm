@@ -106,7 +106,7 @@ $(window).load(function() {
         <!-- ACTUALIDAD -->
           <section>
             <div class="panel panel-primary">
-              <div class="panel-heading">
+              <div class="panel-heading barraGris">
                 <h3 class="tituloBarra">Actualidad ZOOM</h3>
               </div>
               <div class="panel-body panelActualidad">
@@ -152,7 +152,7 @@ $(window).load(function() {
                     {% for entrada in carrusel.entradas.all %}
                     <div class="item tiempoItem">
                       <center>
-                        <a href="/entradas/{{ entrada.id }}/">
+                        <a href="/blogs/entradas/{{ entrada.id }}/">
                         	<img src="/media/{{entrada.imagen_principal.archivo}}" class="imagenCarrusel">
                         </a>
                       </center>
@@ -177,16 +177,16 @@ $(window).load(function() {
           <!-- PROGRAMACION -->
           <section>
             <div class="panel panel-primary">
-              <div class="panel-heading">
+              <div class="panel-heading barraGris">
                 <h3 class="tituloBarra">Programación de Hoy</h3>
               </div>
               <div class="panel-body programacion">
                 {% for programacionHora in programacionDia %}
                   {% if esHorarioManana == True %}
                     {% if programacionHora.horario.id == horarioProgramacionActual.id %}
-                      <h4 class="letraProgramacion"><span class="label label-success casillaProgramacion casillaActiva" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.manana|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
+                      <h4 class="letraProgramacion"><span class="label label-success casillaProgramacion casillaActiva col-xs-12 col-sm-12" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.manana|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
                     {% elif programacionHora.horario.manana > horarioProgramacionActual.manana %}
-                      <h4 class="letraProgramacion"><span class="label label-primary casillaProgramacion casillaNoActiva" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.manana|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
+                      <h4 class="letraProgramacion"><span class="label label-primary casillaProgramacion casillaNoActiva col-xs-12 col-sm-12" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.manana|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
                     {% endif %}
                   {% endif %}
                 {% endfor %}
@@ -194,15 +194,15 @@ $(window).load(function() {
                 {% for programacionHora in programacionDia %}
                   {% if programacionHora.horario.id == horarioProgramacionActual.id %}
                     {% if esHorarioManana == False %}
-                      <h4 class="letraProgramacion"><span class="label label-success casillaProgramacion casillaActiva" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.tarde_noche|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
+                      <h4 class="letraProgramacion"><span class="label label-success casillaProgramacion casillaActiva col-xs-12 col-sm-12" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.tarde_noche|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
                     {% else %}
-                      <h4 class="letraProgramacion"><span class="label label-primary casillaProgramacion casillaNoActiva" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.tarde_noche|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
+                      <h4 class="letraProgramacion"><span class="label label-primary casillaProgramacion casillaNoActiva col-xs-12 col-sm-12" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.tarde_noche|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
                     {% endif %}
                   {% elif programacionHora.horario.tarde_noche > horarioProgramacionActual.tarde_noche %}
-                    <h4 class="letraProgramacion"><span class="label label-primary casillaProgramacion casillaNoActiva" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.tarde_noche|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
+                    <h4 class="letraProgramacion"><span class="label label-primary casillaProgramacion casillaNoActiva col-xs-12 col-sm-12" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.tarde_noche|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
                   {% elif programacionHora.horario.tarde_noche < horarioProgramacionActual.tarde_noche %}
                     {% if esHorarioManana == True %}
-                      <h4 class="letraProgramacion"><span class="label label-primary casillaProgramacion casillaNoActiva" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.tarde_noche|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
+                      <h4 class="letraProgramacion"><span class="label label-primary casillaProgramacion casillaNoActiva col-xs-12 col-sm-12" data-toggle="tooltip" data-placement="left" title="{{programacionHora.programa}}"><span class="letraHora">{{programacionHora.horario.tarde_noche|date:"g:i"}}</span><br> {{programacionHora.programa}}</span></h4>
                     {% endif %}
                   {% endif %}
                 {% endfor %}
@@ -217,7 +217,7 @@ $(window).load(function() {
         <div class="col-md-4">
           <section>
             <div class="panel panel-primary">
-              <div class="panel-heading">
+              <div class="panel-heading barraGris">
                 <h3 class="tituloBarra">Señal en Vivo</h3>
               </div>
               <div class="panel-body panelSenalEnVivo">
@@ -235,8 +235,8 @@ $(window).load(function() {
           <!-- LOGOS IES -->
           <section>
             <div class="panel panel-primary">
-              <div class="panel-heading">
-                <h3 class="tituloBarra">Ultimos Videos</h3>
+              <div class="panel-heading barraGris">
+                <h3 class="tituloBarra">Últimos Vídeos</h3>
               </div>
               <div class="panel-body panelVideos">
                 <ul id="flexiselSliderVideos">
@@ -249,7 +249,7 @@ $(window).load(function() {
                         </a>
                       </div>
                       <div class="caption tituloThumbnail">
-                        <a href="/videos/{{ video.id }}/">{% autoescape off %}{{ video.nombre|truncatewords:6 }}{% endautoescape %}
+                        <a href="/videos/{{ video.id }}/"><b>{% autoescape off %}{{ video.nombre|truncatewords:6 }}{% endautoescape %}</b>
                         </a>
                       </div>
                       <div class="parrafoVistas">Visto: {{ video.visto }} veces</div>
@@ -269,7 +269,7 @@ $(window).load(function() {
           <!-- LOGOS IES -->
           <section>
             <div class="panel panel-primary">
-              <div class="panel-heading">
+              <div class="panel-heading barraGris">
                 <h3 class="tituloBarra">Instituciónes de Educación Superior Afiliadas</h3>
               </div>
               <div class="panel-body panelIESAfiliadas">
@@ -277,7 +277,7 @@ $(window).load(function() {
                   {% for ies in iesAfiliadas %}
                   <li>
                     <a href="/IES Afiliadas/entidades/{{ ies.id }}/">
-                      <img height="70px"src="/media/{{ ies.logo }}" alt="Imagen {{ ies.nombre }}" >
+                      <img height="100px"src="/media/{{ ies.logo }}" alt="Imagen {{ ies.nombre }}" >
                    </a>
                   </li>
                   {% endfor %}
@@ -303,14 +303,14 @@ $(window).load(function() {
                   </div>
                   <div class="row" style="margin:0px; padding:0px;">
                   {% endif %}                  
-                  <div class="col-md-6 thumbnail" style="height:140px;margin:0px; padding:5px;">
+                  <div class="col-xs-6 col-sm-6 col-md-6 thumbnail" style="height:140px;margin:0px; padding:5px;">
                     <div class="row">
-                      <div class="col-md-7">
+                      <div class="col-xs-7 col-sm-7 col-md-7">
                         <a href="/noticias/{{ noticia.id }}/"><img class="img-responsive col-md-12" style="max-height:130px; margin:0px; padding:0px;" src="/media/{{ noticia.imagen_principal.archivo }}" alt="Imagen {{ noticia.titulo }}">                        
                       </div>
-                      <div class="col-md-5" style="text-align:justify; padding:0px; padding-right:20px;">
+                      <div class="col-xs-5 col-sm-5 col-md-5" style="text-align:justify; padding:0px; padding-right:20px;">
                         <h5 class="media-heading" style="height:45px; margin-top: 5px;"><b>{% autoescape off %}{{ noticia.titulo }}{% endautoescape %}</b></h5>
-                        <span class="parrafoLead">{% autoescape off %}{{ noticia.lead|truncatewords:12 }}{% endautoescape %}</span></a>
+                        <span class="parrafoLead hidden-xs hidden-sm">{% autoescape off %}{{ noticia.lead|truncatewords:12 }}{% endautoescape %}</span></a>
                       </div>
                     </div>
                   </div>
@@ -321,14 +321,14 @@ $(window).load(function() {
           </section>
           <!-- END NOTICIAS DESTACADAS -->
         </div>
-        <div class="col-md-2" style="padding:0px;">
+        <div class="col-md-2 hidden-xs hidden-sm" style="padding:0px;">
           <!-- COMUNIDAD ZOOM -->
-          <img src="/media/img/comunidadZOOM.jpg" class="img-responsive" alt="Comunidad ZOOM" usemap="#communitymap">
+          <img src="/media/img/comunidadZOOM.png" class="img-responsive" alt="Comunidad ZOOM" usemap="#communitymap">
           <map name="communitymap">
-            <area shape="rect" coords="0,80,180,148" href="https://www.youtube.com/user/ZoomCanal" alt="Youtube Canal ZOOM" target="_blank">
-            <area shape="rect" coords="0,149,180,220" href="http://instagram.com/tvzoomgram" alt="Instagram tvzoomgram" target="_blank">
-            <area shape="rect" coords="0,221,180,285" href="https://www.facebook.com/CanalZOOM" alt="Facebook Canal ZOOM" target="_blank">
-            <area shape="rect" coords="0,286,180,350" href="https://twitter.com/canalzoomtv" alt="Twitter @canalzoomtv" target="_blank">
+            <area shape="rect" coords="0,269,180,312" href="https://www.youtube.com/user/ZoomCanal" alt="Youtube Canal ZOOM" target="_blank">
+            <area shape="rect" coords="0,160,180,204" href="http://instagram.com/tvzoomgram" alt="Instagram tvzoomgram" target="_blank">
+            <area shape="rect" coords="0,216,180,260" href="https://www.facebook.com/CanalZOOM" alt="Facebook Canal ZOOM" target="_blank">
+            <area shape="rect" coords="0,102,180,146" href="https://twitter.com/canalzoomtv" alt="Twitter @canalzoomtv" target="_blank">
           </map>
 
           <!-- END COMUNIDAD ZOOM -->
@@ -341,7 +341,7 @@ $(window).load(function() {
           <!-- PROXIMOS EVENTOS -->
           <section>
             <div class="panel panel-primary">
-              <div class="panel-heading">
+              <div class="panel-heading barraGris">
                 <h3 class="tituloBarra">Próximos Eventos</h3>
               </div>
               <div class="panel-body panelEventos">
@@ -375,7 +375,7 @@ $(window).load(function() {
           {% else %}
             <section>
               <div class="panel panel-primary">
-                <div class="panel-heading">
+                <div class="panel-heading barraGris">
                   <h3 class="tituloBarra">Encuesta ZOOM</h3>
                 </div>
                 <div class="panel-body panelEncuesta">
@@ -440,7 +440,7 @@ $(window).load(function() {
           <!-- EFEMERIDES -->
           <section>
             <div class="panel panel-primary">
-              <div class="panel-heading">
+              <div class="panel-heading barraGris">
                 <h3 class="tituloBarra">ZOOM a la historia</h3>
               </div>
               <div class="panel-body panelEfemerides">
@@ -450,13 +450,13 @@ $(window).load(function() {
                   </div>
                   <div class="row" style="margin:0px; padding:0px;">
                   {% endif %}                  
-                  <div class="col-md-4 thumbnail" style="height:120px;margin:0px; padding:5px;">
+                  <div class="col-xs-4 col-sm-4 col-md-4 thumbnail" style="height:120px;margin:0px; padding:5px;">
                     <div class="row">
-                      <div class="col-md-7">
+                      <div class="col-xs-7 col-sm-7 col-md-7">
                         <a href="/noticias/{{ noticia.id }}/">
                         <img class="img-responsive col-md-12" src="/media/{{ noticia.imagen_principal.archivo }}" alt="Imagen {{ noticia.titulo }}" style="max-height:110px; margin:0px; padding:0px;">
                       </div>
-                      <div class="col-md-5"  style="text-align:justify; padding:0px; padding-right:20px;">
+                      <div class="col-xs-5 col-sm-5 col-md-5"  style="text-align:justify; padding:0px; padding-right:20px;">
                         <h5 style="color:#000000;"><b>{{ noticia.fecha|date:'F j' }} de {{ noticia.fecha|date:'Y' }}</b></h5>
                         <h5 class="media-heading"><b>{% autoescape off %}{{ noticia.titulo }}{% endautoescape %}</b></h5>
                         </a>

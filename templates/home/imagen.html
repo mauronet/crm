@@ -1,7 +1,36 @@
 {% extends 'base.html' %}
 {% block title %}Imagen - {{ imagen.nombre }} - Canal ZOOM{% endblock %}
+
+{% block meta %}
+<meta property="og:title" content="Imagen - {{ imagen.nombre }} via Canal Zoom"/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="{{ request.get_full_path }}"/>
+<meta property="og:image" content="/media/{{ imagen.archivo }}"/>
+<meta property="og:site_name" content="Canal ZOOM"/>
+<meta property="og:description" content="{{ imagen.descripcion }}"/>
+
+
+<meta property="twitter:card" content="photo" />
+<meta property="twitter:site" content="@canalzoomtv" />
+<meta property="twitter:title" content="{{ imagen.nombre }}" />
+<meta property="twitter:description" content="{{ imagen.descripcion }}" />
+<meta property="twitter:image" content="http://{{ request.get_host }}/media/{{ imagen.archivo }}" />
+<meta property="twitter:url" content="http://{{ request.get_host }}{{ request.get_full_path }}" />
+{% endblock %}
+
 {% block description %} {{ imagen.descripcion }} {% endblock %}
 {% block cssTag %}<link href="/media/css/imagen.css" rel="stylesheet">{% endblock %}
+
+{% block scriptTag %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=257656264425434&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+{% endblock %}
 
 {% block imagenPublicidadHeader %}
   {% if pagina.banner_superior %}
@@ -31,6 +60,17 @@
         <center>
             <img class="img-responsive" src="/media/{{ imagen.archivo }}" alt="Imagen - {{ imagen.nombre }}" >
         </center>
+      <!-- COMPARTIR -->
+        <div style="height:15px"></div>
+        <div align="center">
+          <span>
+            <div class="fb-share-button" data-href="#" data-type="button_count" style="position:relative;top:-6px;"></div>
+          </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span>
+            
+            <a href="https://twitter.com/intent/tweet?via=canalzoomtv&url=http://{{ request.get_host }}{{ request.get_full_path }}" class="twitter-share-button" data-lang="es">Twittear</a>
+          </span>
+        </div>              
       </div>
       <div class="well col-md-12">
         <p class="parrafoImagen"><strong>Nombre:</strong>&nbsp;&nbsp;{% autoescape off %}{{ imagen.nombre }}{% endautoescape %}</p>

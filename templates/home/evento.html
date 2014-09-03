@@ -3,6 +3,7 @@
 
 {% block meta %}
 <meta property="og:title" content="Evento - {{ evento.nombre }} via Canal Zoom"/>
+<meta property="og:type" content="article"/>
 <meta property="og:url" content="{{ request.get_full_path }}"/>
 <meta property="og:image" content="/media/{{ evento.imagen_principal.archivo }}"/>
 <meta property="og:site_name" content="Canal ZOOM"/>

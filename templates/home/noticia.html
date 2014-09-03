@@ -1,9 +1,21 @@
 {% extends 'base.html' %}
-{% block title %}Noticia - {{ noticia.titulo }} - Canal ZOOM{% endblock %}
+{% block title %}
+
+{% if isEfemerides %}
+Efemérides - {{ noticia.titulo }} - Canal ZOOM
+{% else %}
+Noticia - {{ noticia.titulo }} - Canal ZOOM
+{% endif %}
+
+{% endblock %}
 
 {% block meta %}
-<meta property="og:title" content="Noticia - {{ noticia.titulo }} via Canal Zoom"/>
-<meta property="og:type" content="news"/>
+{% if isEfemerides %}
+  <meta property="og:title" content="Efemérides - {{ noticia.titulo }} via Canal Zoom"/>
+{% else %}
+  <meta property="og:title" content="Noticia - {{ noticia.titulo }} via Canal Zoom"/>
+{% endif %}
+<meta property="og:type" content="article"/>
 <meta property="og:url" content="{{ request.get_full_path }}"/>
 <meta property="og:image" content="/media/{{ noticia.imagen_principal.archivo }}"/>
 <meta property="og:site_name" content="Canal ZOOM"/>
@@ -105,6 +117,9 @@
                 <img class="img-responsive imagenNoticia" src="/media/{{ noticia.imagen_principal.archivo }}" alt="Imagen - {{ noticia.imagen_principal.nombre }}" >
               </a>
             </span>
+            {% if isEfemerides %}
+              <h4 class="media-heading">{{ noticia.fecha|date:'F j' }} de {{ noticia.fecha|date:'Y' }}</h4>
+            {% endif %}
             <h4 class="media-heading">{{ noticia.titulo }}</h4>
             <p class="parrafoNoticia">
             {% autoescape off %}{{ noticia.lead }}{% endautoescape %}</p>
@@ -114,9 +129,7 @@
             
             <p>
               <span class="pull-left parrafoFecha">
-                {% if isEfemerides %}
-                  Fecha: {{ noticia.fecha|date:'F j' }} de {{ noticia.fecha|date:'Y' }}                
-                {% else %}
+                {% if not isEfemerides %}
                   Fecha de publicación: {{ noticia.fecha }}
                 {% endif %}
               </span>
