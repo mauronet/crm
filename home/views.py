@@ -66,6 +66,7 @@ def index_view(request, mensaje=None):
 	programacionDia = getProgramacionDia(date.today())
 	horaActual = datetime.now().time()
 	horariosProgramacion = HorarioProgramacion.objects.filter().order_by('manana')
+	id_horario = 1
 	for horario in horariosProgramacion:
 		if horaActual > horario.manana:
 			id_horario = horario.id
@@ -183,8 +184,8 @@ def comite_programacion_view(request):
 def comites_tecnicos_regionales_view(request):
 	pagina = Pagina.objects.get(id=2)
 	info = get_object_or_404(InfoCanal, id=1)
-	titulo = "Comités Técnicos Regionales"
-	descripcion = "Comités técnicos regionales Canal ZOOM"
+	titulo = "Comités Regionales"
+	descripcion = "Comités regionales Canal ZOOM"
 	info.comites_tecnicos_regionales = "<br>".join(info.comites_tecnicos_regionales.split("\n"))
 	ctx = {
 		'titulo':titulo,

@@ -29,12 +29,24 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+"""
+ALLOWED_HOSTS = [
+    '104.131.27.165',
+    '104.131.27.165.',
+    'zoomcanalonline.co',
+    'zoomcanalonline.co.',
+    'zoomcanal.com.co',
+    'zoomcanal.com.co.',
+]
+"""
+
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     "django.contrib.auth.context_processors.auth",
     "home.context_processors.myProcessor",
+    "home.context_processors.google_analytics",
     "social.apps.django_app.context_processors.backends",
     "social.apps.django_app.context_processors.login_redirect", 
 )
@@ -174,3 +186,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'administrador@zoomcanal.com.co'
 EMAIL_HOST_PASSWORD = 'zoom2014'
 EMAIL_USE_TLS = True
+
+GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-51345899-2'
+GOOGLE_ANALYTICS_DOMAIN = 'zoomcanal.com.co'
